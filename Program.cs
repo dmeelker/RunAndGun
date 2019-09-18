@@ -26,22 +26,7 @@ namespace SdlTest
                 SDL.SDL_Quit();
                 return;
             }
-            //SDL_image.IMG_LoadTexture(ren, "res/test.png");
-            //var bmp = SDL.SDL_LoadBMP("res/test.png");
-            //SDL.SDL_Load
-            //if (bmp == IntPtr.Zero)
-            //{
-            //    SDL.SDL_DestroyRenderer(ren);
-            //    SDL.SDL_DestroyWindow(win);
-            //    Console.WriteLine($"SDL_LoadBMP Error: {SDL.SDL_GetError()}");
-            //    SDL.SDL_Quit();
-            //    return;
-            //}
-            //var memory = Marshal.AllocHGlobal(1000);
-            //Marshal.Release(memory);
 
-            //SDL.SDL_RWFromMem()
-            //SDL_image.IMG_Load_RW
             var tex = SDL_image.IMG_LoadTexture(ren, "res/test.png");
             if (tex == IntPtr.Zero)
             {
