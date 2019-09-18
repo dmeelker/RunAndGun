@@ -32,7 +32,7 @@ namespace SdlTest.Components
                 {
                     x = Math.Min(x, endX);
 
-                    if (!level.IsPixelPassable((int)x, (int)Location.Y))
+                    if (!level.IsPixelPassable((int)x, (int)Location.Y + 15))
                     {
                         Location.X = (int)(((x / Level.BlockSize) * Level.BlockSize) - Size.X);
                         Velocity.X = 0;
@@ -53,7 +53,7 @@ namespace SdlTest.Components
                 {
                     x = Math.Max(x, endX);
 
-                    if (!level.IsPixelPassable((int)x, (int)Location.Y))
+                    if (!level.IsPixelPassable((int)x, (int)Location.Y + 15))
                     {
                         Location.X = ((x / Level.BlockSize) + 1) * Level.BlockSize;
                         Velocity.X = 0;
@@ -61,7 +61,7 @@ namespace SdlTest.Components
                         break;
                     }
 
-                    if (x >= endX)
+                    if (x <= endX)
                         break;
                 }
             }
@@ -76,7 +76,7 @@ namespace SdlTest.Components
                 {
                     y = Math.Min(y, endY);
 
-                    if (!level.IsPixelPassable((int)Location.X, (int)y))
+                    if (!level.IsPixelPassable((int)Location.X + 15, (int)y))
                     {
                         Location.Y = (int) (((y / Level.BlockSize) * Level.BlockSize) - Size.Y);
                         Velocity.Y = 0;
@@ -98,7 +98,7 @@ namespace SdlTest.Components
                 {
                     y = Math.Max(y, endY);
 
-                    if (!level.IsPixelPassable((int)Location.X, (int)y))
+                    if (!level.IsPixelPassable((int)Location.X + 15, (int)y))
                     {
                         Location.Y = ((y / Level.BlockSize) + 1) * Level.BlockSize;
                         Velocity.Y = 0;
@@ -106,7 +106,7 @@ namespace SdlTest.Components
                         break;
                     }
 
-                    if (y >= endY)
+                    if (y <= endY)
                         break;
                 }
             }
@@ -116,7 +116,7 @@ namespace SdlTest.Components
         private void ApplyGravity(int ticksPassed)
         {
             Velocity.Y += 0.5;
-            Velocity.Y = Math.Min(Velocity.Y, 5);
+            Velocity.Y = Math.Min(Velocity.Y, 8);
         }
     }
 }

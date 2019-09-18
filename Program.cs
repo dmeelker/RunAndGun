@@ -85,13 +85,13 @@ namespace SdlTest
                     if(e.type == SDL.SDL_EventType.SDL_KEYDOWN)
                     {
                         if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_LEFT)
-                            player.Physics.Impulse.X = -5;
+                            player.Physics.Impulse.X = -10;
                         else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_RIGHT)
-                            player.Physics.Impulse.X = 5;
+                            player.Physics.Impulse.X = 10;
                         else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_UP)
                             player.Physics.Velocity.Y = -10;
-                        else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_DOWN)
-                            destination.y += 5;
+                        //else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_DOWN)
+                        //    destination.y += 10;
                     } else if (e.type == SDL.SDL_EventType.SDL_KEYUP)
                     {
                         if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_LEFT)
