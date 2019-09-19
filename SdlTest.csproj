@@ -28,6 +28,9 @@
     <None Update="res\block.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="res\projectile.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="res\test.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

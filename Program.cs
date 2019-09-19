@@ -9,8 +9,6 @@ namespace SdlTest
 {
     class Program
     {
-        static IntPtr blockTex;
-
         static int fps;
         static int fpsCounter;
         static uint lastFpsUpdateTime = SDL.SDL_GetTicks();
@@ -18,7 +16,8 @@ namespace SdlTest
         static IntPtr win;
         static IntPtr ren;
         static IntPtr tex;
-        static IntPtr blockText;
+        static IntPtr blockTex;
+        static IntPtr projectileTex;
 
         static EntityManager entities;
         static Level level;
@@ -58,7 +57,17 @@ namespace SdlTest
             }
 
             blockTex = SDL_image.IMG_LoadTexture(ren, "res/block.png");
-            if (tex == IntPtr.Zero)
+            if (blockTex == IntPtr.Zero)
+            {
+                SDL.SDL_DestroyRenderer(ren);
+                SDL.SDL_DestroyWindow(win);
+                Console.WriteLine($"SDL_CreateTextureFromSurface Error: {SDL.SDL_GetError()}");
+                SDL.SDL_Quit();
+                return;
+            }
+
+            projectileTex = SDL_image.IMG_LoadTexture(ren, "res/projectile.png");
+            if (projectileTex == IntPtr.Zero)
             {
                 SDL.SDL_DestroyRenderer(ren);
                 SDL.SDL_DestroyWindow(win);
@@ -70,8 +79,9 @@ namespace SdlTest
             level = new Level(20, 20);
             entities = new EntityManager();
             player = new PlayerEntity(tex, level, new Vector(30, 30));
-
             entities.Add(player);
+
+            entities.Add(new Projectile(projectileTex, level, new Vector(50, 100), new Vector(10, 0)));
 
             uint lastUpdateTime = SDL.SDL_GetTicks();
 
