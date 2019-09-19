@@ -15,10 +15,8 @@ namespace SdlTest
 
         static IntPtr win;
         static IntPtr ren;
-        static IntPtr tex;
-        static IntPtr blockTex;
-        static IntPtr projectileTex;
 
+        static TextureManager textureManager;
         static EntityManager entities;
         static Level level;
         static PlayerEntity player;
@@ -46,42 +44,14 @@ namespace SdlTest
                 return;
             }
 
-            tex = SDL_image.IMG_LoadTexture(ren, "res/test.png");
-            if (tex == IntPtr.Zero)
-            {
-                SDL.SDL_DestroyRenderer(ren);
-                SDL.SDL_DestroyWindow(win);
-                Console.WriteLine($"SDL_CreateTextureFromSurface Error: {SDL.SDL_GetError()}");
-                SDL.SDL_Quit();
-                return;
-            }
-
-            blockTex = SDL_image.IMG_LoadTexture(ren, "res/block.png");
-            if (blockTex == IntPtr.Zero)
-            {
-                SDL.SDL_DestroyRenderer(ren);
-                SDL.SDL_DestroyWindow(win);
-                Console.WriteLine($"SDL_CreateTextureFromSurface Error: {SDL.SDL_GetError()}");
-                SDL.SDL_Quit();
-                return;
-            }
-
-            projectileTex = SDL_image.IMG_LoadTexture(ren, "res/projectile.png");
-            if (projectileTex == IntPtr.Zero)
-            {
-                SDL.SDL_DestroyRenderer(ren);
-                SDL.SDL_DestroyWindow(win);
-                Console.WriteLine($"SDL_CreateTextureFromSurface Error: {SDL.SDL_GetError()}");
-                SDL.SDL_Quit();
-                return;
-            }
+            LoadTextures();
 
             level = new Level(20, 20);
             entities = new EntityManager();
-            player = new PlayerEntity(tex, level, new Vector(30, 30));
+            player = new PlayerEntity(textureManager["player"], level, new Vector(30, 30));
             entities.Add(player);
 
-            entities.Add(new Projectile(projectileTex, level, new Vector(50, 100), new Vector(10, 0)));
+            entities.Add(new Projectile(textureManager["projectile"], level, new Vector(50, 100), new Vector(10, 0)));
 
             uint lastUpdateTime = SDL.SDL_GetTicks();
 
@@ -95,12 +65,19 @@ namespace SdlTest
                 Render(time);
             }
 
-            SDL.SDL_DestroyTexture(tex);
-            SDL.SDL_DestroyTexture(blockTex);
+            textureManager.Cleanup();
             SDL.SDL_DestroyRenderer(ren);
             SDL.SDL_DestroyWindow(win);
             SDL.SDL_DestroyWindow(win);
             SDL.SDL_Quit();
+        }
+
+        private static void LoadTextures()
+        {
+            textureManager = new TextureManager();
+            textureManager.LoadTexture(ren, "res/test.png", "player");
+            textureManager.LoadTexture(ren, "res/block.png", "block");
+            textureManager.LoadTexture(ren, "res/projectile.png", "projectile");
         }
 
         private static void Update(int timePassed)
@@ -171,6 +148,8 @@ namespace SdlTest
                 h = Level.BlockSize
             };
 
+            var blockTexture = textureManager["block"];
+
             for (int x=0; x<level.Width; x++)
             {
                 for (int y = 0; y < level.Height; y++)
@@ -179,7 +158,7 @@ namespace SdlTest
                     rect.y = y * Level.BlockSize;
 
                     if(!level.Cells[x, y])
-                        SDL.SDL_RenderCopy(ren, blockTex, ref source, ref rect);
+                        SDL.SDL_RenderCopy(ren, blockTexture, ref source, ref rect);
                 }
             }
         }
