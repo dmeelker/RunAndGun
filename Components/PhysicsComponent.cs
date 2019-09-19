@@ -8,6 +8,7 @@ namespace SdlTest.Components
 {
     public class PhysicsComponent
     {
+        const double tickMultiplier = 0.03;
         public Vector Location;
         public Vector Size;
         public Vector Velocity;
@@ -21,7 +22,7 @@ namespace SdlTest.Components
 
             var effectiveVelocity = Velocity + Impulse;
             var oldLocation = Location;
-            Location = Location + (effectiveVelocity * ticksPassed);
+            Location = Location + (effectiveVelocity * (ticksPassed * tickMultiplier));
 
             if (effectiveVelocity.X > 0)
             {
@@ -115,7 +116,7 @@ namespace SdlTest.Components
 
         private void ApplyGravity(int ticksPassed)
         {
-            Velocity.Y += 0.5;
+            Velocity.Y += 0.5 * (ticksPassed * tickMultiplier);
             Velocity.Y = Math.Min(Velocity.Y, 8);
         }
     }

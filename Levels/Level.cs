@@ -37,9 +37,13 @@ namespace SdlTest.Levels
                 Cells[width - 1,y] = false;
             }
 
-            Cells[10, 17] = false;
-            Cells[11, 17] = false;
-            Cells[12, 17] = false;
+            Cells[10, 16] = false;
+            Cells[11, 16] = false;
+            Cells[12, 16] = false;
+
+            Cells[15, 13] = false;
+            Cells[16, 13] = false;
+            Cells[17, 13] = false;
         }
 
         public bool IsPixelPassable(int x, int y)
