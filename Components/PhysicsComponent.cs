@@ -54,7 +54,7 @@ namespace SdlTest.Components
                 {
                     x = Math.Max(x, endX);
 
-                    if (!level.IsPixelPassable((int)x, (int)Location.Y + 15))
+                    if (!level.IsPixelPassable((int)x, (int)(Location.Y + (Size.Y / 2))))
                     {
                         Location.X = ((x / Level.BlockSize) + 1) * Level.BlockSize;
                         Velocity.X = 0;
@@ -77,7 +77,7 @@ namespace SdlTest.Components
                 {
                     y = Math.Min(y, endY);
 
-                    if (!level.IsPixelPassable((int)Location.X + 15, (int)y))
+                    if (!level.IsPixelPassable((int)(Location.X + (Size.X / 2)), (int)y))
                     {
                         Location.Y = (int) (((y / Level.BlockSize) * Level.BlockSize) - Size.Y);
                         Velocity.Y = 0;
@@ -116,8 +116,8 @@ namespace SdlTest.Components
 
         private void ApplyGravity(int ticksPassed)
         {
-            Velocity.Y += 0.5 * (ticksPassed * tickMultiplier);
-            Velocity.Y = Math.Min(Velocity.Y, 8);
+            Velocity.Y += 1 * (ticksPassed * tickMultiplier);
+            Velocity.Y = Math.Min(Velocity.Y, 15);
         }
     }
 }

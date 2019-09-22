@@ -11,13 +11,11 @@ namespace SdlTest.Entities
     public class Projectile : Entity
     {
         public PhysicsComponent Physics = new PhysicsComponent();
-        private Level level;
         private IntPtr textureId;
 
-        public Projectile(IntPtr textureId, Level level, Vector location, Vector velocity)
+        public Projectile(IntPtr textureId, Vector location, Vector velocity)
         {
             this.textureId = textureId;
-            this.level = level;
             Physics.Location = location;
             Physics.Size = new Vector(8, 8);
             Physics.Velocity = velocity;
@@ -25,7 +23,7 @@ namespace SdlTest.Entities
 
         public override void Update(int ticksPassed)
         {
-            Physics.Update(ticksPassed, level);
+            Physics.Update(ticksPassed, Services.Session.Level);
         }
 
         public override void Render(IntPtr rendererId)
@@ -34,8 +32,8 @@ namespace SdlTest.Entities
             {
                 x = 0,
                 y = 0,
-                w = 30,
-                h = 30
+                w = 8,
+                h = 8
             };
 
             var destination = new SDL.SDL_Rect()

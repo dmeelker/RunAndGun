@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace SdlTest.Types
 {
+    [DebuggerDisplay("{X},{Y}")]
     public struct Vector
     {
         public double X;
@@ -39,6 +41,24 @@ namespace SdlTest.Types
                 X = a.X * scalar,
                 Y = a.Y * scalar
             };
+        }
+
+        public double Length => Math.Sqrt(X * X + Y * Y);
+
+        public Vector ToUnit()
+        {
+            var length = Length;
+            return new Vector {
+                X = X / length,
+                Y = Y / length
+            };
+        }
+
+        public double Angle => Math.Atan2(Y, X) * (180.0 / Math.PI);
+
+        public override string ToString()
+        {
+            return $"{X},{Y}";
         }
     }
 }

@@ -16,9 +16,6 @@ namespace SdlTest
         static IntPtr win;
         static IntPtr ren;
 
-        static TextureManager textureManager;
-        static EntityManager entities;
-        static Level level;
         static PlayerEntity player;
 
         static bool quit = false;
@@ -46,12 +43,12 @@ namespace SdlTest
 
             LoadTextures();
 
-            level = new Level(20, 20);
-            entities = new EntityManager();
-            player = new PlayerEntity(textureManager["player"], level, new Vector(30, 30));
-            entities.Add(player);
+            Services.Session = new GameSession() {
+                Level = new Level(20, 20)
+            };
 
-            entities.Add(new Projectile(textureManager["projectile"], level, new Vector(50, 100), new Vector(10, 0)));
+            player = new PlayerEntity(Services.TextureManager["player"], Services.TextureManager["shotgun"], new Vector(30, 30));
+            Services.EntityManager.Add(player);
 
             uint lastUpdateTime = SDL.SDL_GetTicks();
 
@@ -65,7 +62,7 @@ namespace SdlTest
                 Render(time);
             }
 
-            textureManager.Cleanup();
+            Services.TextureManager.Cleanup();
             SDL.SDL_DestroyRenderer(ren);
             SDL.SDL_DestroyWindow(win);
             SDL.SDL_DestroyWindow(win);
@@ -74,10 +71,10 @@ namespace SdlTest
 
         private static void LoadTextures()
         {
-            textureManager = new TextureManager();
-            textureManager.LoadTexture(ren, "res/test.png", "player");
-            textureManager.LoadTexture(ren, "res/block.png", "block");
-            textureManager.LoadTexture(ren, "res/projectile.png", "projectile");
+            Services.TextureManager.LoadTexture(ren, "res/test.png", "player");
+            Services.TextureManager.LoadTexture(ren, "res/block.png", "block");
+            Services.TextureManager.LoadTexture(ren, "res/projectile.png", "projectile");
+            Services.TextureManager.LoadTexture(ren, "res/shotgun.png", "shotgun");
         }
 
         private static void Update(int timePassed)
@@ -96,7 +93,7 @@ namespace SdlTest
                     else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_RIGHT)
                         player.Physics.Impulse.X = 10;
                     else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_UP)
-                        player.Physics.Velocity.Y = -10;
+                        player.Physics.Velocity.Y = -13;
 
                 }
                 else if (e.type == SDL.SDL_EventType.SDL_KEYUP)
@@ -106,17 +103,24 @@ namespace SdlTest
                     else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_RIGHT)
                         player.Physics.Impulse.X = 0;
                 }
+                else if(e.type == SDL.SDL_EventType.SDL_MOUSEBUTTONDOWN)
+                {
+                    player.Fire();
+                }
             }
 
-            entities.UpdateEntities(timePassed);
+            SDL.SDL_GetMouseState(out var x, out var y);
+            player.AimAt(x, y);
+
+            Services.EntityManager.UpdateEntities(timePassed);
         }
 
         private static void Render(uint time)
         {
             SDL.SDL_RenderClear(ren);
 
-            RenderLevel(ren, level);
-            entities.RenderEntities(ren);
+            RenderLevel(ren, Services.Session.Level);
+            Services.EntityManager.RenderEntities(ren);
 
             SDL.SDL_RenderPresent(ren);
             fpsCounter++;
@@ -148,7 +152,7 @@ namespace SdlTest
                 h = Level.BlockSize
             };
 
-            var blockTexture = textureManager["block"];
+            var blockTexture = Services.TextureManager["block"];
 
             for (int x=0; x<level.Width; x++)
             {
