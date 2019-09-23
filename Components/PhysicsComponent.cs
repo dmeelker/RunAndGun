@@ -46,6 +46,8 @@ namespace SdlTest.Components
             this.entity = entity;
         }
 
+
+
         public void Update(int ticksPassed, Level level)
         {
             ApplyGravity(ticksPassed);
@@ -55,111 +57,169 @@ namespace SdlTest.Components
             entity.Location = entity.Location + (effectiveVelocity * (ticksPassed * tickMultiplier));
             //Impulse = new Vector();
 
+            CheckLevelCollisions(level, effectiveVelocity, oldLocation);
+        }
+
+        #region Level collisions
+
+        private void CheckLevelCollisions(Level level, Vector effectiveVelocity, Vector oldLocation)
+        {
             HorizontalCollision = new LevelCollision(false);
             VerticalCollision = new LevelCollision(false);
 
-            if (effectiveVelocity.X > 0)
+            if (effectiveVelocity.X < 0)
             {
-                var startX = (int)(oldLocation.X + entity.Size.X - 1);
-                var endX = (int)(entity.Location.X + entity.Size.X);
-                var y = (int)(entity.Location.Y + (entity.Size.Y / 2));
+                HorizontalCollision = CheckLevelCollisionLeft(oldLocation, level);
+                if (HorizontalCollision.Collision)
+                {
+                    entity.Location.X = HorizontalCollision.X;
+                    Velocity.X = 0;
+                }
+            }
+            else if (effectiveVelocity.X > 0)
+            {
+                HorizontalCollision = CheckLevelCollisionRight(oldLocation, level);
+                if (HorizontalCollision.Collision)
+                {
+                    entity.Location.X = (int)(HorizontalCollision.X - entity.Size.X);
+                    Velocity.X = 0;
+                }
+            }
+
+            if (effectiveVelocity.Y > 0)
+            {
+                onGround = false;
+                VerticalCollision = CheckLevelCollisionBottom(level, oldLocation);
+
+                if (VerticalCollision.Collision)
+                {
+                    entity.Location.Y = VerticalCollision.Y - entity.Size.Y;
+                    Velocity.Y = 0;
+                    onGround = true;
+                }
+            }
+            else if (effectiveVelocity.Y < 0)
+            {
+                onGround = false;
+                VerticalCollision = CheckLevelCollisionTop(level, oldLocation);
+                if (VerticalCollision.Collision)
+                {
+                    entity.Location.Y = VerticalCollision.Y;
+                    Velocity.Y = 0;
+                }
+            }
+        }
+
+        private LevelCollision CheckLevelCollisionLeft(Vector oldLocation, Level level)
+        {
+            var startX = (int)oldLocation.X - 1;
+            var endX = (int)entity.Location.X - 1;
+            var startY = (int) entity.Location.Y;
+            var endY = (int) (entity.Location.Y + entity.Size.Y - 1);
+
+            for (var x = startX;; x -= Level.BlockSize) {
+                x = Math.Max(x, endX);
+
+                for (var y = startY;; y += Level.BlockSize) {
+                    y = Math.Min(y, endY);
+
+                    if (!level.IsPixelPassable(x, y))
+                        return new LevelCollision(((x / Level.BlockSize) + 1) * Level.BlockSize, y);
+
+                    if (y >= endY)
+                        break;
+                }
+
+                if (x <= endX)
+                    break;
+            }
+
+            return new LevelCollision(false);
+        }
+
+        private LevelCollision CheckLevelCollisionRight(Vector oldLocation, Level level)
+        {
+            var startX = (int)(oldLocation.X + entity.Size.X - 1);
+            var endX = (int)(entity.Location.X + entity.Size.X);
+            var startY = (int) entity.Location.Y;
+            var endY = (int)(entity.Location.Y + entity.Size.Y - 1);
+            
+            for (var x = startX;; x += Level.BlockSize) {
+                x = Math.Min(x, endX);
+
+                for (var y = startY;; y += Level.BlockSize) {
+                    y = Math.Min(y, endY);
+                    if (!level.IsPixelPassable(x, y))
+                        return new LevelCollision((x / Level.BlockSize) * Level.BlockSize, y);
+
+                    if (y >= endY)
+                        break;
+                }
+
+                if (x >= endX)
+                    break;
+            }
+
+            return new LevelCollision(false);
+        }
+        private LevelCollision CheckLevelCollisionTop(Level level, Vector oldLocation)
+        {
+            var startY = (int)oldLocation.Y - 1;
+            var endY = (int)entity.Location.Y - 1;
+            var startX = (int) entity.Location.X;
+            var endX = (int)(entity.Location.X + entity.Size.X - 1);
+
+            for (var y = startY; ; y -= Level.BlockSize)
+            {
+                y = Math.Max(y, endY);
 
                 for (var x = startX; ; x += Level.BlockSize)
                 {
                     x = Math.Min(x, endX);
 
                     if (!level.IsPixelPassable(x, y))
-                    {
-                        var collisionX = (x / Level.BlockSize) * Level.BlockSize;
-                        entity.Location.X = (int)(collisionX - entity.Size.X);
-                        Velocity.X = 0;
-                        onGround = true;
-
-                        HorizontalCollision = new LevelCollision(collisionX, y);
-                        break;
-                    }
+                        return new LevelCollision(x, ((y / Level.BlockSize) + 1) * Level.BlockSize);
 
                     if (x >= endX)
                         break;
                 }
-            }
-            else if (effectiveVelocity.X < 0)
-            {
-                var startX = (int)oldLocation.X - 1;
-                var endX = (int)entity.Location.X - 1;
-                var y = (int)(entity.Location.Y + (entity.Size.Y / 2));
 
-                for (var x = startX; ; x -= Level.BlockSize)
-                {
-                    x = Math.Max(x, endX);
-
-                    if (!level.IsPixelPassable(x, y))
-                    {
-                        var collisionX = ((x / Level.BlockSize) + 1) * Level.BlockSize;
-                        entity.Location.X = collisionX;
-                        Velocity.X = 0;
-                        onGround = true;
-                        HorizontalCollision = new LevelCollision(collisionX, y);
-                        break;
-                    }
-
-                    if (x <= endX)
-                        break;
-                }
+                if (y <= endY)
+                    break;
             }
 
-            if (effectiveVelocity.Y > 0)
-            {
-                var startY = (int) (oldLocation.Y + entity.Size.Y - 1);
-                var endY = (int) (entity.Location.Y + entity.Size.Y);
-                var x = (int)(entity.Location.X + (entity.Size.X / 2));
-                onGround = false;
-
-                for (var y = startY;; y += Level.BlockSize)
-                {
-                    y = Math.Min(y, endY);
-
-                    if (!level.IsPixelPassable(x, y))
-                    {
-                        var collisionY = (y / Level.BlockSize) * Level.BlockSize;
-                        entity.Location.Y = collisionY - entity.Size.Y;
-                        Velocity.Y = 0;
-                        onGround = true;
-                        VerticalCollision = new LevelCollision(x, collisionY);
-                        break;
-                    }
-
-                    if (y >= endY)
-                        break;
-                }
-            }
-            else if (effectiveVelocity.Y < 0)
-            {
-                var startY = (int) oldLocation.Y - 1;
-                var endY = (int)entity.Location.Y - 1;
-                var x = (int)(entity.Location.X + (entity.Size.X / 2));
-                onGround = false;
-
-                for (var y = startY; ; y -= Level.BlockSize)
-                {
-                    y = Math.Max(y, endY);
-
-                    if (!level.IsPixelPassable(x, y))
-                    {
-                        var collisionY = ((y / Level.BlockSize) + 1) * Level.BlockSize;
-                        entity.Location.Y = collisionY;
-                        Velocity.Y = 0;
-                        onGround = true;
-                        VerticalCollision = new LevelCollision(x, collisionY);
-                        break;
-                    }
-
-                    if (y <= endY)
-                        break;
-                }
-            }
-
+            return new LevelCollision(false);
         }
+
+        private LevelCollision CheckLevelCollisionBottom(Level level, Vector oldLocation)
+        {
+            var startY = (int)(oldLocation.Y + entity.Size.Y - 1);
+            var endY = (int)(entity.Location.Y + entity.Size.Y);
+            var startX = (int)entity.Location.X;
+            var endX = (int)(entity.Location.X + entity.Size.X - 1);
+
+            for (var y = startY; ; y += Level.BlockSize)
+            {
+                y = Math.Min(y, endY);
+
+                for (var x = startX; ; x += Level.BlockSize)
+                {
+                    x = Math.Min(x, endX);
+                    if (!level.IsPixelPassable(x, y))
+                        return new LevelCollision(x, (y / Level.BlockSize) * Level.BlockSize);
+
+                    if (x >= endX)
+                        break;
+                }
+
+                if (y >= endY)
+                    break;
+            }
+
+            return new LevelCollision(false);
+        }
+
+        #endregion
 
         private void ApplyGravity(int ticksPassed)
         {

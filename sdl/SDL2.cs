@@ -860,8 +860,10 @@ namespace SDL2
 		[StructLayout(LayoutKind.Sequential)]
 		public struct SDL_MessageBoxColorScheme
 		{
-			[MarshalAs(UnmanagedType.ByValArray, ArraySubType = UnmanagedType.Struct, SizeConst = (int)SDL_MessageBoxColorType.SDL_MESSAGEBOX_COLOR_MAX)]
-				public SDL_MessageBoxColor[] colors;
+#pragma warning disable CS0618 // Type or member is obsolete
+            [MarshalAs(UnmanagedType.ByValArray, ArraySubType = UnmanagedType.Struct, SizeConst = (int)SDL_MessageBoxColorType.SDL_MESSAGEBOX_COLOR_MAX)]
+#pragma warning restore CS0618 // Type or member is obsolete
+            public SDL_MessageBoxColor[] colors;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
