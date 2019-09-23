@@ -28,14 +28,6 @@ namespace SdlTest.Entities
 
         public override void Update(int ticksPassed)
         {
-            Physics.Update(ticksPassed, Services.Session.Level);
-
-            if (Physics.HorizontalCollision.Collision || Physics.VerticalCollision.Collision)
-            {
-                Dispose();
-                return;
-            }
-
             var entityCollisions = Services.EntityManager.FindEntities(GetBoundingBox()).ToArray();
 
             foreach(var entity in entityCollisions)
@@ -47,8 +39,16 @@ namespace SdlTest.Entities
                 {
                     ((IProjectileCollider)entity).HitByProjectile(this, Physics.Velocity);
                     Dispose();
-                    break;
+                    return;
                 }
+            }
+
+            Physics.Update(ticksPassed, Services.Session.Level);
+
+            if (Physics.HorizontalCollision.Collision || Physics.VerticalCollision.Collision)
+            {
+                Dispose();
+                return;
             }
         }
 

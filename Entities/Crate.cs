@@ -6,9 +6,10 @@ using SdlTest.Types;
 
 namespace SdlTest.Entities
 {
-    public class Crate : Entity, IProjectileCollider
+    public class Crate : Entity, IProjectileCollider, IPhysicsCollider
     {
         private IntPtr textureId;
+        private int hitpoint = 10;
 
         public Crate(Vector location)
         {
@@ -40,7 +41,9 @@ namespace SdlTest.Entities
 
         public void HitByProjectile(Projectile projectile, Vector vector)
         {
-            
+            hitpoint--;
+            if (hitpoint == 0)
+                Dispose();
         }
     }
 }
