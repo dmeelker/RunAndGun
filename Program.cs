@@ -44,11 +44,16 @@ namespace SdlTest
             LoadTextures();
 
             Services.Session = new GameSession() {
-                Level = new Level(20, 20)
+                Level = new Level(40, 20)
             };
 
             player = new PlayerEntity(Services.TextureManager["player"], Services.TextureManager["shotgun"], new Vector(30, 30));
             Services.EntityManager.Add(player);
+
+            var enemy = new Enemy(Services.TextureManager["player"], Services.TextureManager["shotgun"], new Vector(230, 30));
+            Services.EntityManager.Add(enemy);
+
+            Services.EntityManager.Add(new Crate(new Vector(400, 330)));
 
             uint lastUpdateTime = SDL.SDL_GetTicks();
 
@@ -75,6 +80,7 @@ namespace SdlTest
             Services.TextureManager.LoadTexture(ren, "res/block.png", "block");
             Services.TextureManager.LoadTexture(ren, "res/projectile.png", "projectile");
             Services.TextureManager.LoadTexture(ren, "res/shotgun.png", "shotgun");
+            Services.TextureManager.LoadTexture(ren, "res/crate.png", "crate");
         }
 
         private static void Update(int timePassed)

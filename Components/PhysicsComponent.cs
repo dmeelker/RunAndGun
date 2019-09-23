@@ -1,4 +1,5 @@
-﻿using SdlTest.Levels;
+﻿using SdlTest.Entities;
+using SdlTest.Levels;
 using SdlTest.Types;
 using System;
 using System.Collections.Generic;
@@ -6,38 +7,75 @@ using System.Text;
 
 namespace SdlTest.Components
 {
+    public readonly struct LevelCollision
+    {
+        public readonly bool Collision;
+        public readonly int X;
+        public readonly int Y;
+
+        public LevelCollision(int x, int y)
+        {
+            Collision = true;
+            X = x;
+            Y = y;
+        }
+
+        public LevelCollision(bool collision)
+        {
+            Collision = collision;
+            X = 0;
+            Y = 0;
+        }
+    }
+
     public class PhysicsComponent
     {
         const double tickMultiplier = 0.03;
-        public Vector Location;
-        public Vector Size;
+
+        private readonly Entity entity;
         public Vector Velocity;
         public Vector Impulse;
 
         public bool onGround = false;
+
+        public LevelCollision HorizontalCollision;
+        public LevelCollision VerticalCollision;
+
+        public PhysicsComponent(Entity entity)
+        {
+            this.entity = entity;
+        }
 
         public void Update(int ticksPassed, Level level)
         {
             ApplyGravity(ticksPassed);
 
             var effectiveVelocity = Velocity + Impulse;
-            var oldLocation = Location;
-            Location = Location + (effectiveVelocity * (ticksPassed * tickMultiplier));
+            var oldLocation = entity.Location;
+            entity.Location = entity.Location + (effectiveVelocity * (ticksPassed * tickMultiplier));
+            //Impulse = new Vector();
+
+            HorizontalCollision = new LevelCollision(false);
+            VerticalCollision = new LevelCollision(false);
 
             if (effectiveVelocity.X > 0)
             {
-                var startX = (int)(oldLocation.X + Size.X - 1);
-                var endX = (int)(Location.X + Size.X);
+                var startX = (int)(oldLocation.X + entity.Size.X - 1);
+                var endX = (int)(entity.Location.X + entity.Size.X);
+                var y = (int)(entity.Location.Y + (entity.Size.Y / 2));
 
                 for (var x = startX; ; x += Level.BlockSize)
                 {
                     x = Math.Min(x, endX);
 
-                    if (!level.IsPixelPassable((int)x, (int)Location.Y + 15))
+                    if (!level.IsPixelPassable(x, y))
                     {
-                        Location.X = (int)(((x / Level.BlockSize) * Level.BlockSize) - Size.X);
+                        var collisionX = (x / Level.BlockSize) * Level.BlockSize;
+                        entity.Location.X = (int)(collisionX - entity.Size.X);
                         Velocity.X = 0;
                         onGround = true;
+
+                        HorizontalCollision = new LevelCollision(collisionX, y);
                         break;
                     }
 
@@ -48,17 +86,20 @@ namespace SdlTest.Components
             else if (effectiveVelocity.X < 0)
             {
                 var startX = (int)oldLocation.X - 1;
-                var endX = (int)Location.X - 1;
+                var endX = (int)entity.Location.X - 1;
+                var y = (int)(entity.Location.Y + (entity.Size.Y / 2));
 
                 for (var x = startX; ; x -= Level.BlockSize)
                 {
                     x = Math.Max(x, endX);
 
-                    if (!level.IsPixelPassable((int)x, (int)(Location.Y + (Size.Y / 2))))
+                    if (!level.IsPixelPassable(x, y))
                     {
-                        Location.X = ((x / Level.BlockSize) + 1) * Level.BlockSize;
+                        var collisionX = ((x / Level.BlockSize) + 1) * Level.BlockSize;
+                        entity.Location.X = collisionX;
                         Velocity.X = 0;
                         onGround = true;
+                        HorizontalCollision = new LevelCollision(collisionX, y);
                         break;
                     }
 
@@ -69,19 +110,22 @@ namespace SdlTest.Components
 
             if (effectiveVelocity.Y > 0)
             {
-                var startY = (int) (oldLocation.Y + Size.Y - 1);
-                var endY = (int) (Location.Y + Size.Y);
+                var startY = (int) (oldLocation.Y + entity.Size.Y - 1);
+                var endY = (int) (entity.Location.Y + entity.Size.Y);
+                var x = (int)(entity.Location.X + (entity.Size.X / 2));
                 onGround = false;
 
                 for (var y = startY;; y += Level.BlockSize)
                 {
                     y = Math.Min(y, endY);
 
-                    if (!level.IsPixelPassable((int)(Location.X + (Size.X / 2)), (int)y))
+                    if (!level.IsPixelPassable(x, y))
                     {
-                        Location.Y = (int) (((y / Level.BlockSize) * Level.BlockSize) - Size.Y);
+                        var collisionY = (y / Level.BlockSize) * Level.BlockSize;
+                        entity.Location.Y = collisionY - entity.Size.Y;
                         Velocity.Y = 0;
                         onGround = true;
+                        VerticalCollision = new LevelCollision(x, collisionY);
                         break;
                     }
 
@@ -92,18 +136,21 @@ namespace SdlTest.Components
             else if (effectiveVelocity.Y < 0)
             {
                 var startY = (int) oldLocation.Y - 1;
-                var endY = (int) Location.Y - 1;
+                var endY = (int)entity.Location.Y - 1;
+                var x = (int)(entity.Location.X + (entity.Size.X / 2));
                 onGround = false;
 
                 for (var y = startY; ; y -= Level.BlockSize)
                 {
                     y = Math.Max(y, endY);
 
-                    if (!level.IsPixelPassable((int)Location.X + 15, (int)y))
+                    if (!level.IsPixelPassable(x, y))
                     {
-                        Location.Y = ((y / Level.BlockSize) + 1) * Level.BlockSize;
+                        var collisionY = ((y / Level.BlockSize) + 1) * Level.BlockSize;
+                        entity.Location.Y = collisionY;
                         Velocity.Y = 0;
                         onGround = true;
+                        VerticalCollision = new LevelCollision(x, collisionY);
                         break;
                     }
 

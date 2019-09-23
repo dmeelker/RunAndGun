@@ -11,6 +11,8 @@ namespace SdlTest.Types
         public double X;
         public double Y;
 
+        public static readonly Vector Zero = new Vector();
+
         public Vector(double x, double y)
         {
             X = x;

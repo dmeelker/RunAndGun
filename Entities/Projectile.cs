@@ -4,26 +4,52 @@ using SdlTest.Levels;
 using SdlTest.Types;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace SdlTest.Entities
 {
     public class Projectile : Entity
     {
-        public PhysicsComponent Physics = new PhysicsComponent();
+        private Entity source;
+        public PhysicsComponent Physics;
         private IntPtr textureId;
 
-        public Projectile(IntPtr textureId, Vector location, Vector velocity)
+        public Projectile(Entity source, IntPtr textureId, Vector location, Vector velocity)
         {
             this.textureId = textureId;
-            Physics.Location = location;
-            Physics.Size = new Vector(8, 8);
+            this.source = source;
+            Physics = new PhysicsComponent(this);
+
+            Location = location;
+            Size = new Vector(8, 8);
             Physics.Velocity = velocity;
         }
 
         public override void Update(int ticksPassed)
         {
             Physics.Update(ticksPassed, Services.Session.Level);
+
+            if (Physics.HorizontalCollision.Collision || Physics.VerticalCollision.Collision)
+            {
+                Dispose();
+                return;
+            }
+
+            var entityCollisions = Services.EntityManager.FindEntities(GetBoundingBox()).ToArray();
+
+            foreach(var entity in entityCollisions)
+            {
+                if (entity == source || entity == this)
+                    continue;
+
+                if(entity is IProjectileCollider)
+                {
+                    ((IProjectileCollider)entity).HitByProjectile(this, Physics.Velocity);
+                    Dispose();
+                    break;
+                }
+            }
         }
 
         public override void Render(IntPtr rendererId)
@@ -38,8 +64,8 @@ namespace SdlTest.Entities
 
             var destination = new SDL.SDL_Rect()
             {
-                x = (int)Physics.Location.X,
-                y = (int)Physics.Location.Y,
+                x = (int)Location.X,
+                y = (int)Location.Y,
                 w = 8,
                 h = 8
             };
