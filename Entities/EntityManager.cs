@@ -46,7 +46,7 @@ namespace SdlTest.Entities
         {
             foreach(var entity in entities)
             {
-                if (entity.GetBoundingBox().Intersects(area))
+                if (!entity.Disposable && entity.GetBoundingBox().Intersects(area))
                     yield return entity;
             }
         }

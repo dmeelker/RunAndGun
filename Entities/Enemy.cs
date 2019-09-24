@@ -35,7 +35,9 @@ namespace SdlTest.Entities
             Physics.Impulse = Vector.Zero;
 
             if (Physics.HorizontalCollision.Collision)
+            {
                 Character.Direction = Character.Direction == Direction.Right ? Direction.Left : Direction.Right;
+            }
 
             Character.Update(ticksPassed);
         }

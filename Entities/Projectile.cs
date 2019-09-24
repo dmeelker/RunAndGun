@@ -28,6 +28,8 @@ namespace SdlTest.Entities
 
         public override void Update(int ticksPassed)
         {
+            Physics.Update(ticksPassed, Services.Session.Level);
+
             var entityCollisions = Services.EntityManager.FindEntities(GetBoundingBox()).ToArray();
 
             foreach(var entity in entityCollisions)
@@ -42,8 +44,6 @@ namespace SdlTest.Entities
                     return;
                 }
             }
-
-            Physics.Update(ticksPassed, Services.Session.Level);
 
             if (Physics.HorizontalCollision.Collision || Physics.VerticalCollision.Collision)
             {

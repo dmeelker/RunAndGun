@@ -47,26 +47,31 @@ namespace SdlTest.Components
             this.entity = entity;
         }
 
-
-
         public void Update(int ticksPassed, Level level)
         {
-            ApplyGravity(ticksPassed);
-
-            var effectiveVelocity = Velocity + Impulse;
+            var effectiveVelocity = (Velocity + Impulse) * (ticksPassed * tickMultiplier);
             var oldLocation = entity.Location;
-            entity.Location = entity.Location + (effectiveVelocity * (ticksPassed * tickMultiplier));
-            //Impulse = new Vector();
 
-            CheckLevelCollisions(level, effectiveVelocity, oldLocation);
+            HandleCollisions(level, effectiveVelocity, oldLocation);
+
+            if (!onGround)
+                ApplyGravity(ticksPassed);
         }
 
         #region Level collisions
 
-        private void CheckLevelCollisions(Level level, Vector effectiveVelocity, Vector oldLocation)
+        private void HandleCollisions(Level level, Vector effectiveVelocity, Vector oldLocation)
         {
             HorizontalCollision = new LevelCollision(false);
             VerticalCollision = new LevelCollision(false);
+
+            HorizontalMovement(level, effectiveVelocity, oldLocation);
+            VerticalMovement(level, effectiveVelocity, oldLocation);
+        }
+
+        private void HorizontalMovement(Level level, Vector effectiveVelocity, Vector oldLocation)
+        {
+            entity.Location.X += effectiveVelocity.X;
 
             if (effectiveVelocity.X < 0)
             {
@@ -84,29 +89,6 @@ namespace SdlTest.Components
                 {
                     entity.Location.X = (int)(HorizontalCollision.X - entity.Size.X);
                     Velocity.X = 0;
-                }
-            }
-
-            if (effectiveVelocity.Y > 0)
-            {
-                onGround = false;
-                VerticalCollision = CheckLevelCollisionBottom(level, oldLocation);
-
-                if (VerticalCollision.Collision)
-                {
-                    entity.Location.Y = VerticalCollision.Y - entity.Size.Y;
-                    Velocity.Y = 0;
-                    onGround = true;
-                }
-            }
-            else if (effectiveVelocity.Y < 0)
-            {
-                onGround = false;
-                VerticalCollision = CheckLevelCollisionTop(level, oldLocation);
-                if (VerticalCollision.Collision)
-                {
-                    entity.Location.Y = VerticalCollision.Y;
-                    Velocity.Y = 0;
                 }
             }
         }
@@ -177,6 +159,35 @@ namespace SdlTest.Components
 
             return new LevelCollision(false);
         }
+
+        private void VerticalMovement(Level level, Vector effectiveVelocity, Vector oldLocation)
+        {
+            entity.Location.Y += effectiveVelocity.Y;
+
+            if (effectiveVelocity.Y >= 0)
+            {
+                onGround = false;
+                VerticalCollision = CheckLevelCollisionBottom(level, oldLocation);
+
+                if (VerticalCollision.Collision)
+                {
+                    entity.Location.Y = VerticalCollision.Y - entity.Size.Y;
+                    Velocity.Y = 0;
+                    onGround = true;
+                }
+            }
+            else if (effectiveVelocity.Y < 0)
+            {
+                onGround = false;
+                VerticalCollision = CheckLevelCollisionTop(level, oldLocation);
+                if (VerticalCollision.Collision)
+                {
+                    entity.Location.Y = VerticalCollision.Y;
+                    Velocity.Y = 0;
+                }
+            }
+        }
+
         private LevelCollision CheckLevelCollisionTop(Level level, Vector oldLocation)
         {
             var startY = (int)oldLocation.Y - 1;
