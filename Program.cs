@@ -3,7 +3,9 @@ using SdlTest.Entities;
 using SdlTest.Levels;
 using SdlTest.Types;
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Text.Json;
 
 namespace SdlTest
 {

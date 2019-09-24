@@ -47,7 +47,7 @@ namespace SdlTest.Entities
             Character.Render(rendererId);
         }
 
-        public void HitByProjectile(Projectile projectile, Vector vector)
+        public void HitByProjectile(Projectile projectile, Vector vector, Vector location)
         {
             Physics.Impulse += vector.ToUnit() * 10;
         }

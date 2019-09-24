@@ -30,7 +30,8 @@ namespace SdlTest.Entities
         {
             Physics.Update(ticksPassed, Services.Session.Level);
 
-            var entityCollisions = Services.EntityManager.FindEntities(GetBoundingBox()).ToArray();
+            var boundingBox = GetBoundingBox();
+            var entityCollisions = Services.EntityManager.FindEntities(boundingBox).ToArray();
 
             foreach(var entity in entityCollisions)
             {
@@ -39,7 +40,10 @@ namespace SdlTest.Entities
 
                 if(entity is IProjectileCollider)
                 {
-                    ((IProjectileCollider)entity).HitByProjectile(this, Physics.Velocity);
+                    var intersection = boundingBox.Intersect(entity.GetBoundingBox());
+                    var hitLocation = new Vector(intersection.X + (intersection.Width / 2), intersection.Y + (intersection.Height / 2)) - entity.Location;
+
+                    ((IProjectileCollider)entity).HitByProjectile(this, Physics.OldVelocity, hitLocation);
                     Dispose();
                     return;
                 }

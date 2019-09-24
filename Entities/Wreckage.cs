@@ -1,0 +1,64 @@
+﻿using SDL2;
+using SdlTest.Components;
+using SdlTest.Types;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace SdlTest.Entities
+{
+    public class Wreckage : Entity
+    {
+        private IntPtr textureId;
+        private Vector creationLocation;
+        private Vector velocity;
+        private int age = 0;
+        private PhysicsComponent physics;
+        public Wreckage(Vector location, Vector vector)
+        {
+            physics = new PhysicsComponent(this);
+            physics.Velocity = vector;
+            physics.drag = .5;
+
+            creationLocation = location;
+            Location = location;
+            Size = new Vector(10, 10);
+            velocity = vector;
+            textureId = Services.TextureManager["crate"];
+        }
+
+        public override void Update(int ticksPassed)
+        {
+            physics.Update(ticksPassed, Services.Session.Level);
+            age += ticksPassed;
+            //velocity.Y += 1 * (ticksPassed * PhysicsComponent.tickMultiplier);
+            //velocity.Y = Math.Min(velocity.Y, 15);
+
+            //Location += velocity * (ticksPassed * PhysicsComponent.tickMultiplier);
+
+            if (age > 2000)
+                Dispose();
+        }
+
+        public override void Render(IntPtr rendererId)
+        {
+            var source = new SDL.SDL_Rect()
+            {
+                x = 0,
+                y = 0,
+                w = (int)Size.X,
+                h = (int)Size.Y
+            };
+
+            var destination = new SDL.SDL_Rect()
+            {
+                x = (int)Location.X,
+                y = (int)Location.Y,
+                w = (int)Size.X,
+                h = (int)Size.Y
+            };
+
+            SDL.SDL_RenderCopyEx(rendererId, textureId, ref source, ref destination, (Location.X - creationLocation.X) * 2.8, IntPtr.Zero, SDL.SDL_RendererFlip.SDL_FLIP_NONE);
+        }
+    }
+}

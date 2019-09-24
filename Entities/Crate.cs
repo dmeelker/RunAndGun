@@ -39,11 +39,17 @@ namespace SdlTest.Entities
             SDL.SDL_RenderCopy(rendererId, textureId, ref source, ref destination);
         }
 
-        public void HitByProjectile(Projectile projectile, Vector vector)
+        public void HitByProjectile(Projectile projectile, Vector vector, Vector location)
         {
-            hitpoint--;
-            if (hitpoint == 0)
-                Dispose();
+            var offset = (vector.ToUnit() * -1) * 10;
+            vector = (vector.ToUnit() * -1) * Services.Random.Next(2, 5);
+            
+            var wreckage = new Wreckage(Location + location + offset, vector);
+            Services.EntityManager.Add(wreckage);
+
+            //hitpoint--;
+            //if (hitpoint == 0)
+            //    Dispose();
         }
     }
 }

@@ -7,6 +7,6 @@ namespace SdlTest.Entities
 {
     interface IProjectileCollider
     {
-        void HitByProjectile(Projectile projectile, Vector vector);
+        void HitByProjectile(Projectile projectile, Vector vector, Vector location);
     }
 }

@@ -31,11 +31,16 @@ namespace SdlTest.Components
 
     public class PhysicsComponent
     {
-        const double tickMultiplier = 0.03;
+        public const double tickMultiplier = 0.03;
 
         private readonly Entity entity;
         public Vector Velocity;
         public Vector Impulse;
+
+        public Vector OldVelocity;
+
+        public bool applyGravity = true;
+        public double? drag = null;
 
         public bool onGround = false;
 
@@ -51,16 +56,24 @@ namespace SdlTest.Components
         {
             var effectiveVelocity = (Velocity + Impulse) * (ticksPassed * tickMultiplier);
             var oldLocation = entity.Location;
+            OldVelocity = Velocity;
+            HandleMovement(level, effectiveVelocity, oldLocation);
 
-            HandleCollisions(level, effectiveVelocity, oldLocation);
+            if(drag.HasValue && onGround && Velocity.X != 0)
+            {
+                if (Velocity.X > 0)
+                    Velocity.X = Math.Max(Velocity.X - (drag.Value * (ticksPassed * tickMultiplier)), 0.0);
+                else if (Velocity.X < 0)
+                    Velocity.X = Math.Min(Velocity.X + (drag.Value * (ticksPassed * tickMultiplier)), 0.0);
+            }
 
-            if (!onGround)
+            if (applyGravity && !onGround)
                 ApplyGravity(ticksPassed);
         }
 
         #region Level collisions
 
-        private void HandleCollisions(Level level, Vector effectiveVelocity, Vector oldLocation)
+        private void HandleMovement(Level level, Vector effectiveVelocity, Vector oldLocation)
         {
             HorizontalCollision = new LevelCollision(false);
             VerticalCollision = new LevelCollision(false);

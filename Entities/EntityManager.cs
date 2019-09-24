@@ -9,10 +9,11 @@ namespace SdlTest.Entities
     {
         private readonly LinkedList<Entity> entities = new LinkedList<Entity>();
         private readonly List<Entity> disposableEntities = new List<Entity>();
+        private readonly List<Entity> newEntities = new List<Entity>();
 
         public void Add(Entity entity)
         {
-            entities.AddLast(entity);
+            newEntities.Add(entity);
         }
 
         public void UpdateEntities(int ticksPassed)
@@ -30,6 +31,11 @@ namespace SdlTest.Entities
                 entities.Remove(entity);
                 entity.Disposed = true;
             }
+
+            foreach(var newEntity in newEntities)
+                entities.AddLast(newEntity);
+
+            newEntities.Clear();
 
             disposableEntities.Clear();
         }
