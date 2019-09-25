@@ -72,7 +72,6 @@ namespace SdlTest
             Services.TextureManager.Cleanup();
             SDL.SDL_DestroyRenderer(ren);
             SDL.SDL_DestroyWindow(win);
-            SDL.SDL_DestroyWindow(win);
             SDL.SDL_Quit();
         }
 
@@ -83,6 +82,8 @@ namespace SdlTest
             Services.TextureManager.LoadTexture(ren, "res/projectile.png", "projectile");
             Services.TextureManager.LoadTexture(ren, "res/shotgun.png", "shotgun");
             Services.TextureManager.LoadTexture(ren, "res/crate.png", "crate");
+            Services.TextureManager.LoadTexture(ren, "res/gib.png", "gib");
+            Services.TextureManager.LoadTexture(ren, "res/floor-blood.png", "floor-blood");
         }
 
         private static void Update(int timePassed)
@@ -96,19 +97,19 @@ namespace SdlTest
 
                 if (e.type == SDL.SDL_EventType.SDL_KEYDOWN)
                 {
-                    if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_LEFT)
+                    if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_a)
                         player.Physics.Impulse.X = -10;
-                    else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_RIGHT)
+                    else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_d)
                         player.Physics.Impulse.X = 10;
-                    else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_UP)
+                    else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_w)
                         player.Physics.Velocity.Y = -13;
 
                 }
                 else if (e.type == SDL.SDL_EventType.SDL_KEYUP)
                 {
-                    if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_LEFT)
+                    if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_a)
                         player.Physics.Impulse.X = 0;
-                    else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_RIGHT)
+                    else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_d)
                         player.Physics.Impulse.X = 0;
                 }
                 else if(e.type == SDL.SDL_EventType.SDL_MOUSEBUTTONDOWN)
@@ -169,7 +170,7 @@ namespace SdlTest
                     rect.x = x * Level.BlockSize;
                     rect.y = y * Level.BlockSize;
 
-                    if(!level.Cells[x, y])
+                    if(level.Cells[x, y] != BlockType.Open)
                         SDL.SDL_RenderCopy(ren, blockTexture, ref source, ref rect);
                 }
             }

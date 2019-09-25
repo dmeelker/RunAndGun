@@ -24,7 +24,7 @@ namespace SdlTest.Components
             this.textureId = textureId;
             this.gunTexureId = gunTexureId;
 
-            WeaponLength = new Vector(20, 0);
+            WeaponLength = new Vector(30, 0);
         }
 
         public void Update(int ticksPassed)
@@ -34,13 +34,13 @@ namespace SdlTest.Components
 
         public void AimAt(int x, int y)
         {
-            var vector = (new Vector(x, y) - entity.Location).ToUnit();
+            var vector = (new Vector(x - 4, y - 4) - entity.Location).ToUnit();
             var angle = vector.Angle;
 
             Direction = angle > -90 && angle < 90 ? Direction.Right : Direction.Right;
             WeaponOffset = Direction == Direction.Right ? new Vector(10, 12) : new Vector(entity.Size.X - 10, 12);
 
-            AimVector = (new Vector(x, y) - entity.Location - WeaponOffset).ToUnit();
+            AimVector = (new Vector(x - 4, y - 4) - entity.Location - WeaponOffset).ToUnit();
         }
 
         public void Fire()

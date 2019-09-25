@@ -119,8 +119,8 @@ namespace SdlTest.Components
 
                 for (var y = startY;; y += Level.BlockSize) {
                     y = Math.Min(y, endY);
-
-                    if (!level.IsPixelPassable(x, y))
+                    var block = level.IsPixelPassable(x, y);
+                    if (block == BlockType.Block || block == BlockType.StairRight)
                         return new LevelCollision(((x / Level.BlockSize) + 1) * Level.BlockSize, y);
 
                     foreach (var entity in entities)
@@ -153,7 +153,8 @@ namespace SdlTest.Components
 
                 for (var y = startY;; y += Level.BlockSize) {
                     y = Math.Min(y, endY);
-                    if (!level.IsPixelPassable(x, y))
+                    var block = level.IsPixelPassable(x, y);
+                    if (block == BlockType.Block || block == BlockType.StairLeft)
                         return new LevelCollision((x / Level.BlockSize) * Level.BlockSize, y);
 
                     foreach (var entity in entities)
@@ -180,14 +181,24 @@ namespace SdlTest.Components
             if (effectiveVelocity.Y >= 0)
             {
                 onGround = false;
-                VerticalCollision = CheckLevelCollisionBottom(level, oldLocation);
+                //VerticalCollision = CheckRampCollisionsBottom(level, oldLocation);
+                //if (VerticalCollision.Collision)
+                //{
+                //    entity.Location.Y = VerticalCollision.Y - entity.Size.Y;
+                //    Velocity.Y = 0;
+                //    onGround = true;
+                //}
+                //else
+                //{
+                    VerticalCollision = CheckLevelCollisionBottom(level, oldLocation);
 
-                if (VerticalCollision.Collision)
-                {
-                    entity.Location.Y = VerticalCollision.Y - entity.Size.Y;
-                    Velocity.Y = 0;
-                    onGround = true;
-                }
+                    if (VerticalCollision.Collision)
+                    {
+                        entity.Location.Y = VerticalCollision.Y - entity.Size.Y;
+                        Velocity.Y = 0;
+                        onGround = true;
+                    }
+                //}
             }
             else if (effectiveVelocity.Y < 0)
             {
@@ -216,7 +227,7 @@ namespace SdlTest.Components
                 {
                     x = Math.Min(x, endX);
 
-                    if (!level.IsPixelPassable(x, y))
+                    if (level.IsPixelPassable(x, y) != BlockType.Open)
                         return new LevelCollision(x, ((y / Level.BlockSize) + 1) * Level.BlockSize);
 
                     if (x >= endX)
@@ -224,6 +235,38 @@ namespace SdlTest.Components
                 }
 
                 if (y <= endY)
+                    break;
+            }
+
+            return new LevelCollision(false);
+        }
+
+        private LevelCollision CheckRampCollisionsBottom(Level level, Vector oldLocation)
+        {
+            var startY = (int)(oldLocation.Y + entity.Size.Y - 1);
+            var endY = (int)(entity.Location.Y + entity.Size.Y);
+            var x = (int)(entity.Location.X + (entity.Size.X / 2));
+
+            for (var y = startY; ; y += Level.BlockSize)
+            {
+                y = Math.Min(y, endY);
+
+                var block = level.IsPixelPassable(x, y);
+                var collisionY = (y / Level.BlockSize) * Level.BlockSize;
+
+                if (block == BlockType.StairRight)
+                {
+                    var yOffset = Level.BlockSize - (x % Level.BlockSize);
+
+                    return new LevelCollision(x, collisionY + yOffset - 2);
+                }
+                else if (block == BlockType.StairLeft)
+                {
+                    var yOffset = x % Level.BlockSize;
+                    return new LevelCollision(x, collisionY + yOffset - 2);
+                }
+
+                if (y >= endY)
                     break;
             }
 
@@ -245,10 +288,13 @@ namespace SdlTest.Components
                 for (var x = startX; ; x += Level.BlockSize)
                 {
                     x = Math.Min(x, endX);
-                    if (!level.IsPixelPassable(x, y))
-                        return new LevelCollision(x, (y / Level.BlockSize) * Level.BlockSize);
+                    var block = level.IsPixelPassable(x, y);
+                    var collisionY = (y / Level.BlockSize) * Level.BlockSize;
 
-                    foreach(var entity in entities)
+                    if (block == BlockType.Block)
+                        return new LevelCollision(x, collisionY);
+
+                    foreach (var entity in entities)
                     {
                         if(entity.GetBoundingBox().Contains(new Vector(x, y)))
                             return new LevelCollision(x, (int) entity.Location.Y);

@@ -14,12 +14,15 @@ namespace SdlTest.Entities
         private Entity source;
         public PhysicsComponent Physics;
         private IntPtr textureId;
+        public readonly int Power = 2;
 
         public Projectile(Entity source, IntPtr textureId, Vector location, Vector velocity)
         {
             this.textureId = textureId;
             this.source = source;
-            Physics = new PhysicsComponent(this);
+            Physics = new PhysicsComponent(this) { 
+                applyGravity = false
+            };
 
             Location = location;
             Size = new Vector(8, 8);

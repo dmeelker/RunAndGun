@@ -1,0 +1,14 @@
+[ ] Animations
+[ ] Moving platforms
+[ ] Composite entities / scene graph
+[ ] Stairs
+[ ] Scrolling level
+[ ] Interactive elements
+[ ] Weapons
+[ ] Support weapons (grenades and such)
+[ ] Life and armor
+[ ] Bullet time
+[ ] Level layers
+[ ] Level loading
+[ ] Level editing
+[ ] Enemy AI
