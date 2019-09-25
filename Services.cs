@@ -9,6 +9,7 @@ namespace SdlTest
     {
         public static readonly EntityManager EntityManager = new EntityManager();
         public static readonly TextureManager TextureManager = new TextureManager();
+        public static readonly SpriteManager SpriteManager = new SpriteManager();
         public static GameSession Session;
         public static readonly Random Random = new Random();
     }

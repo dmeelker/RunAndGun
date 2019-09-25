@@ -1,6 +1,7 @@
 ﻿using SDL2;
 using SdlTest.Components;
 using SdlTest.Levels;
+using SdlTest.Sprites;
 using SdlTest.Types;
 using System;
 using System.Collections.Generic;
@@ -13,12 +14,12 @@ namespace SdlTest.Entities
     {
         private Entity source;
         public PhysicsComponent Physics;
-        private IntPtr textureId;
+        private Sprite sprite;
         public readonly int Power = 2;
 
-        public Projectile(Entity source, IntPtr textureId, Vector location, Vector velocity)
+        public Projectile(Entity source, Vector location, Vector velocity)
         {
-            this.textureId = textureId;
+            sprite = Services.SpriteManager["projectile"];
             this.source = source;
             Physics = new PhysicsComponent(this) { 
                 applyGravity = false
@@ -61,23 +62,7 @@ namespace SdlTest.Entities
 
         public override void Render(IntPtr rendererId)
         {
-            var source = new SDL.SDL_Rect()
-            {
-                x = 0,
-                y = 0,
-                w = 8,
-                h = 8
-            };
-
-            var destination = new SDL.SDL_Rect()
-            {
-                x = (int)Location.X,
-                y = (int)Location.Y,
-                w = 8,
-                h = 8
-            };
-
-            SDL.SDL_RenderCopy(rendererId, textureId, ref source, ref destination);
+            sprite.Draw(rendererId, (int)Location.X, (int)Location.Y);
         }
     }
 }

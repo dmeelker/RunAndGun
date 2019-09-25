@@ -12,10 +12,10 @@ namespace SdlTest.Entities
         public readonly CharacterComponent Character;
         public int Hitpoints = 10;
 
-        public Enemy(IntPtr textureId, IntPtr gunTexureId, Vector location)
+        public Enemy(Vector location)
         {
             Physics = new PhysicsComponent(this);
-            Character = new CharacterComponent(this, textureId, gunTexureId);
+            Character = new CharacterComponent(this, Services.SpriteManager["player"], Services.SpriteManager["shotgun"]);
 
             Location = location;
             Size = new Vector(30, 30);
@@ -73,8 +73,6 @@ namespace SdlTest.Entities
 
         private void Die()
         {
-            var count = Services.Random.Next(2, 5);
-
             for (var i = 0; i < 100; i++)
             {
                 var angle = Services.Random.Next(0, 360) / (180.0 / Math.PI);

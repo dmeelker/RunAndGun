@@ -1,28 +1,27 @@
 ﻿using SDL2;
 using SdlTest.Entities;
+using SdlTest.Sprites;
 using SdlTest.Types;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SdlTest.Components
 {
     public class CharacterComponent
     {
         private readonly Entity entity;
-        private IntPtr textureId;
-        private IntPtr gunTexureId;
+        private Sprite sprite;
+        private Sprite gunSprite;
 
         public Vector AimVector;
         public Vector WeaponOffset;
         public Vector WeaponLength;
         public Direction Direction = Direction.Right;
 
-        public CharacterComponent(Entity entity, IntPtr textureId, IntPtr gunTexureId)
+        public CharacterComponent(Entity entity, Sprite textureId, Sprite gunTexureId)
         {
             this.entity = entity;
-            this.textureId = textureId;
-            this.gunTexureId = gunTexureId;
+            this.sprite = textureId;
+            this.gunSprite = gunTexureId;
 
             WeaponLength = new Vector(30, 0);
         }
@@ -46,55 +45,42 @@ namespace SdlTest.Components
         public void Fire()
         {
             var sourceLocation = entity.Location + WeaponOffset + (AimVector.ToUnit() * WeaponLength.X);
-            var projectile = new Projectile(entity, Services.TextureManager["projectile"], sourceLocation, AimVector * 40);
+            var projectile = new Projectile(entity, sourceLocation, AimVector * 40);
             Services.EntityManager.Add(projectile);
         }
 
         public void Render(IntPtr rendererId)
         {
-            var source = new SDL.SDL_Rect()
-            {
-                x = 0,
-                y = 0,
-                w = 30,
-                h = 30
-            };
+            sprite.Draw(rendererId, (int)entity.Location.X, (int)entity.Location.Y);
 
-            var destination = new SDL.SDL_Rect()
-            {
-                x = (int)entity.Location.X,
-                y = (int)entity.Location.Y,
-                w = 30,
-                h = 30
-            };
+            //SDL.SDL_QueryTexture(gunSprite, out _, out _, out var width, out var height);
 
-            SDL.SDL_RenderCopy(rendererId, textureId, ref source, ref destination);
+            //source.w = 30;
+            //source.h = 12;
 
-            SDL.SDL_QueryTexture(gunTexureId, out _, out _, out var width, out var height);
-
-            source.w = 30;
-            source.h = 12;
-
-            destination.x = (int)entity.Location.X + 10;
-            destination.y = (int)entity.Location.Y + 12;
-            destination.w = source.w;
-            destination.h = source.h;
+            //destination.x = (int)entity.Location.X + 10;
+            //destination.y = (int)entity.Location.Y + 12;
+            //destination.w = source.w;
+            //destination.h = source.h;
 
 
 
             var angle = AimVector.Angle;
-            var center = new SDL.SDL_Point { x = 0, y = height / 2 };
+            var center = new Vector(0, gunSprite.Height / 2);
 
             if (angle > -90 && angle < 90)
             {
                 // Aiming right
-                SDL.SDL_RenderCopyEx(rendererId, gunTexureId, ref source, ref destination, AimVector.Angle, ref center, SDL.SDL_RendererFlip.SDL_FLIP_NONE);
+                gunSprite.DrawEx(rendererId, (int)entity.Location.X + 10, (int)entity.Location.Y + 12, AimVector.Angle, center, SDL.SDL_RendererFlip.SDL_FLIP_NONE);
+                //SDL.SDL_RenderCopyEx(rendererId, gunSprite, ref source, ref destination, AimVector.Angle, ref center, SDL.SDL_RendererFlip.SDL_FLIP_NONE);
             }
             else
             {
                 // Aiming left
-                destination.x = (int)(entity.Location.X + entity.Size.X - 10);
-                SDL.SDL_RenderCopyEx(rendererId, gunTexureId, ref source, ref destination, AimVector.Angle, ref center, SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL);
+                //destination.x = (int)(entity.Location.X + entity.Size.X - 10);
+                gunSprite.DrawEx(rendererId, (int) (entity.Location.X + entity.Size.X - 10), (int)entity.Location.Y + 12, AimVector.Angle, center, SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL);
+
+                //SDL.SDL_RenderCopyEx(rendererId, gunSprite, ref source, ref destination, AimVector.Angle, ref center, SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL);
             }
         }
     }

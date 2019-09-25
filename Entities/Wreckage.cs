@@ -1,5 +1,6 @@
 ﻿using SDL2;
 using SdlTest.Components;
+using SdlTest.Sprites;
 using SdlTest.Types;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ namespace SdlTest.Entities
 {
     public class Wreckage : Entity
     {
-        private IntPtr textureId;
+        private Sprite sprite;
         private Vector creationLocation;
         private Vector velocity;
         private int age = 0;
@@ -24,7 +25,7 @@ namespace SdlTest.Entities
             Location = location;
             Size = new Vector(10, 10);
             velocity = vector;
-            textureId = Services.TextureManager["crate"];
+            sprite = Services.SpriteManager["crate"];
         }
 
         public override void Update(int ticksPassed)
@@ -42,23 +43,8 @@ namespace SdlTest.Entities
 
         public override void Render(IntPtr rendererId)
         {
-            var source = new SDL.SDL_Rect()
-            {
-                x = 0,
-                y = 0,
-                w = (int)Size.X,
-                h = (int)Size.Y
-            };
-
-            var destination = new SDL.SDL_Rect()
-            {
-                x = (int)Location.X,
-                y = (int)Location.Y,
-                w = (int)Size.X,
-                h = (int)Size.Y
-            };
-
-            SDL.SDL_RenderCopyEx(rendererId, textureId, ref source, ref destination, (Location.X - creationLocation.X) * 2.8, IntPtr.Zero, SDL.SDL_RendererFlip.SDL_FLIP_NONE);
+            var angle = (Location.X - creationLocation.X) * 2.8;
+            sprite.DrawEx(rendererId, (int)Location.X, (int)Location.Y, angle, null, SDL.SDL_RendererFlip.SDL_FLIP_NONE);
         }
     }
 }

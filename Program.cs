@@ -49,10 +49,10 @@ namespace SdlTest
                 Level = new Level(40, 20)
             };
 
-            player = new PlayerEntity(Services.TextureManager["player"], Services.TextureManager["shotgun"], new Vector(30, 30));
+            player = new PlayerEntity(new Vector(30, 30));
             Services.EntityManager.Add(player);
 
-            var enemy = new Enemy(Services.TextureManager["player"], Services.TextureManager["shotgun"], new Vector(230, 30));
+            var enemy = new Enemy(new Vector(230, 30));
             Services.EntityManager.Add(enemy);
 
             Services.EntityManager.Add(new Crate(new Vector(400, 330)));
@@ -84,6 +84,14 @@ namespace SdlTest
             Services.TextureManager.LoadTexture(ren, "res/crate.png", "crate");
             Services.TextureManager.LoadTexture(ren, "res/gib.png", "gib");
             Services.TextureManager.LoadTexture(ren, "res/floor-blood.png", "floor-blood");
+
+            Services.SpriteManager.Add(new Sprites.Sprite(Services.TextureManager["player"]), "player");
+            Services.SpriteManager.Add(new Sprites.Sprite(Services.TextureManager["block"]), "block");
+            Services.SpriteManager.Add(new Sprites.Sprite(Services.TextureManager["projectile"]), "projectile");
+            Services.SpriteManager.Add(new Sprites.Sprite(Services.TextureManager["shotgun"]), "shotgun");
+            Services.SpriteManager.Add(new Sprites.Sprite(Services.TextureManager["crate"]), "crate");
+            Services.SpriteManager.Add(new Sprites.Sprite(Services.TextureManager["gib"]), "gib");
+            Services.SpriteManager.Add(new Sprites.Sprite(Services.TextureManager["floor-blood"]), "floor-blood");
         }
 
         private static void Update(int timePassed)

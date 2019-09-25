@@ -13,10 +13,10 @@ namespace SdlTest.Entities
         public readonly PhysicsComponent Physics;
         public readonly CharacterComponent Character;
 
-        public PlayerEntity(IntPtr textureId, IntPtr gunTexureId, Vector location)
+        public PlayerEntity(Vector location)
         {
             Physics = new PhysicsComponent(this);
-            Character = new CharacterComponent(this, textureId, gunTexureId);
+            Character = new CharacterComponent(this, Services.SpriteManager["player"], Services.SpriteManager["shotgun"]);
 
             Location = location;
             Size = new Vector(30, 30);
