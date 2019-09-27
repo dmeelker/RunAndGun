@@ -19,6 +19,12 @@ namespace SdlTest.Types
             Y = y;
         }
 
+        public static Vector FromAngleInDegrees(double angle)
+        {
+            var radians = Angles.ToRadians(angle);
+            return new Vector(Math.Cos(radians), Math.Sin(radians));
+        }
+
         public static Vector operator +(Vector a, Vector b)
         {
             return new Vector {
@@ -56,7 +62,7 @@ namespace SdlTest.Types
             };
         }
 
-        public double Angle => Math.Atan2(Y, X) * (180.0 / Math.PI);
+        public double AngleInDegrees => Angles.ToDegrees(Math.Atan2(Y, X));
 
         public override string ToString()
         {

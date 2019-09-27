@@ -12,15 +12,22 @@ namespace SdlTest.Entities
 {
     public class Projectile : Entity
     {
-        private Entity source;
+        private readonly Sprite sprite;
+        private readonly Entity source;
+        private readonly int maxDistance;
+        private readonly Vector creationLocation;
         public PhysicsComponent Physics;
-        private Sprite sprite;
-        public readonly int Power = 2;
+        
+        public readonly int Power;
 
-        public Projectile(Entity source, Vector location, Vector velocity)
+        public Projectile(Entity source, Vector location, Vector velocity, int power, int maxDistance)
         {
-            sprite = Services.SpriteManager["projectile"];
+            this.sprite = Services.SpriteManager["projectile"];
             this.source = source;
+            this.Power = power;
+            this.maxDistance = maxDistance;
+            this.creationLocation = location;
+
             Physics = new PhysicsComponent(this) { 
                 applyGravity = false
             };
@@ -54,6 +61,12 @@ namespace SdlTest.Entities
             }
 
             if (Physics.HorizontalCollision.Collision || Physics.VerticalCollision.Collision)
+            {
+                Dispose();
+                return;
+            }
+
+            if ((Location - creationLocation).Length > maxDistance)
             {
                 Dispose();
                 return;

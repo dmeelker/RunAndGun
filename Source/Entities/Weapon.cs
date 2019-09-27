@@ -33,12 +33,18 @@ namespace SdlTest.Entities
 
         private State state = State.ReadyToFire;
         private uint stateEntranceTime = 0;
+        private readonly int fireDuration;
+        private readonly int reloadDuration;
 
-        public ReloadableWeapon(int clipSize)
+
+        public ReloadableWeapon(int clipSize, int fireDuration, int reloadDuration)
         {
             ClipSize = clipSize;
             ClipContent = clipSize;
             AmmoReserve = 0;
+
+            this.fireDuration = fireDuration;
+            this.reloadDuration = reloadDuration;
         }
 
         private void ChangeState(State state, uint time)
@@ -76,11 +82,11 @@ namespace SdlTest.Entities
                 case State.ReadyToFire:
                     break;
                 case State.Firing:
-                    if (time - stateEntranceTime >= 500)
+                    if (time - stateEntranceTime >= fireDuration)
                         ChangeState(State.ReadyToFire, time);
                     break;
                 case State.Reloading:
-                    if (time - stateEntranceTime >= 1500)
+                    if (time - stateEntranceTime >= reloadDuration)
                         ChangeState(State.ReadyToFire, time);
                     break;
             }
@@ -128,7 +134,7 @@ namespace SdlTest.Entities
         public override string Name => "Pistol";
         private readonly Sprite sprite;
 
-        public Pistol() : base(12)
+        public Pistol() : base(12, 100, 1500)
         {
             sprite = Services.SpriteManager["shotgun"];
             AddAmmo(1000);
@@ -137,17 +143,51 @@ namespace SdlTest.Entities
         protected override void FireInternal(uint time, Entity source, Vector location, Vector vector)
         {
             var sourceLocation = location + (vector.ToUnit() * sprite.Width);
-            var projectile = new Projectile(source, sourceLocation, vector * 40);
+            var projectile = new Projectile(source, sourceLocation, vector * 40, 2, 800);
             Services.EntityManager.Add(projectile);
         }
 
         public override void Render(IntPtr rendererId, Vector location, Vector vector)
         {
-            var angle = vector.Angle;
+            var angle = vector.AngleInDegrees;
             var center = new Vector(0, sprite.Height / 2);
             var flip = angle > -90 && angle < 90 ? SDL.SDL_RendererFlip.SDL_FLIP_NONE : SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
 
-            sprite.DrawEx(rendererId, (int)location.X, (int)location.Y, vector.Angle, center, flip);
+            sprite.DrawEx(rendererId, (int)location.X, (int)location.Y, vector.AngleInDegrees, center, flip);
         }        
+    }
+
+    public class Shotgun : ReloadableWeapon
+    {
+        public override string Name => "Shotgun";
+        private readonly Sprite sprite;
+
+        public Shotgun() : base(8, 400, 3000)
+        {
+            sprite = Services.SpriteManager["shotgun"];
+            AddAmmo(1000);
+        }
+
+        protected override void FireInternal(uint time, Entity source, Vector location, Vector vector)
+        {
+            for (var i = 0; i < 10; i++)
+            {
+                var angle = vector.AngleInDegrees + Services.Random.Next(-5, 5);
+                var projectileVector = Vector.FromAngleInDegrees(angle) * Services.Random.Next(35, 40);
+                var sourceLocation = location + (vector.ToUnit() * sprite.Width);
+
+                var projectile = new Projectile(source, sourceLocation, projectileVector, 1, 300);
+                Services.EntityManager.Add(projectile);
+            }
+        }
+
+        public override void Render(IntPtr rendererId, Vector location, Vector vector)
+        {
+            var angle = vector.AngleInDegrees;
+            var center = new Vector(0, sprite.Height / 2);
+            var flip = angle > -90 && angle < 90 ? SDL.SDL_RendererFlip.SDL_FLIP_NONE : SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
+
+            sprite.DrawEx(rendererId, (int)location.X, (int)location.Y, vector.AngleInDegrees, center, flip);
+        }
     }
 }

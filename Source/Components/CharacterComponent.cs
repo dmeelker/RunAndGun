@@ -37,7 +37,7 @@ namespace SdlTest.Components
         public void AimAt(int x, int y)
         {
             var vector = (new Vector(x - 4, y - 4) - entity.Location).ToUnit();
-            var angle = vector.Angle;
+            var angle = vector.AngleInDegrees;
 
             Direction = angle > -90 && angle < 90 ? Direction.Right : Direction.Right;
             WeaponOffset = Direction == Direction.Right ? new Vector(10, 12) : new Vector(entity.Size.X - 10, 12);
@@ -75,7 +75,7 @@ namespace SdlTest.Components
 
             
 
-            var angle = AimVector.Angle;
+            var angle = AimVector.AngleInDegrees;
             //var center = new Vector(0, gunSprite.Height / 2);
 
             if (angle > -90 && angle < 90)

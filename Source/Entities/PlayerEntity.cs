@@ -16,7 +16,7 @@ namespace SdlTest.Entities
         public PlayerEntity(Vector location)
         {
             Physics = new PhysicsComponent(this);
-            Character = new CharacterComponent(this, Services.SpriteManager["player"], new Pistol());
+            Character = new CharacterComponent(this, Services.SpriteManager["player"], new Shotgun());
 
             Location = location;
             Size = new Vector(30, 30);
