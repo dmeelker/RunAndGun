@@ -30,7 +30,7 @@ namespace SdlTest.Entities
             Physics.Velocity = velocity;
         }
 
-        public override void Update(int ticksPassed)
+        public override void Update(uint time, int ticksPassed)
         {
             Physics.Update(ticksPassed, Services.Session.Level);
 

@@ -16,11 +16,11 @@ namespace SdlTest.Entities
             newEntities.Add(entity);
         }
 
-        public void UpdateEntities(int ticksPassed)
+        public void UpdateEntities(uint time, int ticksPassed)
         {
             foreach(var entity in entities)
             {
-                entity.Update(ticksPassed);
+                entity.Update(time, ticksPassed);
 
                 if (entity.Disposable)
                     disposableEntities.Add(entity);

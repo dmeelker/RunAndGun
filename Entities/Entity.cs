@@ -14,7 +14,7 @@ namespace SdlTest.Entities
         public bool Disposable = false;
         public bool Disposed = false;
 
-        public virtual void Update(int ticksPassed)
+        public virtual void Update(uint time, int ticksPassed)
         { }
 
         public virtual void Render(IntPtr rendererId)

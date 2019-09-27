@@ -15,13 +15,13 @@ namespace SdlTest.Entities
         public Enemy(Vector location)
         {
             Physics = new PhysicsComponent(this);
-            Character = new CharacterComponent(this, Services.SpriteManager["player"], Services.SpriteManager["shotgun"]);
+            Character = new CharacterComponent(this, Services.SpriteManager["player"], new Pistol());
 
             Location = location;
             Size = new Vector(30, 30);
         }
 
-        public override void Update(int ticksPassed)
+        public override void Update(uint time, int ticksPassed)
         {
             if (Character.Direction == Direction.Right)
             {
@@ -40,7 +40,7 @@ namespace SdlTest.Entities
                 Character.Direction = Character.Direction == Direction.Right ? Direction.Left : Direction.Right;
             }
 
-            Character.Update(ticksPassed);
+            Character.Update(time, ticksPassed);
         }
 
         public override void Render(IntPtr rendererId)

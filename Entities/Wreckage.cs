@@ -28,7 +28,7 @@ namespace SdlTest.Entities
             sprite = Services.SpriteManager["crate"];
         }
 
-        public override void Update(int ticksPassed)
+        public override void Update(uint time, int ticksPassed)
         {
             physics.Update(ticksPassed, Services.Session.Level);
             age += ticksPassed;

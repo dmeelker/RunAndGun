@@ -26,7 +26,7 @@ namespace SdlTest.Entities
             Size = new Vector(8, 8);
         }
 
-        public override void Update(int ticksPassed)
+        public override void Update(uint time, int ticksPassed)
         {
             Physics.Update(ticksPassed, Services.Session.Level);
 

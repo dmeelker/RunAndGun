@@ -65,7 +65,7 @@ namespace SdlTest
                 var timePassed = (int)(time - lastUpdateTime);
                 lastUpdateTime = time;
 
-                Update(timePassed);
+                Update(time, timePassed);
                 Render(time);
             }
 
@@ -94,7 +94,7 @@ namespace SdlTest
             Services.SpriteManager.Add(new Sprites.Sprite(Services.TextureManager["floor-blood"]), "floor-blood");
         }
 
-        private static void Update(int timePassed)
+        private static void Update(uint time, int timePassed)
         {
             while (SDL.SDL_PollEvent(out var e) > 0)
             {
@@ -119,17 +119,19 @@ namespace SdlTest
                         player.Physics.Impulse.X = 0;
                     else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_d)
                         player.Physics.Impulse.X = 0;
+                    else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_r)
+                        player.Character.Reload(time);
                 }
                 else if(e.type == SDL.SDL_EventType.SDL_MOUSEBUTTONDOWN)
                 {
-                    player.Fire();
+                    player.Fire(time);
                 }
             }
 
             SDL.SDL_GetMouseState(out var x, out var y);
             player.AimAt(x, y);
 
-            Services.EntityManager.UpdateEntities(timePassed);
+            Services.EntityManager.UpdateEntities(time, timePassed);
         }
 
         private static void Render(uint time)

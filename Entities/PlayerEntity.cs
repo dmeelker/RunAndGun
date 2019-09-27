@@ -16,16 +16,16 @@ namespace SdlTest.Entities
         public PlayerEntity(Vector location)
         {
             Physics = new PhysicsComponent(this);
-            Character = new CharacterComponent(this, Services.SpriteManager["player"], Services.SpriteManager["shotgun"]);
+            Character = new CharacterComponent(this, Services.SpriteManager["player"], new Pistol());
 
             Location = location;
             Size = new Vector(30, 30);
         }
 
-        public override void Update(int ticksPassed)
+        public override void Update(uint time, int ticksPassed)
         {
             Physics.Update(ticksPassed, Services.Session.Level);
-            Character.Update(ticksPassed);
+            Character.Update(time, ticksPassed);
         }
 
         public void AimAt(int x, int y)
@@ -33,9 +33,9 @@ namespace SdlTest.Entities
             Character.AimAt(x, y);
         }
 
-        public void Fire()
+        public void Fire(uint time)
         {
-            Character.Fire();
+            Character.Fire(time);
         }
 
         public override void Render(IntPtr rendererId)
