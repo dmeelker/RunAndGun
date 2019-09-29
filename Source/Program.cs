@@ -1,9 +1,13 @@
 ﻿using SDL2;
 using SdlTest.Entities;
+using SdlTest.Entities.Collectables;
 using SdlTest.Levels;
+using SdlTest.Text;
 using SdlTest.Types;
+using SdlTest.Weapons;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 
@@ -50,6 +54,7 @@ namespace SdlTest
             };
 
             player = new PlayerEntity(new Vector(30, 30));
+            player.AddWeapon(new Pistol());
             Services.EntityManager.Add(player);
 
             var enemy = new Enemy(new Vector(230, 30));
@@ -57,6 +62,9 @@ namespace SdlTest
 
             Services.EntityManager.Add(new Crate(new Vector(400, 330)));
 
+            Services.EntityManager.Add(new WeaponCollectable(WeaponType.Shotgun, new Vector(300, 330)));
+
+            
             uint lastUpdateTime = SDL.SDL_GetTicks();
 
             while (!quit)
@@ -84,6 +92,7 @@ namespace SdlTest
             Services.TextureManager.LoadTexture(ren, "res/crate.png", "crate");
             Services.TextureManager.LoadTexture(ren, "res/gib.png", "gib");
             Services.TextureManager.LoadTexture(ren, "res/floor-blood.png", "floor-blood");
+            Services.TextureManager.LoadTexture(ren, "res/Font/DTM-Sans_0.png", "DTM-Sans_0");
 
             Services.SpriteManager.Add(new Sprites.Sprite(Services.TextureManager["player"]), "player");
             Services.SpriteManager.Add(new Sprites.Sprite(Services.TextureManager["block"]), "block");
@@ -92,6 +101,10 @@ namespace SdlTest
             Services.SpriteManager.Add(new Sprites.Sprite(Services.TextureManager["crate"]), "crate");
             Services.SpriteManager.Add(new Sprites.Sprite(Services.TextureManager["gib"]), "gib");
             Services.SpriteManager.Add(new Sprites.Sprite(Services.TextureManager["floor-blood"]), "floor-blood");
+
+            using var fontFile = File.OpenRead(Path.Combine("res", "font", "DTM-Sans.fnt"));
+            var font = new Font(fontFile, Services.TextureManager["DTM-Sans_0"]);
+            Services.Fonts.Add(font, "default");
         }
 
         private static void Update(uint time, int timePassed)
@@ -121,6 +134,10 @@ namespace SdlTest
                         player.Physics.Impulse.X = 0;
                     else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_r)
                         player.Character.Reload(time);
+                    else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_1)
+                        player.ChangeWeapon(player.WeaponOrder[0]);
+                    else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_2)
+                        player.ChangeWeapon(player.WeaponOrder[1]);
                 }
                 else if(e.type == SDL.SDL_EventType.SDL_MOUSEBUTTONDOWN)
                 {
@@ -140,6 +157,13 @@ namespace SdlTest
 
             RenderLevel(ren, Services.Session.Level);
             Services.EntityManager.RenderEntities(ren);
+
+            var font = Services.Fonts["default"];
+            var weapon = player.Character.Weapon;
+
+            font.Render(ren, weapon.Name, 700, 500);
+            font.Render(ren, $"{weapon.ClipContent} / {weapon.AmmoReserve}", 700, 520);
+            
 
             SDL.SDL_RenderPresent(ren);
             fpsCounter++;

@@ -9,6 +9,8 @@ namespace SdlTest.Sprites
     public class Sprite
     {
         public readonly IntPtr TextureId;
+        public readonly int X;
+        public readonly int Y;
         public readonly int Width;
         public readonly int Height;
 
@@ -17,6 +19,17 @@ namespace SdlTest.Sprites
             TextureId = textureId;
             SDL.SDL_QueryTexture(textureId, out _, out _, out var width, out var height);
 
+            X = 0;
+            Y = 0;
+            Width = width;
+            Height = height;
+        }
+
+        public Sprite(IntPtr textureId, int x, int y, int width, int height)
+        {
+            TextureId = textureId;
+            X = x;
+            Y = y;
             Width = width;
             Height = height;
         }
@@ -25,8 +38,8 @@ namespace SdlTest.Sprites
         {
             var source = new SDL.SDL_Rect()
             {
-                x = 0,
-                y = 0,
+                x = this.X,
+                y = this.Y,
                 w = Width,
                 h = Height
             };
@@ -46,8 +59,8 @@ namespace SdlTest.Sprites
         {
             var source = new SDL.SDL_Rect()
             {
-                x = 0,
-                y = 0,
+                x = this.X,
+                y = this.Y,
                 w = Width,
                 h = Height
             };

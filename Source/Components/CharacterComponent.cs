@@ -2,6 +2,7 @@
 using SdlTest.Entities;
 using SdlTest.Sprites;
 using SdlTest.Types;
+using SdlTest.Weapons;
 using System;
 
 namespace SdlTest.Components

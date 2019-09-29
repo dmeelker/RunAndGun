@@ -1,5 +1,6 @@
 ﻿using SdlTest.Components;
 using SdlTest.Types;
+using SdlTest.Weapons;
 using System;
 using System.Collections.Generic;
 using System.Text;
