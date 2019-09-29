@@ -66,13 +66,27 @@ namespace SdlTest.Entities
             }
         }
 
-        internal void Collect(ICollectable collectable)
+        public bool Collect(Collectable collectable)
         {
             switch(collectable)
             {
                 case WeaponCollectable weaponCollectable:
                     AddWeapon(weaponCollectable.CreateWeapon());
-                    break;
+                    return true;
+                case ArmorCollectable armorCollectable:
+                    if (Character.ArmorFull)
+                        return false;
+
+                    Character.AddArmor(5);
+                    return true;
+                case MedpackCollectable medpackCollectable:
+                    if (Character.HitpointsFull)
+                        return false;
+
+                    Character.AddHitpoints(5);
+                    return true;
+                default:
+                    throw new Exception($"Unknown collectable {collectable.GetType().Name}");
             }
         }
     }

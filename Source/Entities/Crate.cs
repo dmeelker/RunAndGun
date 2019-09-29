@@ -32,9 +32,9 @@ namespace SdlTest.Entities
             var wreckage = new Wreckage(Location + location + offset, vector);
             Services.EntityManager.Add(wreckage);
 
-            //hitpoint--;
-            //if (hitpoint == 0)
-            //    Dispose();
+            hitpoint--;
+            if (hitpoint == 0)
+                Dispose();
         }
     }
 }

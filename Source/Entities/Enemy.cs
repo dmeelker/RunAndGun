@@ -1,4 +1,5 @@
 ﻿using SdlTest.Components;
+using SdlTest.Entities.Collectables;
 using SdlTest.Types;
 using SdlTest.Weapons;
 using System;
@@ -53,37 +54,41 @@ namespace SdlTest.Entities
         {
             Physics.Impulse += vector.ToUnit() * 10;
 
-            Hitpoints -= projectile.Power;
+            Character.HitByProjectile(projectile, vector, location);
 
-            SpawnGibs(vector, location);
+            //Hitpoints -= projectile.Power;
 
-            if (Hitpoints <= 0)
-                Die();
+            //SpawnGibs(vector, location);
+
+            //if (Hitpoints <= 0)
+            //    Die();
         }
 
-        private void SpawnGibs(Vector vector, Vector location)
-        {
-            var count = Services.Random.Next(2, 5);
+        //private void SpawnGibs(Vector vector, Vector location)
+        //{
+        //    var count = Services.Random.Next(2, 5);
 
-            for (var i = 0; i < count; i++)
-            {
-                vector = vector.ToUnit() * Services.Random.Next(2, 5);
-                Services.EntityManager.Add(new Gib(Location + location, vector));
-            }
-        }
+        //    for (var i = 0; i < count; i++)
+        //    {
+        //        vector = vector.ToUnit() * Services.Random.Next(2, 5);
+        //        Services.EntityManager.Add(new Gib(Location + location, vector));
+        //    }
+        //}
 
-        private void Die()
-        {
-            for (var i = 0; i < 100; i++)
-            {
-                var angle = Services.Random.Next(0, 360) / (180.0 / Math.PI);
-                var vector = new Vector(Math.Sin(angle), Math.Cos(angle));
-                var power = Services.Random.Next(5, 10);
+        //private void Die()
+        //{
+        //    for (var i = 0; i < 100; i++)
+        //    {
+        //        var angle = Services.Random.Next(0, 360) / (180.0 / Math.PI);
+        //        var vector = new Vector(Math.Sin(angle), Math.Cos(angle));
+        //        var power = Services.Random.Next(5, 10);
                 
-                Services.EntityManager.Add(new Gib(Location + (Size * 0.5), vector * power));
-            }
+        //        Services.EntityManager.Add(new Gib(Location + (Size * 0.5), vector * power));
+        //    }
 
-            Dispose();
-        }
+        //    Services.EntityManager.Add(new WeaponCollectable(WeaponType.Shotgun, Location + (Size * 0.5)));
+
+        //    Dispose();
+        //}
     }
 }

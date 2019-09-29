@@ -1,4 +1,5 @@
 ﻿using SDL2;
+using SdlTest.Components;
 using SdlTest.Entities;
 using SdlTest.Entities.Collectables;
 using SdlTest.Levels;
@@ -57,8 +58,9 @@ namespace SdlTest
             player.AddWeapon(new Pistol());
             Services.EntityManager.Add(player);
 
-            var enemy = new Enemy(new Vector(230, 30));
-            Services.EntityManager.Add(enemy);
+            Services.EntityManager.Add(new Enemy(new Vector(230, 30)));
+            Services.EntityManager.Add(new Enemy(new Vector(100, 30)));
+            Services.EntityManager.Add(new Enemy(new Vector(400, 30)));
 
             Services.EntityManager.Add(new Crate(new Vector(400, 330)));
 
@@ -163,7 +165,9 @@ namespace SdlTest
 
             font.Render(ren, weapon.Name, 700, 500);
             font.Render(ren, $"{weapon.ClipContent} / {weapon.AmmoReserve}", 700, 520);
-            
+
+            font.Render(ren, $"HP: {player.Character.Hitpoints}/{CharacterComponent.MaxHitpoints}", 0, 500);
+            font.Render(ren, $"Armor: {player.Character.Armor}/{CharacterComponent.MaxArmor}", 0, 520);
 
             SDL.SDL_RenderPresent(ren);
             fpsCounter++;
