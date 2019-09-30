@@ -53,7 +53,9 @@ namespace SdlTest.Levels
             Cells[16, 13] = BlockType.Block;
             Cells[17, 13] = BlockType.Block;
 
-
+            Cells[20, 19] = BlockType.Block;
+            Cells[20, 18] = BlockType.Block;
+            Cells[20, 17] = BlockType.Block;
             //Cells[30, 18] = BlockType.StairRight;
             //Cells[31, 17] = BlockType.StairRight;
             //Cells[32, 16] = BlockType.StairRight;

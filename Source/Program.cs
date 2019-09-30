@@ -62,7 +62,7 @@ namespace SdlTest
             //Services.EntityManager.Add(new Enemy(new Vector(100, 30)));
             Services.EntityManager.Add(new Enemy(new Vector(500, 300)));
 
-            Services.EntityManager.Add(new Crate(new Vector(400, 330)));
+            Services.EntityManager.Add(new Crate(new Vector(600, 330)));
 
             Services.EntityManager.Add(new WeaponCollectable(WeaponType.Shotgun, new Vector(300, 330)));
 
