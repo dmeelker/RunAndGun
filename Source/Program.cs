@@ -58,9 +58,9 @@ namespace SdlTest
             player.AddWeapon(new Pistol());
             Services.EntityManager.Add(player);
 
-            Services.EntityManager.Add(new Enemy(new Vector(230, 30)));
-            Services.EntityManager.Add(new Enemy(new Vector(100, 30)));
-            Services.EntityManager.Add(new Enemy(new Vector(400, 30)));
+            //Services.EntityManager.Add(new Enemy(new Vector(230, 30)));
+            //Services.EntityManager.Add(new Enemy(new Vector(100, 30)));
+            Services.EntityManager.Add(new Enemy(new Vector(500, 300)));
 
             Services.EntityManager.Add(new Crate(new Vector(400, 330)));
 
@@ -155,10 +155,13 @@ namespace SdlTest
 
         private static void Render(uint time)
         {
+            SDL.SDL_SetRenderDrawColor(ren, 0, 0, 0, 0);
             SDL.SDL_RenderClear(ren);
 
             RenderLevel(ren, Services.Session.Level);
             Services.EntityManager.RenderEntities(ren);
+
+            CastRay(player.Location + player.Character.WeaponOffset, player.Character.AimVector);
 
             var font = Services.Fonts["default"];
             var weapon = player.Character.Weapon;
@@ -179,6 +182,32 @@ namespace SdlTest
                 lastFpsUpdateTime = time;
                 SDL.SDL_SetWindowTitle(win, "FPS: " + fps);
             }
+        }
+
+        private static void CastRay(Vector location, Vector vector, int maxDistance = 1000)
+        {
+            SDL.SDL_SetRenderDrawColor(ren, 255, 0, 0, 0);
+
+            vector = vector.ToUnit() * 10;
+
+            var currentLocation = location;
+            var step = 0;
+            while(step < maxDistance / 10)
+            {
+                step++;
+                currentLocation += vector;
+                var mapX = (int)(currentLocation.X / Level.BlockSize);
+                var mapY = (int)(currentLocation.Y / Level.BlockSize);
+
+                if(Services.Session.Level.IsPixelPassable((int)currentLocation.X, (int)currentLocation.Y) == BlockType.Block)
+                {
+                    SDL.SDL_RenderDrawLine(ren, (int)location.X, (int)location.Y, (int)(currentLocation.X), (int)(currentLocation.Y));
+                    break;
+                }
+            }
+
+            //SDL.SDL_RenderDrawLine(ren, (int)location.X, (int)location.Y, (int)(location.X + vector.X), (int)(location.Y + vector.Y));
+            
         }
 
         private static void RenderLevel(IntPtr ren, Level level)

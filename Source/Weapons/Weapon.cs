@@ -24,6 +24,7 @@ namespace SdlTest.Weapons
         public int ClipSize { get; private set; }
         public int ClipContent { get; private set; }
         public int AmmoReserve { get; private set; }
+        public bool InfiniteAmmo { get; set; } = false;
 
         private State state = State.ReadyToFire;
         private uint stateEntranceTime = 0;
@@ -52,17 +53,21 @@ namespace SdlTest.Weapons
             if (state != State.ReadyToFire)
                 return;
 
-            if (AmmoReserve == 0)
+            if (!InfiniteAmmo && AmmoReserve == 0)
             {
                 Console.WriteLine("Out of ammo!");
                 return;
             }
 
             var ammoToLoad = ClipSize - ClipContent;
-            ammoToLoad = Math.Min(ammoToLoad, AmmoReserve);
+
+            if (!InfiniteAmmo)
+            {
+                ammoToLoad = Math.Min(ammoToLoad, AmmoReserve);
+                AmmoReserve -= ammoToLoad;
+            }
 
             ClipContent += ammoToLoad;
-            AmmoReserve -= ammoToLoad;
             WriteAmmoUpdate();
 
             ChangeState(State.Reloading, time);
@@ -90,7 +95,7 @@ namespace SdlTest.Weapons
             if (state != State.ReadyToFire)
                 return;
 
-            if (!CanFire())
+            if (ReloadNeeded)
             {
                 Console.WriteLine("Reload!");
                 return; // Reload needed
@@ -107,7 +112,7 @@ namespace SdlTest.Weapons
         protected abstract void FireInternal(uint time, Entity source, Vector location, Vector vector);
         public abstract void Render(IntPtr rendererId, Vector location, Vector vector);
 
-        protected bool CanFire() => ClipContent > 0;
+        public bool ReloadNeeded => ClipContent == 0;
         protected void ReduceAmmo()
         {
             ClipContent--;

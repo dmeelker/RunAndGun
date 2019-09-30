@@ -1,14 +1,32 @@
+[ ] Basic AI
+[ ] Scrolling level
+
 [ ] Animations
 [ ] Moving platforms
 [ ] Composite entities / scene graph
 [ ] Stairs
-[ ] Scrolling level
 [ ] Interactive elements
 [ ] Weapons
 [ ] Support weapons (grenades and such)
-[ ] Life and armor
+[x] Life and armor
 [ ] Bullet time
 [ ] Level layers
 [ ] Level loading
 [ ] Level editing
 [ ] Enemy AI
+
+
+== AI notes
+
+Basic
+- Look for player
+- Can I hit him from here?
+- Fire/do something else
+
+- Fire at player
+- Find cover
+- Sudden movements to distract
+- Different profiles (snipers stay back and high, shotgunners move in close)
+- Patrols
+- Scripted ambushes
+- Noise alerts guards

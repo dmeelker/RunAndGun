@@ -10,7 +10,7 @@ using System.Text;
 
 namespace SdlTest.Entities
 {
-    public class PlayerEntity : Entity
+    public class PlayerEntity : Entity, IProjectileCollider
     {
         public readonly PhysicsComponent Physics;
         public readonly CharacterComponent Character;
@@ -88,6 +88,11 @@ namespace SdlTest.Entities
                 default:
                     throw new Exception($"Unknown collectable {collectable.GetType().Name}");
             }
+        }
+
+        public void HitByProjectile(Projectile projectile, Vector vector, Vector location)
+        {
+            Character.HitByProjectile(projectile, vector, location);
         }
     }
 }
