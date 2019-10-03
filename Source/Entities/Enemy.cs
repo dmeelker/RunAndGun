@@ -30,9 +30,13 @@ namespace SdlTest.Entities
 
         public override void Update(uint time, int ticksPassed)
         {
-            Target = Services.EntityManager.FindEntities(new Rect(Location.X - SenseRange, Location.Y - SenseRange, SenseRange * 2, SenseRange * 2)).Where(entity => entity is PlayerEntity).FirstOrDefault();
+            var newTarget = Services.EntityManager.FindEntities(new Rect(Location.X - SenseRange, Location.Y - SenseRange, SenseRange * 2, SenseRange * 2)).Where(entity => entity is PlayerEntity).FirstOrDefault();
 
-            if(Target != null && FacingTowardsTarget(Target) && CanSeeTarget(Target))
+            if (newTarget != null && FacingTowardsTarget(newTarget) && CanSeeTarget(newTarget))
+            {
+                Target = newTarget;
+            }
+            else if (Target != null && CanSeeTarget(Target))
             {
                 Character.AimAt((int)Target.Location.X, (int)Target.Location.Y);
                 if (Character.Weapon.ReloadNeeded)
@@ -44,22 +48,8 @@ namespace SdlTest.Entities
                     Character.Fire(time);
             }
 
-            //if (Character.Direction == Direction.Right)
-            //{
-            //    Physics.Impulse.X += 5;
-            //} 
-            //else if (Character.Direction == Direction.Left)
-            //{
-            //    Physics.Impulse.X -= 5;
-            //}
-
             Physics.Update(ticksPassed, Services.Session.Level);
             Physics.Impulse = Vector.Zero;
-
-            //if (Physics.HorizontalCollision.Collision)
-            //{
-            //    Character.Direction = Character.Direction == Direction.Right ? Direction.Left : Direction.Right;
-            //}
 
             Character.Update(time, ticksPassed);
         }
@@ -70,7 +60,10 @@ namespace SdlTest.Entities
 
         private bool CanSeeTarget(Entity target)
         {
-            var result = RayCaster.CastRay(Services.Session.Level, Location, Target.Location - Location, 500);
+            var vector = target.Location - Location;
+            var maxDistance = (int) Math.Min(vector.Length, 500);
+
+            var result = RayCaster.CastRay(Services.Session.Level, Location, vector, maxDistance);
             return !result.Hit;
         }
 

@@ -59,18 +59,14 @@ namespace SdlTest.Components
 
         public void Render(IntPtr rendererId)
         {
-            sprite.Draw(rendererId, (int)entity.Location.X, (int)entity.Location.Y);
-
-            var angle = AimVector.AngleInDegrees;
-
-            if (angle > -90 && angle < 90)
+            if (Direction == Direction.Right)
             {
-                // Aiming right
+                sprite.DrawEx(rendererId, (int)entity.Location.X, (int)entity.Location.Y, 0, null, SDL.SDL_RendererFlip.SDL_FLIP_NONE);
                 Weapon.Render(rendererId, new Vector(entity.Location.X + 10, entity.Location.Y + 12), AimVector);
             }
             else
             {
-                // Aiming left
+                sprite.DrawEx(rendererId, (int)entity.Location.X, (int)entity.Location.Y, 0, null, SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL);
                 Weapon.Render(rendererId, new Vector(entity.Location.X + entity.Size.X - 10, entity.Location.Y + 12), AimVector);
             }
         }
