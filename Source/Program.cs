@@ -26,6 +26,7 @@ namespace SdlTest
         static PlayerEntity player;
 
         static bool quit = false;
+        static Point viewOffset;
 
         static void Main(string[] args)
         {
@@ -212,33 +213,16 @@ namespace SdlTest
 
         private static void RenderLevel(IntPtr ren, Level level)
         {
-            var source = new SDL.SDL_Rect()
-            {
-                x = 0,
-                y = 0,
-                w = 30,
-                h = 30
-            };
+            var block = Services.SpriteManager["block"];
 
-            var rect = new SDL.SDL_Rect()
-            {
-                x = 0,
-                y = 0,
-                w = Level.BlockSize,
-                h = Level.BlockSize
-            };
-
-            var blockTexture = Services.TextureManager["block"];
+            //var drawPoint = new Point()
 
             for (int x=0; x<level.Width; x++)
             {
                 for (int y = 0; y < level.Height; y++)
                 {
-                    rect.x = x * Level.BlockSize;
-                    rect.y = y * Level.BlockSize;
-
-                    if(level.Cells[x, y] != BlockType.Open)
-                        SDL.SDL_RenderCopy(ren, blockTexture, ref source, ref rect);
+                    if (level.Cells[x, y] != BlockType.Open)
+                        block.Draw(ren, x * Level.BlockSize, y * Level.BlockSize);
                 }
             }
         }
