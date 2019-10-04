@@ -38,11 +38,11 @@ namespace SdlTest.Entities
             }
         }
 
-        public override void Render(IntPtr rendererId)
+        public override void Render(IntPtr rendererId, Point viewOffset)
         {
             var angle = (Location.X - creationLocation.X) * 2.8;
 
-            sprite.DrawEx(rendererId, (int)Location.X, (int)Location.Y, angle, null, SDL.SDL_RendererFlip.SDL_FLIP_NONE);
+            sprite.DrawEx(rendererId, Location.ToPoint() - viewOffset, angle, null, SDL.SDL_RendererFlip.SDL_FLIP_NONE);
         }
     }
 }

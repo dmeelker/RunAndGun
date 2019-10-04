@@ -38,7 +38,7 @@ namespace SdlTest.Entities
             }
             else if (Target != null && CanSeeTarget(Target))
             {
-                Character.AimAt((int)Target.Location.X, (int)Target.Location.Y);
+                Character.AimAt(Target.Location.ToPoint());
                 if (Character.Weapon.ReloadNeeded)
                 {
                     MoveToCover();
@@ -77,9 +77,9 @@ namespace SdlTest.Entities
                 return false;
         }
 
-        public override void Render(IntPtr rendererId)
+        public override void Render(IntPtr rendererId, Point viewOffset)
         {
-            Character.Render(rendererId);
+            Character.Render(rendererId, viewOffset);
         }
 
         public void HitByProjectile(Projectile projectile, Vector vector, Vector location)

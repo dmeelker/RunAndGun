@@ -27,6 +27,12 @@ namespace SdlTest
 
         static bool quit = false;
         static Point viewOffset;
+        static Point viewSize = new Point(WindowWidth, WindowHeight);
+        static Point viewSizeHalf = new Point(WindowWidth / 2, WindowHeight / 2);
+
+
+        const int WindowWidth = 800;
+        const int WindowHeight = 600;
 
         static void Main(string[] args)
         {
@@ -35,8 +41,8 @@ namespace SdlTest
             win = SDL.SDL_CreateWindow(".NET Core SDL2-CS Tutorial",
                 SDL.SDL_WINDOWPOS_CENTERED,
                 SDL.SDL_WINDOWPOS_CENTERED,
-                800,
-                600,
+                WindowWidth,
+                WindowHeight,
                 SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN
             );
 
@@ -149,9 +155,11 @@ namespace SdlTest
             }
 
             SDL.SDL_GetMouseState(out var x, out var y);
-            player.AimAt(x, y);
+            player.AimAt(new Point(x, y) + viewOffset);
 
             Services.EntityManager.UpdateEntities(time, timePassed);
+
+            viewOffset = player.Location.ToPoint() - viewSizeHalf;
         }
 
         private static void Render(uint time)
@@ -160,9 +168,9 @@ namespace SdlTest
             SDL.SDL_RenderClear(ren);
 
             RenderLevel(ren, Services.Session.Level);
-            Services.EntityManager.RenderEntities(ren);
+            Services.EntityManager.RenderEntities(ren, viewOffset);
 
-            CastRay(player.Location + player.Character.WeaponOffset, player.Character.AimVector);
+            //CastRay(player.Location + player.Character.WeaponOffset, player.Character.AimVector);
 
             var font = Services.Fonts["default"];
             var weapon = player.Character.Weapon;
@@ -213,17 +221,26 @@ namespace SdlTest
 
         private static void RenderLevel(IntPtr ren, Level level)
         {
-            var block = Services.SpriteManager["block"];
+            var blockSprite = Services.SpriteManager["block"];
 
-            //var drawPoint = new Point()
+            var tileCount = new Point((WindowWidth / Level.BlockSize) + 2, (WindowHeight / Level.BlockSize) + 2);
+            var tileStart = new Point(viewOffset.X / Level.BlockSize, viewOffset.Y / Level.BlockSize);
+            var tileEnd = tileStart + tileCount;
+            var drawStart = new Point(-(viewOffset.X % Level.BlockSize), -(viewOffset.Y % Level.BlockSize));
+            var drawLocation = drawStart;
 
-            for (int x=0; x<level.Width; x++)
+            for (int x = tileStart.X; x < tileEnd.X; x++)
             {
-                for (int y = 0; y < level.Height; y++)
+                drawLocation.Y = drawStart.Y;
+                for (int y = tileStart.Y; y < tileEnd.Y; y++)
                 {
-                    if (level.Cells[x, y] != BlockType.Open)
-                        block.Draw(ren, x * Level.BlockSize, y * Level.BlockSize);
+                    var blockType = level.GetBlock(x, y);
+                    if (blockType == BlockType.Block)
+                        blockSprite.Draw(ren, drawLocation);
+
+                    drawLocation.Y += Level.BlockSize;
                 }
+                drawLocation.X += Level.BlockSize;
             }
         }
     }

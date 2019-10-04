@@ -20,7 +20,7 @@ namespace SdlTest.Entities
 
         public PlayerEntity(Vector location)
         {
-            Physics = new PhysicsComponent(this);
+            Physics = new PhysicsComponent(this) { applyGravity = true };
             Character = new CharacterComponent(this, Services.SpriteManager["player"], new Pistol());
 
             Location = location;
@@ -33,9 +33,9 @@ namespace SdlTest.Entities
             Character.Update(time, ticksPassed);
         }
 
-        public void AimAt(int x, int y)
+        public void AimAt(Point point)
         {
-            Character.AimAt(x, y);
+            Character.AimAt(point);
         }
 
         public void Fire(uint time)
@@ -43,9 +43,9 @@ namespace SdlTest.Entities
             Character.Fire(time);
         }
 
-        public override void Render(IntPtr rendererId)
+        public override void Render(IntPtr rendererId, Point viewOffset)
         {
-            Character.Render(rendererId);
+            Character.Render(rendererId, viewOffset);
         }
 
         public void ChangeWeapon(WeaponType weaponType)

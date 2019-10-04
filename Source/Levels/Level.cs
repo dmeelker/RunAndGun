@@ -63,10 +63,18 @@ namespace SdlTest.Levels
 
         public BlockType IsPixelPassable(int x, int y)
         {
-            if (x <= 0 || x >= WidthInPixels || y <= 0 || y >= HeightInPixels)
+            if (x < 0 || x >= WidthInPixels || y < 0 || y >= HeightInPixels)
                 return BlockType.Block;
 
             return Cells[x / BlockSize, y / BlockSize];
+        }
+
+        public BlockType GetBlock(int x, int y)
+        {
+            if (x < 0 || x >= Width || y < 0 || y >= Height)
+                return BlockType.Open;
+
+            return Cells[x, y];
         }
     }
 }

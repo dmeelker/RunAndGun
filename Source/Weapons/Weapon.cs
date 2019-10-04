@@ -110,7 +110,7 @@ namespace SdlTest.Weapons
         public abstract string Name { get; }
         public abstract WeaponType WeaponType { get; }
         protected abstract void FireInternal(uint time, Entity source, Vector location, Vector vector);
-        public abstract void Render(IntPtr rendererId, Vector location, Vector vector);
+        public abstract void Render(IntPtr rendererId, Point location, Vector vector);
 
         public bool ReloadNeeded => ClipContent == 0;
         protected void ReduceAmmo()

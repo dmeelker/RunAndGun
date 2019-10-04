@@ -19,9 +19,9 @@ namespace SdlTest.Entities
             sprite = Services.SpriteManager["crate"];
         }
 
-        public override void Render(IntPtr rendererId)
+        public override void Render(IntPtr rendererId, Point viewOffset)
         {
-            sprite.Draw(rendererId, (int)Location.X, (int)Location.Y);
+            sprite.Draw(rendererId, Location.ToPoint() - viewOffset);
         }
 
         public void HitByProjectile(Projectile projectile, Vector vector, Vector location)

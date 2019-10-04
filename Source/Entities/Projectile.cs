@@ -73,9 +73,9 @@ namespace SdlTest.Entities
             }
         }
 
-        public override void Render(IntPtr rendererId)
+        public override void Render(IntPtr rendererId, Point viewOffset)
         {
-            sprite.Draw(rendererId, (int)Location.X, (int)Location.Y);
+            sprite.Draw(rendererId, Location.ToPoint() - viewOffset);
         }
     }
 }

@@ -17,7 +17,7 @@ namespace SdlTest.Entities
         public virtual void Update(uint time, int ticksPassed)
         { }
 
-        public virtual void Render(IntPtr rendererId)
+        public virtual void Render(IntPtr rendererId, Point viewOffset)
         { }
 
         public void Dispose()

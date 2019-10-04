@@ -62,6 +62,11 @@ namespace SdlTest.Types
             };
         }
 
+        public Point ToPoint()
+        {
+            return new Point((int)X, (int)Y);
+        }
+
         public double AngleInDegrees => Angles.ToDegrees(Math.Atan2(Y, X));
 
         public override string ToString()

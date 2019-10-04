@@ -40,11 +40,11 @@ namespace SdlTest.Entities
             disposableEntities.Clear();
         }
 
-        public void RenderEntities(IntPtr rendererId)
+        public void RenderEntities(IntPtr rendererId, Point viewOffset)
         {
             foreach (var entity in entities)
             {
-                entity.Render(rendererId);
+                entity.Render(rendererId, viewOffset);
             }
         }
 

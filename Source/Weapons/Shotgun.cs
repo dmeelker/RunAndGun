@@ -30,13 +30,13 @@ namespace SdlTest.Weapons
             }
         }
 
-        public override void Render(IntPtr rendererId, Vector location, Vector vector)
+        public override void Render(IntPtr rendererId, Point location, Vector vector)
         {
             var angle = vector.AngleInDegrees;
             var center = new Vector(0, sprite.Height / 2);
             var flip = angle > -90 && angle < 90 ? SDL.SDL_RendererFlip.SDL_FLIP_NONE : SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
 
-            sprite.DrawEx(rendererId, (int)location.X, (int)location.Y, vector.AngleInDegrees, center, flip);
+            sprite.DrawEx(rendererId, location, vector.AngleInDegrees, center, flip);
         }
     }
 }

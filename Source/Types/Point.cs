@@ -28,6 +28,15 @@ namespace SdlTest.Types
             };
         }
 
+        public Point Add(int x, int y)
+        {
+            return new Point
+            {
+                X = this.X + x,
+                Y = this.Y + y
+            };
+        }
+
         public static Point operator -(Point a, Point b)
         {
             return new Point

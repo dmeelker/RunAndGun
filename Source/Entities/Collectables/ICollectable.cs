@@ -21,9 +21,9 @@ namespace SdlTest.Entities.Collectables
             Size = new Vector(sprite.Width, sprite.Height);
         }
 
-        public override void Render(IntPtr rendererId)
+        public override void Render(IntPtr rendererId, Point viewOffset)
         {
-            sprite.Draw(rendererId, (int)Location.X, (int)Location.Y + yOffset);
+            sprite.Draw(rendererId, (Location.ToPoint() - viewOffset).Add(0, yOffset));
         }
 
         public override void Update(uint time, int ticksPassed)

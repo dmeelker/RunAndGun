@@ -18,9 +18,9 @@ namespace SdlTest.Entities
             Size = new Vector(8, 4);
         }
 
-        public override void Render(IntPtr rendererId)
+        public override void Render(IntPtr rendererId, Point viewOffset)
         {
-            sprite.Draw(rendererId, (int)Location.X, (int)Location.Y);
+            sprite.Draw(rendererId, Location.ToPoint() - viewOffset);
         }
     }
 }
