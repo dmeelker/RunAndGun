@@ -8,7 +8,7 @@ namespace SdlTest.Entities.Collectables
 {
     class ArmorCollectable : Collectable
     {
-        public ArmorCollectable(Vector location) : base(location, Services.SpriteManager["shotgun"])
+        public ArmorCollectable(Vector location) : base(location, Services.Sprites["shotgun"])
         {
         }
     }

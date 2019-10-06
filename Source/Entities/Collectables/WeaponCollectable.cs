@@ -22,8 +22,8 @@ namespace SdlTest.Entities.Collectables
         {
             return weaponType switch
             {
-                WeaponType.Pistol => Services.SpriteManager["shotgun"],
-                WeaponType.Shotgun => Services.SpriteManager["shotgun"],
+                WeaponType.Pistol => Services.Sprites["shotgun"],
+                WeaponType.Shotgun => Services.Sprites["shotgun"],
                 _ => throw new Exception()
             };
         }

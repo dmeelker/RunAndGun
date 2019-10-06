@@ -16,7 +16,7 @@ namespace SdlTest.Entities
         {
             Location = location;
             Size = new Vector(50, 50);
-            sprite = Services.SpriteManager["crate"];
+            sprite = Services.Sprites["crate"];
         }
 
         public override void Render(IntPtr rendererId, Point viewOffset)

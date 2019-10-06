@@ -21,7 +21,7 @@ namespace SdlTest.Entities
         public PlayerEntity(Vector location)
         {
             Physics = new PhysicsComponent(this) { applyGravity = true };
-            Character = new CharacterComponent(this, Services.SpriteManager["player"], new Pistol());
+            Character = new CharacterComponent(this, Services.Sprites["player"], new Pistol());
 
             Location = location;
             Size = new Vector(30, 30);

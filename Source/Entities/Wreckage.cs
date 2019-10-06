@@ -25,7 +25,7 @@ namespace SdlTest.Entities
             Location = location;
             Size = new Vector(10, 10);
             velocity = vector;
-            sprite = Services.SpriteManager["crate"];
+            sprite = Services.Sprites["crate"];
         }
 
         public override void Update(uint time, int ticksPassed)

@@ -30,7 +30,6 @@ namespace SdlTest
         static Point viewSize = new Point(WindowWidth, WindowHeight);
         static Point viewSizeHalf = new Point(WindowWidth / 2, WindowHeight / 2);
 
-
         const int WindowWidth = 800;
         const int WindowHeight = 600;
 
@@ -86,7 +85,7 @@ namespace SdlTest
                 Render(time);
             }
 
-            Services.TextureManager.Cleanup();
+            Services.Textures.Cleanup();
             SDL.SDL_DestroyRenderer(ren);
             SDL.SDL_DestroyWindow(win);
             SDL.SDL_Quit();
@@ -94,25 +93,27 @@ namespace SdlTest
 
         private static void LoadTextures()
         {
-            Services.TextureManager.LoadTexture(ren, "res/test.png", "player");
-            Services.TextureManager.LoadTexture(ren, "res/block.png", "block");
-            Services.TextureManager.LoadTexture(ren, "res/projectile.png", "projectile");
-            Services.TextureManager.LoadTexture(ren, "res/shotgun.png", "shotgun");
-            Services.TextureManager.LoadTexture(ren, "res/crate.png", "crate");
-            Services.TextureManager.LoadTexture(ren, "res/gib.png", "gib");
-            Services.TextureManager.LoadTexture(ren, "res/floor-blood.png", "floor-blood");
-            Services.TextureManager.LoadTexture(ren, "res/Font/DTM-Sans_0.png", "DTM-Sans_0");
+            Services.Textures.LoadTexture(ren, "res/test.png", "player");
+            Services.Textures.LoadTexture(ren, "res/block.png", "block");
+            Services.Textures.LoadTexture(ren, "res/projectile.png", "projectile");
+            Services.Textures.LoadTexture(ren, "res/shotgun.png", "shotgun");
+            Services.Textures.LoadTexture(ren, "res/crate.png", "crate");
+            Services.Textures.LoadTexture(ren, "res/gib.png", "gib");
+            Services.Textures.LoadTexture(ren, "res/floor-blood.png", "floor-blood");
+            Services.Textures.LoadTexture(ren, "res/Font/DTM-Sans_0.png", "DTM-Sans_0");
+            Services.Textures.LoadTexture(ren, "res/backdrop.png", "backdrop");
 
-            Services.SpriteManager.Add(new Sprites.Sprite(Services.TextureManager["player"]), "player");
-            Services.SpriteManager.Add(new Sprites.Sprite(Services.TextureManager["block"]), "block");
-            Services.SpriteManager.Add(new Sprites.Sprite(Services.TextureManager["projectile"]), "projectile");
-            Services.SpriteManager.Add(new Sprites.Sprite(Services.TextureManager["shotgun"]), "shotgun");
-            Services.SpriteManager.Add(new Sprites.Sprite(Services.TextureManager["crate"]), "crate");
-            Services.SpriteManager.Add(new Sprites.Sprite(Services.TextureManager["gib"]), "gib");
-            Services.SpriteManager.Add(new Sprites.Sprite(Services.TextureManager["floor-blood"]), "floor-blood");
+            Services.Sprites.Add(new Sprites.Sprite(Services.Textures["player"]), "player");
+            Services.Sprites.Add(new Sprites.Sprite(Services.Textures["block"]), "block");
+            Services.Sprites.Add(new Sprites.Sprite(Services.Textures["projectile"]), "projectile");
+            Services.Sprites.Add(new Sprites.Sprite(Services.Textures["shotgun"]), "shotgun");
+            Services.Sprites.Add(new Sprites.Sprite(Services.Textures["crate"]), "crate");
+            Services.Sprites.Add(new Sprites.Sprite(Services.Textures["gib"]), "gib");
+            Services.Sprites.Add(new Sprites.Sprite(Services.Textures["floor-blood"]), "floor-blood");
+            Services.Sprites.Add(new Sprites.Sprite(Services.Textures["backdrop"]), "backdrop");
 
             using var fontFile = File.OpenRead(Path.Combine("res", "font", "DTM-Sans.fnt"));
-            var font = new Font(fontFile, Services.TextureManager["DTM-Sans_0"]);
+            var font = new Font(fontFile, Services.Textures["DTM-Sans_0"]);
             Services.Fonts.Add(font, "default");
         }
 
@@ -159,13 +160,21 @@ namespace SdlTest
 
             Services.EntityManager.UpdateEntities(time, timePassed);
 
+            CenterViewOnPlayer();
+        }
+
+        private static void CenterViewOnPlayer()
+        {
             viewOffset = player.Location.ToPoint() - viewSizeHalf;
+            viewOffset.Y = Math.Min(viewOffset.Y, Services.Session.Level.HeightInPixels - WindowHeight);
         }
 
         private static void Render(uint time)
         {
             SDL.SDL_SetRenderDrawColor(ren, 0, 0, 0, 0);
             SDL.SDL_RenderClear(ren);
+
+            //Services.Sprites["backdrop"].Draw(ren, new Point(0, 0));
 
             RenderLevel(ren, Services.Session.Level);
             Services.EntityManager.RenderEntities(ren, viewOffset);
@@ -221,7 +230,7 @@ namespace SdlTest
 
         private static void RenderLevel(IntPtr ren, Level level)
         {
-            var blockSprite = Services.SpriteManager["block"];
+            var blockSprite = Services.Sprites["block"];
 
             var tileCount = new Point((WindowWidth / Level.BlockSize) + 2, (WindowHeight / Level.BlockSize) + 2);
             var tileStart = new Point(viewOffset.X / Level.BlockSize, viewOffset.Y / Level.BlockSize);

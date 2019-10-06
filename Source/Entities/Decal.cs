@@ -13,7 +13,7 @@ namespace SdlTest.Entities
 
         public Decal(Vector location)
         {
-            sprite = Services.SpriteManager["floor-blood"];
+            sprite = Services.Sprites["floor-blood"];
             Location = location;
             Size = new Vector(8, 4);
         }

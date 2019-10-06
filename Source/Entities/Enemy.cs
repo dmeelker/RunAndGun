@@ -22,7 +22,7 @@ namespace SdlTest.Entities
         public Enemy(Vector location)
         {
             Physics = new PhysicsComponent(this);
-            Character = new CharacterComponent(this, Services.SpriteManager["player"], new Pistol() { InfiniteAmmo = true });
+            Character = new CharacterComponent(this, Services.Sprites["player"], new Pistol() { InfiniteAmmo = true });
 
             Location = location;
             Size = new Vector(30, 30);

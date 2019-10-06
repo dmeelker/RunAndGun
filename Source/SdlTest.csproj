@@ -29,6 +29,9 @@
     <None Update="libwebp-7.dll">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
+    <None Update="res\backdrop.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="res\block.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

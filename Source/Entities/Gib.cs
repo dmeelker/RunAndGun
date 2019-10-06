@@ -20,7 +20,7 @@ namespace SdlTest.Entities
                 Velocity = vector
             };
 
-            sprite = Services.SpriteManager["gib"];
+            sprite = Services.Sprites["gib"];
             creationLocation = location;
             Location = location;
             Size = new Vector(8, 8);

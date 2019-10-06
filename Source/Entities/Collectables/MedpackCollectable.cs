@@ -8,7 +8,7 @@ namespace SdlTest.Entities.Collectables
 {
     public class MedpackCollectable : Collectable
     {
-        public MedpackCollectable(Vector location) : base(location, Services.SpriteManager["shotgun"])
+        public MedpackCollectable(Vector location) : base(location, Services.Sprites["shotgun"])
         {
         }
     }

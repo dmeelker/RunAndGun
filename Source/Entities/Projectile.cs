@@ -22,7 +22,7 @@ namespace SdlTest.Entities
 
         public Projectile(Entity source, Vector location, Vector velocity, int power, int maxDistance)
         {
-            this.sprite = Services.SpriteManager["projectile"];
+            this.sprite = Services.Sprites["projectile"];
             this.source = source;
             this.Power = power;
             this.maxDistance = maxDistance;

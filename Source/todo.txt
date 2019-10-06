@@ -1,5 +1,6 @@
 [ ] Basic AI
-[ ] Scrolling level
+[x] Scrolling level
+[x] Life and armor
 
 [ ] Animations
 [ ] Moving platforms
@@ -8,7 +9,6 @@
 [ ] Interactive elements
 [ ] Weapons
 [ ] Support weapons (grenades and such)
-[x] Life and armor
 [ ] Bullet time
 [ ] Level layers
 [ ] Level loading
