@@ -6,22 +6,22 @@ using System;
 
 namespace SdlTest.Weapons
 {
-    public class Pistol : Weapon
+    public class SniperRifle : Weapon
     {
-        public override WeaponType WeaponType => WeaponType.Pistol;
-        public override string Name => "Pistol";
+        public override WeaponType WeaponType => WeaponType.SniperRifle;
+        public override string Name => "Sniper Rifle";
 
         private readonly Sprite sprite;
 
-        public Pistol() : base(12, 150, 1500)
+        public SniperRifle() : base(12, 600, 1500)
         {
-            sprite = Services.Sprites["pistol"];
+            sprite = Services.Sprites["sniperrifle"];
         }
 
         protected override void FireInternal(uint time, Entity source, Vector location, Vector vector)
         {
             var sourceLocation = location + vector.ToUnit() * sprite.Width;
-            var projectile = new Projectile(source, sourceLocation, vector * 40, 2, 800);
+            var projectile = new Projectile(source, sourceLocation, vector * 100, 7, 800);
             Services.EntityManager.Add(projectile);
         }
 
@@ -30,6 +30,8 @@ namespace SdlTest.Weapons
             var angle = vector.AngleInDegrees;
             var center = new Vector(0, sprite.Height / 2);
             var flip = angle > -90 && angle < 90 ? SDL.SDL_RendererFlip.SDL_FLIP_NONE : SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
+
+            location -= vector.ToUnit() * 8;
 
             sprite.DrawEx(rendererId, location, vector.AngleInDegrees, center, flip);
         }

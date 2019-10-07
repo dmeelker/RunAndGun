@@ -15,8 +15,9 @@ namespace SdlTest.Entities
         public readonly PhysicsComponent Physics;
         public readonly CharacterComponent Character;
 
-        public readonly WeaponType[] WeaponOrder = new WeaponType[] { WeaponType.Pistol, WeaponType.Shotgun };
+        public readonly WeaponType[] WeaponOrder = new WeaponType[] { WeaponType.Pistol, WeaponType.Shotgun, WeaponType.SubmachineGun, WeaponType.SniperRifle };
         private readonly Dictionary<WeaponType, Weapon> weapons = new Dictionary<WeaponType, Weapon>();
+        private bool firing = false;
 
         public PlayerEntity(Vector location)
         {
@@ -29,6 +30,9 @@ namespace SdlTest.Entities
 
         public override void Update(uint time, int ticksPassed)
         {
+            if (firing)
+                Character.Fire(time);
+
             Physics.Update(ticksPassed, Services.Session.Level);
             Character.Update(time, ticksPassed);
         }
@@ -38,9 +42,14 @@ namespace SdlTest.Entities
             Character.AimAt(point);
         }
 
-        public void Fire(uint time)
+        public void BeginFiring(uint time)
         {
-            Character.Fire(time);
+            Character.BeginFiring(time);
+        }
+
+        public void StopFiring()
+        {
+            Character.StopFiring();
         }
 
         public override void Render(IntPtr rendererId, Point viewOffset)

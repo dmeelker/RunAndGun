@@ -3,25 +3,30 @@ using SdlTest.Entities;
 using SdlTest.Sprites;
 using SdlTest.Types;
 using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace SdlTest.Weapons
 {
-    public class Pistol : Weapon
+    public class SubmachineGun : Weapon
     {
-        public override WeaponType WeaponType => WeaponType.Pistol;
-        public override string Name => "Pistol";
+        public override WeaponType WeaponType => WeaponType.SubmachineGun;
+        public override string Name => "Submachine gun";
 
         private readonly Sprite sprite;
 
-        public Pistol() : base(12, 150, 1500)
+        public SubmachineGun() : base(50, 100, 1900)
         {
-            sprite = Services.Sprites["pistol"];
+            sprite = Services.Sprites["submachinegun"];
+            AutomaticFire = true;
         }
 
         protected override void FireInternal(uint time, Entity source, Vector location, Vector vector)
         {
+            var angle = vector.AngleInDegrees + Services.Random.Next(-2, 2);
+            var projectileVector = Vector.FromAngleInDegrees(angle);
             var sourceLocation = location + vector.ToUnit() * sprite.Width;
-            var projectile = new Projectile(source, sourceLocation, vector * 40, 2, 800);
+            var projectile = new Projectile(source, sourceLocation, projectileVector * 40, 1, 800);
             Services.EntityManager.Add(projectile);
         }
 

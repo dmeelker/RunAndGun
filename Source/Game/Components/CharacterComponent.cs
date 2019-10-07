@@ -21,8 +21,11 @@ namespace SdlTest.Components
         public Direction Direction = Direction.Right;
         public const int MaxArmor = 10;
         public const int MaxHitpoints = 10;
+        public const int MaxAccuracy = 15;
         public int Hitpoints = MaxHitpoints;
         public int Armor = 0;
+
+        private bool firing = false;
 
         public CharacterComponent(Entity entity, Sprite textureId, Weapon weapon)
         {
@@ -33,18 +36,41 @@ namespace SdlTest.Components
 
         public void Update(uint time, int ticksPassed)
         {
+            if (Weapon.AutomaticFire && firing)
+                Fire(time);
+
             Weapon.Update(time);
         }
 
-        public void AimAt(Point point)
+        public void AimAt(Point point, int accuracy = MaxAccuracy)
         {
-            var vector = (new Vector(point.X - 4, point.Y - 4) - entity.Location).ToUnit();
+            var vector = (new Vector(point.X - 4, point.Y - 4) - entity.Location - WeaponLocation).ToUnit();
             var angle = vector.AngleInDegrees;
+
+            if (accuracy < MaxAccuracy)
+            {
+                var rangeInDegrees = MaxAccuracy - accuracy;
+                var deviation = Services.Random.Next(0, rangeInDegrees) - (rangeInDegrees / 2);
+                angle += deviation;
+                vector = Vector.FromAngleInDegrees(angle);
+            }
 
             Direction = angle > -90 && angle < 90 ? Direction.Right : Direction.Left;
             WeaponLocation = Direction == Direction.Right ? new Vector(18, 12) : new Vector(entity.Size.X - 18, 12);
+            AimVector = vector;
+        }
 
-            AimVector = (new Vector(point.X - 4, point.Y - 4) - entity.Location - WeaponLocation).ToUnit();
+        public void BeginFiring(uint time)
+        {
+            if (!firing)
+                Fire(time);
+
+            firing = true;
+        }
+
+        public void StopFiring()
+        {
+            firing = false;
         }
 
         public void Fire(uint time)

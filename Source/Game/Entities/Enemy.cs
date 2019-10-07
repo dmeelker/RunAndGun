@@ -2,6 +2,7 @@
 using SdlTest.Entities.Collectables;
 using SdlTest.Levels;
 using SdlTest.Types;
+using SdlTest.Utilities;
 using SdlTest.Weapons;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,12 @@ namespace SdlTest.Entities
 
         public Entity Target;
         public int SenseRange = 400;
-        
+
+        public int Accuracy = 0;
+
+        private TickTimer updateTimer = new TickTimer(100);
+        private TickTimer fireTimer = new TickTimer(1000);
+
         public Enemy(Vector location)
         {
             Physics = new PhysicsComponent(this);
@@ -30,15 +36,28 @@ namespace SdlTest.Entities
 
         public override void Update(uint time, int ticksPassed)
         {
+            if (updateTimer.Update(time))
+            {
+                RunAi(time);
+            }
+
+            Physics.Update(ticksPassed, Services.Session.Level);
+            Physics.Impulse = Vector.Zero;
+
+            Character.Update(time, ticksPassed);
+        }
+
+        private void RunAi(uint time)
+        {
             var newTarget = Services.EntityManager.FindEntities(new Rect(Location.X - SenseRange, Location.Y - SenseRange, SenseRange * 2, SenseRange * 2)).Where(entity => entity is PlayerEntity).FirstOrDefault();
 
-            if (newTarget != null && FacingTowardsTarget(newTarget) && CanSeeTarget(newTarget))
+            if (Target == null && newTarget != null && FacingTowardsTarget(newTarget) && CanSeeTarget(newTarget))
             {
                 Target = newTarget;
             }
             else if (Target != null && CanSeeTarget(Target))
             {
-                Character.AimAt(Target.Location.ToPoint());
+                Character.AimAt(Target.Location.ToPoint(), Accuracy);
                 if (Character.Weapon.ReloadNeeded)
                 {
                     MoveToCover();
@@ -46,14 +65,12 @@ namespace SdlTest.Entities
                 }
                 else
                 {
-                    //Character.Fire(time);
+                    if (fireTimer.Update(time))
+                    {
+                        Character.Fire(time);
+                    }
                 }
             }
-
-            Physics.Update(ticksPassed, Services.Session.Level);
-            Physics.Impulse = Vector.Zero;
-
-            Character.Update(time, ticksPassed);
         }
 
         private void MoveToCover()

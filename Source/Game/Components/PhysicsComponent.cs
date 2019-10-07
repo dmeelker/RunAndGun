@@ -106,6 +106,7 @@ namespace SdlTest.Components
             }
         }
 
+
         private LevelCollision CheckLevelCollisionLeft(Vector oldLocation, Level level)
         {
             var startX = (int)oldLocation.X - 1;
@@ -116,7 +117,7 @@ namespace SdlTest.Components
 
             for (var x = startX;; x -= Level.BlockSize) {
                 x = Math.Max(x, endX);
-
+                
                 for (var y = startY;; y += Level.BlockSize) {
                     y = Math.Min(y, endY);
                     var block = level.IsPixelPassable(x, y);

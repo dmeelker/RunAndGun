@@ -9,7 +9,9 @@ namespace SdlTest.Weapons
     public enum WeaponType
     {
         Pistol,
-        Shotgun
+        Shotgun,
+        SubmachineGun,
+        SniperRifle
     }
 
     public abstract class Weapon
@@ -25,6 +27,7 @@ namespace SdlTest.Weapons
         public int ClipContent { get; private set; }
         public int AmmoReserve { get; private set; }
         public bool InfiniteAmmo { get; set; } = false;
+        public bool AutomaticFire { get; protected set; } = false;
 
         private State state = State.ReadyToFire;
         private uint stateEntranceTime = 0;

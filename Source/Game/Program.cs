@@ -62,6 +62,8 @@ namespace SdlTest
 
             player = new PlayerEntity(new Vector(30, 30));
             player.AddWeapon(new Pistol());
+            player.AddWeapon(new SubmachineGun());
+            player.AddWeapon(new SniperRifle());
             Services.EntityManager.Add(player);
 
             //Services.EntityManager.Add(new Enemy(new Vector(230, 30)));
@@ -107,6 +109,8 @@ namespace SdlTest
 
             LoadTextureAndSprite("res/Weapons/pistol.png", "pistol");
             LoadTextureAndSprite("res/Weapons/shotgun.png", "shotgun");
+            LoadTextureAndSprite("res/Weapons/submachinegun.png", "submachinegun");
+            LoadTextureAndSprite("res/Weapons/sniperrifle.png", "sniperrifle");
 
             Services.Sprites.Add(new Sprites.Sprite(Services.Textures["player"]), "player");
             Services.Sprites.Add(new Sprites.Sprite(Services.Textures["block"]), "block");
@@ -154,14 +158,23 @@ namespace SdlTest
                         player.Physics.Impulse.X = 0;
                     else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_r)
                         player.Character.Reload(time);
+
                     else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_1)
                         player.ChangeWeapon(player.WeaponOrder[0]);
                     else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_2)
                         player.ChangeWeapon(player.WeaponOrder[1]);
+                    else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_3)
+                        player.ChangeWeapon(player.WeaponOrder[2]);
+                    else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_4)
+                        player.ChangeWeapon(player.WeaponOrder[3]);
                 }
                 else if(e.type == SDL.SDL_EventType.SDL_MOUSEBUTTONDOWN)
                 {
-                    player.Fire(time);
+                    player.BeginFiring(time);
+                }
+                else if (e.type == SDL.SDL_EventType.SDL_MOUSEBUTTONUP)
+                {
+                    player.StopFiring();
                 }
             }
 
