@@ -96,25 +96,35 @@ namespace SdlTest
             Services.Textures.LoadTexture(ren, "res/test.png", "player");
             Services.Textures.LoadTexture(ren, "res/block.png", "block");
             Services.Textures.LoadTexture(ren, "res/projectile.png", "projectile");
-            Services.Textures.LoadTexture(ren, "res/shotgun.png", "shotgun");
             Services.Textures.LoadTexture(ren, "res/crate.png", "crate");
-            Services.Textures.LoadTexture(ren, "res/gib.png", "gib");
-            Services.Textures.LoadTexture(ren, "res/floor-blood.png", "floor-blood");
+            //Services.Textures.LoadTexture(ren, "res/gib.png", "gib");
+            //Services.Textures.LoadTexture(ren, "res/floor-blood.png", "floor-blood");
             Services.Textures.LoadTexture(ren, "res/Font/DTM-Sans_0.png", "DTM-Sans_0");
             Services.Textures.LoadTexture(ren, "res/backdrop.png", "backdrop");
+
+            LoadTextureAndSprite("res/Gibs/gib.png", "gib");
+            LoadTextureAndSprite("res/Gibs/floor-blood.png", "floor-blood");
+
+            LoadTextureAndSprite("res/Weapons/pistol.png", "pistol");
+            LoadTextureAndSprite("res/Weapons/shotgun.png", "shotgun");
 
             Services.Sprites.Add(new Sprites.Sprite(Services.Textures["player"]), "player");
             Services.Sprites.Add(new Sprites.Sprite(Services.Textures["block"]), "block");
             Services.Sprites.Add(new Sprites.Sprite(Services.Textures["projectile"]), "projectile");
-            Services.Sprites.Add(new Sprites.Sprite(Services.Textures["shotgun"]), "shotgun");
             Services.Sprites.Add(new Sprites.Sprite(Services.Textures["crate"]), "crate");
-            Services.Sprites.Add(new Sprites.Sprite(Services.Textures["gib"]), "gib");
-            Services.Sprites.Add(new Sprites.Sprite(Services.Textures["floor-blood"]), "floor-blood");
+            //Services.Sprites.Add(new Sprites.Sprite(Services.Textures["gib"]), "gib");
+            //Services.Sprites.Add(new Sprites.Sprite(Services.Textures["floor-blood"]), "floor-blood");
             Services.Sprites.Add(new Sprites.Sprite(Services.Textures["backdrop"]), "backdrop");
 
             using var fontFile = File.OpenRead(Path.Combine("res", "font", "DTM-Sans.fnt"));
             var font = new Font(fontFile, Services.Textures["DTM-Sans_0"]);
             Services.Fonts.Add(font, "default");
+        }
+
+        private static void LoadTextureAndSprite(string fileName, string name)
+        {
+            Services.Textures.LoadTexture(ren, fileName, name);
+            Services.Sprites.Add(new Sprites.Sprite(Services.Textures[name]), name);
         }
 
         private static void Update(uint time, int timePassed)

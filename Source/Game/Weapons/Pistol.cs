@@ -15,7 +15,7 @@ namespace SdlTest.Weapons
 
         public Pistol() : base(12, 100, 1500)
         {
-            sprite = Services.Sprites["shotgun"];
+            sprite = Services.Sprites["pistol"];
         }
 
         protected override void FireInternal(uint time, Entity source, Vector location, Vector vector)

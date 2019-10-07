@@ -28,6 +28,15 @@ namespace SdlTest.Types
             };
         }
 
+        public static Point operator +(Point a, Vector b)
+        {
+            return new Point
+            {
+                X = a.X + (int) b.X,
+                Y = a.Y + (int) b.Y
+            };
+        }
+
         public Point Add(int x, int y)
         {
             return new Point
@@ -43,6 +52,15 @@ namespace SdlTest.Types
             {
                 X = a.X - b.X,
                 Y = a.Y - b.Y
+            };
+        }
+
+        public static Point operator -(Point a, Vector b)
+        {
+            return new Point
+            {
+                X = a.X - (int)b.X,
+                Y = a.Y - (int)b.Y
             };
         }
 

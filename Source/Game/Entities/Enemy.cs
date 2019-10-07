@@ -45,7 +45,9 @@ namespace SdlTest.Entities
                     Character.Weapon.Reload(time);
                 }
                 else
-                    Character.Fire(time);
+                {
+                    //Character.Fire(time);
+                }
             }
 
             Physics.Update(ticksPassed, Services.Session.Level);

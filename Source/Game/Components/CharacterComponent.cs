@@ -14,7 +14,7 @@ namespace SdlTest.Components
         private Sprite sprite;
 
         public Vector AimVector;
-        public Vector WeaponOffset;
+        public Vector WeaponLocation;
 
         public Weapon Weapon;
 
@@ -41,15 +41,15 @@ namespace SdlTest.Components
             var vector = (new Vector(point.X - 4, point.Y - 4) - entity.Location).ToUnit();
             var angle = vector.AngleInDegrees;
 
-            Direction = angle > -90 && angle < 90 ? Direction.Right : Direction.Right;
-            WeaponOffset = Direction == Direction.Right ? new Vector(10, 12) : new Vector(entity.Size.X - 10, 12);
+            Direction = angle > -90 && angle < 90 ? Direction.Right : Direction.Left;
+            WeaponLocation = Direction == Direction.Right ? new Vector(18, 12) : new Vector(entity.Size.X - 18, 12);
 
-            AimVector = (new Vector(point.X - 4, point.Y - 4) - entity.Location - WeaponOffset).ToUnit();
+            AimVector = (new Vector(point.X - 4, point.Y - 4) - entity.Location - WeaponLocation).ToUnit();
         }
 
         public void Fire(uint time)
         {
-            Weapon.Fire(time, entity, entity.Location + WeaponOffset, AimVector);
+            Weapon.Fire(time, entity, entity.Location + WeaponLocation, AimVector);
         }
 
         public void Reload(uint time)
@@ -64,12 +64,12 @@ namespace SdlTest.Components
             if (Direction == Direction.Right)
             {
                 sprite.DrawEx(rendererId, viewLocation, 0, null, SDL.SDL_RendererFlip.SDL_FLIP_NONE);
-                Weapon.Render(rendererId, viewLocation.Add(10, 12), AimVector);
+                Weapon.Render(rendererId, viewLocation + WeaponLocation, AimVector);
             }
             else
             {
-                sprite.DrawEx(rendererId, viewLocation, 0, null, SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL);
-                Weapon.Render(rendererId, viewLocation.Add(-10, 12), AimVector);
+                sprite.DrawEx(rendererId, viewLocation, 0, null, SDL.SDL_RendererFlip.SDL_FLIP_HORIZONTAL);
+                Weapon.Render(rendererId, viewLocation + WeaponLocation, AimVector);
             }
         }
 

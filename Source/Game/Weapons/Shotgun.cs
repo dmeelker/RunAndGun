@@ -36,6 +36,8 @@ namespace SdlTest.Weapons
             var center = new Vector(0, sprite.Height / 2);
             var flip = angle > -90 && angle < 90 ? SDL.SDL_RendererFlip.SDL_FLIP_NONE : SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
 
+            location -= vector.ToUnit() * 8;
+
             sprite.DrawEx(rendererId, location, vector.AngleInDegrees, center, flip);
         }
     }
