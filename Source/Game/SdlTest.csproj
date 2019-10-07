@@ -17,6 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\FileFormats\FileFormats.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="libjpeg-9.dll">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>

@@ -29,33 +29,33 @@ namespace SdlTest.Levels
             HeightInPixels = height * BlockSize;
             Cells = new BlockType[width, height];
 
-            for (int x = 0; x < width; x++)
-                for (int y = 0; y < height; y++)
-                    Cells[x, y] = BlockType.Open;
+            //for (int x = 0; x < width; x++)
+            //    for (int y = 0; y < height; y++)
+            //        Cells[x, y] = BlockType.Open;
 
-            for (int x = 0; x < width; x++)
-            {
-                Cells[x, 0] = BlockType.Block;
-                Cells[x, height - 1] = BlockType.Block;
-            }
+            //for (int x = 0; x < width; x++)
+            //{
+            //    Cells[x, 0] = BlockType.Block;
+            //    Cells[x, height - 1] = BlockType.Block;
+            //}
 
-            for (int y = 0; y < height; y++)
-            {
-                Cells[0, y] = BlockType.Block;
-                Cells[width - 1,y] = BlockType.Block;
-            }
+            //for (int y = 0; y < height; y++)
+            //{
+            //    Cells[0, y] = BlockType.Block;
+            //    Cells[width - 1,y] = BlockType.Block;
+            //}
 
-            Cells[10, 16] = BlockType.Block;
-            Cells[11, 16] = BlockType.Block;
-            Cells[12, 16] = BlockType.Block;
+            //Cells[10, 16] = BlockType.Block;
+            //Cells[11, 16] = BlockType.Block;
+            //Cells[12, 16] = BlockType.Block;
 
-            Cells[15, 13] = BlockType.Block;
-            Cells[16, 13] = BlockType.Block;
-            Cells[17, 13] = BlockType.Block;
+            //Cells[15, 13] = BlockType.Block;
+            //Cells[16, 13] = BlockType.Block;
+            //Cells[17, 13] = BlockType.Block;
 
-            Cells[20, 19] = BlockType.Block;
-            Cells[20, 18] = BlockType.Block;
-            Cells[20, 17] = BlockType.Block;
+            //Cells[20, 19] = BlockType.Block;
+            //Cells[20, 18] = BlockType.Block;
+            //Cells[20, 17] = BlockType.Block;
             //Cells[30, 18] = BlockType.StairRight;
             //Cells[31, 17] = BlockType.StairRight;
             //Cells[32, 16] = BlockType.StairRight;

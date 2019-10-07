@@ -46,6 +46,15 @@ namespace SdlTest.Types
             };
         }
 
+        public static Point operator *(Point a, int scalar)
+        {
+            return new Point
+            {
+                X = a.X * scalar,
+                Y = a.Y * scalar
+            };
+        }
+
         public override string ToString()
         {
             return $"{X},{Y}";

@@ -57,7 +57,7 @@ namespace SdlTest
             LoadTextures();
 
             Services.Session = new GameSession() {
-                Level = new Level(40, 20)
+                Level = Loader.Load(@"D:\Projects\SdlTest\Editor\bin\Debug\level1.json") //new Level(40, 20)
             };
 
             player = new PlayerEntity(new Vector(30, 30));
@@ -174,9 +174,9 @@ namespace SdlTest
             SDL.SDL_SetRenderDrawColor(ren, 0, 0, 0, 0);
             SDL.SDL_RenderClear(ren);
 
-            //Services.Sprites["backdrop"].Draw(ren, new Point(0, 0));
+            Services.Sprites["backdrop"].Draw(ren, viewOffset * -1);
 
-            RenderLevel(ren, Services.Session.Level);
+            //RenderLevel(ren, Services.Session.Level);
             Services.EntityManager.RenderEntities(ren, viewOffset);
 
             //CastRay(player.Location + player.Character.WeaponOffset, player.Character.AimVector);
