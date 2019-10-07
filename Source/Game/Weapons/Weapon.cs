@@ -1,4 +1,5 @@
 ﻿using SdlTest.Entities;
+using SdlTest.Sprites;
 using SdlTest.Types;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,7 @@ namespace SdlTest.Weapons
         public int AmmoReserve { get; private set; }
         public bool InfiniteAmmo { get; set; } = false;
         public bool AutomaticFire { get; protected set; } = false;
+        public int Range { get; set; } = 400;
 
         private State state = State.ReadyToFire;
         private uint stateEntranceTime = 0;
@@ -125,6 +127,15 @@ namespace SdlTest.Weapons
         public void AddAmmo(int amount)
         {
             AmmoReserve += amount;
+        }
+
+        protected static void CreateCasing(Vector location, Vector directionOfFire, Sprite sprite)
+        {
+            var angle = directionOfFire.X > 0 ? -115 : 115;
+            var vector = directionOfFire.AddDegrees(angle).ToUnit() * (5 + Services.Random.Next(0, 100) / 50.0);
+
+            var casing = new BulletCasing(location, vector, sprite);
+            Services.EntityManager.Add(casing);
         }
 
         protected void WriteAmmoUpdate()

@@ -25,6 +25,11 @@ namespace SdlTest.Types
             return new Vector(Math.Cos(radians), Math.Sin(radians));
         }
 
+        public Vector AddDegrees(double degrees)
+        {
+            return FromAngleInDegrees(AngleInDegrees + degrees);
+        }
+
         public static Vector operator +(Vector a, Vector b)
         {
             return new Vector {

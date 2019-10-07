@@ -24,5 +24,10 @@ namespace SdlTest.Entities
         {
             Disposable = true;
         }
+
+        public int DistanceTo(Entity otherEntity)
+        {
+            return (int) Math.Abs((Location - otherEntity.Location).Length);
+        }
     }
 }

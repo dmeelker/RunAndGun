@@ -16,13 +16,16 @@ namespace SdlTest.Weapons
         public Pistol() : base(12, 150, 1500)
         {
             sprite = Services.Sprites["pistol"];
+            Range = 800;
         }
 
         protected override void FireInternal(uint time, Entity source, Vector location, Vector vector)
         {
             var sourceLocation = location + vector.ToUnit() * sprite.Width;
-            var projectile = new Projectile(source, sourceLocation, vector * 40, 2, 800);
+            var projectile = new Projectile(source, sourceLocation, vector * 40, 2, Range);
             Services.EntityManager.Add(projectile);
+
+            CreateCasing(location, vector, Services.Sprites["bulletcasing"]);
         }
 
         public override void Render(IntPtr rendererId, Point location, Vector vector)

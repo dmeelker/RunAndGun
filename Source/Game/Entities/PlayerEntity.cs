@@ -99,7 +99,7 @@ namespace SdlTest.Entities
             }
         }
 
-        public void HitByProjectile(Projectile projectile, Vector vector, Vector location)
+        public void HitByProjectile(Projectile projectile, Vector vector, Vector location, Entity source)
         {
             Character.HitByProjectile(projectile, vector, location);
         }

@@ -54,7 +54,7 @@ namespace SdlTest.Entities
                     var intersection = boundingBox.Intersect(entity.GetBoundingBox());
                     var hitLocation = new Vector(intersection.X + (intersection.Width / 2), intersection.Y + (intersection.Height / 2)) - entity.Location;
 
-                    ((IProjectileCollider)entity).HitByProjectile(this, Physics.OldVelocity, hitLocation);
+                    ((IProjectileCollider)entity).HitByProjectile(this, Physics.OldVelocity, hitLocation, source);
                     Dispose();
                     return;
                 }

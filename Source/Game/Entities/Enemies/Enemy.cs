@@ -9,36 +9,67 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SdlTest.Entities
+namespace SdlTest.Entities.Enemies
 {
     public class Enemy : Entity, IProjectileCollider
     {
         public readonly PhysicsComponent Physics;
         public readonly CharacterComponent Character;
-        public int Hitpoints = 10;
 
         public Entity Target;
-        public int SenseRange = 400;
 
+        public int SenseRange = 400;
         public int Accuracy = 0;
 
         private TickTimer updateTimer = new TickTimer(100);
         private TickTimer fireTimer = new TickTimer(1000);
 
-        public Enemy(Vector location)
+        public Enemy(Vector location, Direction initialDirection)
         {
             Physics = new PhysicsComponent(this);
             Character = new CharacterComponent(this, Services.Sprites["player"], new Pistol() { InfiniteAmmo = true });
 
             Location = location;
             Size = new Vector(30, 30);
+
+            Character.FaceDirection(initialDirection);
+        }
+
+        public void SetWeapon(Weapon weapon)
+        {
+            weapon.InfiniteAmmo = true;
+            Character.Weapon = weapon;
         }
 
         public override void Update(uint time, int ticksPassed)
         {
             if (updateTimer.Update(time))
             {
-                RunAi(time);
+                UpdateTarget(time);
+            }
+
+            if (Target != null && CanSeeTarget(Target))
+            {
+                if (!InFiringRange(Target))
+                {
+                    MoveTowardsTarget();
+                }
+                else
+                {
+                    Character.AimAt(Target.Location.ToPoint(), Accuracy);
+                    if (Character.Weapon.ReloadNeeded)
+                    {
+                        MoveToCover();
+                        Character.Weapon.Reload(time);
+                    }
+                    else
+                    {
+                        if (fireTimer.Update(time))
+                        {
+                            Character.Fire(time);
+                        }
+                    }
+                }
             }
 
             Physics.Update(ticksPassed, Services.Session.Level);
@@ -47,7 +78,7 @@ namespace SdlTest.Entities
             Character.Update(time, ticksPassed);
         }
 
-        private void RunAi(uint time)
+        private void UpdateTarget(uint time)
         {
             var newTarget = Services.EntityManager.FindEntities(new Rect(Location.X - SenseRange, Location.Y - SenseRange, SenseRange * 2, SenseRange * 2)).Where(entity => entity is PlayerEntity).FirstOrDefault();
 
@@ -55,21 +86,21 @@ namespace SdlTest.Entities
             {
                 Target = newTarget;
             }
-            else if (Target != null && CanSeeTarget(Target))
+        }
+
+        private void MoveTowardsTarget()
+        {
+            if(Target.Location.X > Location.X)
             {
-                Character.AimAt(Target.Location.ToPoint(), Accuracy);
-                if (Character.Weapon.ReloadNeeded)
-                {
-                    MoveToCover();
-                    Character.Weapon.Reload(time);
-                }
-                else
-                {
-                    if (fireTimer.Update(time))
-                    {
-                        Character.Fire(time);
-                    }
-                }
+                // Right
+                Physics.Impulse += new Vector(4, 0);
+                Character.FaceDirection(Direction.Right);
+            } 
+            else
+            {
+                // Left
+                Physics.Impulse += new Vector(-4, 0);
+                Character.FaceDirection(Direction.Left);
             }
         }
 
@@ -80,10 +111,16 @@ namespace SdlTest.Entities
         private bool CanSeeTarget(Entity target)
         {
             var vector = target.Location - Location;
-            var maxDistance = (int) Math.Min(vector.Length, 500);
+            var maxDistance = (int)Math.Min(vector.Length, 500);
 
             var result = RayCaster.CastRay(Services.Session.Level, Location, vector, maxDistance);
             return !result.Hit;
+        }
+
+        private bool InFiringRange(Entity target)
+        {
+            var distance = DistanceTo(target);
+            return distance <= Character.Weapon.Range && distance <= SenseRange;
         }
 
         private bool FacingTowardsTarget(Entity target)
@@ -101,11 +138,19 @@ namespace SdlTest.Entities
             Character.Render(rendererId, viewOffset);
         }
 
-        public void HitByProjectile(Projectile projectile, Vector vector, Vector location)
+        public void HitByProjectile(Projectile projectile, Vector vector, Vector location, Entity source)
         {
             Physics.Impulse += vector.ToUnit() * 10;
 
             Character.HitByProjectile(projectile, vector, location);
+
+            if(Target == null)
+            {
+                if (source.Location.X > Location.X)
+                    Character.FaceDirection(Direction.Right);
+                else if (source.Location.X < Location.X)
+                    Character.FaceDirection(Direction.Left);
+            }
         }
     }
 }

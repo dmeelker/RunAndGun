@@ -15,6 +15,7 @@ namespace SdlTest.Weapons
         public Shotgun() : base(8, 400, 3000)
         {
             sprite = Services.Sprites["shotgun"];
+            Range = 300;
         }
 
         protected override void FireInternal(uint time, Entity source, Vector location, Vector vector)
@@ -25,9 +26,11 @@ namespace SdlTest.Weapons
                 var projectileVector = Vector.FromAngleInDegrees(angle) * Services.Random.Next(35, 40);
                 var sourceLocation = location + vector.ToUnit() * sprite.Width;
 
-                var projectile = new Projectile(source, sourceLocation, projectileVector, 1, 300);
+                var projectile = new Projectile(source, sourceLocation, projectileVector, 1, Range);
                 Services.EntityManager.Add(projectile);
             }
+
+            CreateCasing(location, vector, Services.Sprites["shotgunshell"]);
         }
 
         public override void Render(IntPtr rendererId, Point location, Vector vector)

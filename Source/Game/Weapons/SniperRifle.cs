@@ -16,13 +16,16 @@ namespace SdlTest.Weapons
         public SniperRifle() : base(12, 600, 1500)
         {
             sprite = Services.Sprites["sniperrifle"];
+            Range = 2000;
         }
 
         protected override void FireInternal(uint time, Entity source, Vector location, Vector vector)
         {
             var sourceLocation = location + vector.ToUnit() * sprite.Width;
-            var projectile = new Projectile(source, sourceLocation, vector * 100, 7, 800);
+            var projectile = new Projectile(source, sourceLocation, vector * 100, 7, Range);
             Services.EntityManager.Add(projectile);
+
+            CreateCasing(location, vector, Services.Sprites["bulletcasing"]);
         }
 
         public override void Render(IntPtr rendererId, Point location, Vector vector)

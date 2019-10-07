@@ -19,14 +19,21 @@ namespace SdlTest.Weapons
         {
             sprite = Services.Sprites["submachinegun"];
             AutomaticFire = true;
+            Range = 800;
         }
 
         protected override void FireInternal(uint time, Entity source, Vector location, Vector vector)
         {
+            CreateProjectile(source, location, vector);
+            CreateCasing(location, vector, Services.Sprites["bulletcasing"]);
+        }
+
+        private void CreateProjectile(Entity source, Vector location, Vector vector)
+        {
             var angle = vector.AngleInDegrees + Services.Random.Next(-2, 2);
             var projectileVector = Vector.FromAngleInDegrees(angle);
             var sourceLocation = location + vector.ToUnit() * sprite.Width;
-            var projectile = new Projectile(source, sourceLocation, projectileVector * 40, 1, 800);
+            var projectile = new Projectile(source, sourceLocation, projectileVector * 40, 1, Range);
             Services.EntityManager.Add(projectile);
         }
 

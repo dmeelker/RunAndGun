@@ -22,8 +22,10 @@ namespace SdlTest.Entities.Collectables
         {
             return weaponType switch
             {
-                WeaponType.Pistol => Services.Sprites["shotgun"],
+                WeaponType.Pistol => Services.Sprites["pistol"],
                 WeaponType.Shotgun => Services.Sprites["shotgun"],
+                WeaponType.SubmachineGun => Services.Sprites["submachinegun"],
+                WeaponType.SniperRifle => Services.Sprites["sniperrifle"],
                 _ => throw new Exception()
             };
         }
@@ -33,6 +35,8 @@ namespace SdlTest.Entities.Collectables
             return weaponType switch { 
                 WeaponType.Pistol => new Pistol(),
                 WeaponType.Shotgun => new Shotgun(),
+                WeaponType.SubmachineGun => new SubmachineGun(),
+                WeaponType.SniperRifle => new SniperRifle(),
                 _ => throw new Exception("Unknown weapon")
             };
         }

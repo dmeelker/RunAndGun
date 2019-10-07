@@ -24,7 +24,7 @@ namespace SdlTest.Entities
             sprite.Draw(rendererId, Location.ToPoint() - viewOffset);
         }
 
-        public void HitByProjectile(Projectile projectile, Vector vector, Vector location)
+        public void HitByProjectile(Projectile projectile, Vector vector, Vector location, Entity source)
         {
             var offset = (vector.ToUnit() * -1) * 10;
             vector = (vector.ToUnit() * -1) * Services.Random.Next(2, 5);

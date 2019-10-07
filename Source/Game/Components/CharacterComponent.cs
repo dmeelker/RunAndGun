@@ -153,9 +153,22 @@ namespace SdlTest.Components
                 Services.EntityManager.Add(new Gib(entity.Location + (entity.Size * 0.5), vector * power));
             }
 
-            Services.EntityManager.Add(new WeaponCollectable(WeaponType.Shotgun, entity.Location + (entity.Size * 0.5)));
+            Services.EntityManager.Add(new WeaponCollectable(Weapon.WeaponType, entity.Location + (entity.Size * 0.5)));
 
             entity.Dispose();
+        }
+
+        public void FaceDirection(Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.Left:
+                    AimAt(entity.Location.ToPoint() + new Point(-100, (int)WeaponLocation.Y));
+                    break;
+                case Direction.Right:
+                    AimAt(entity.Location.ToPoint() + new Point(100, (int)WeaponLocation.Y));
+                    break;
+            }
         }
     }
 }

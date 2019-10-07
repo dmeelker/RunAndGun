@@ -2,6 +2,7 @@
 using SdlTest.Components;
 using SdlTest.Entities;
 using SdlTest.Entities.Collectables;
+using SdlTest.Entities.Enemies;
 using SdlTest.Levels;
 using SdlTest.Text;
 using SdlTest.Types;
@@ -68,7 +69,8 @@ namespace SdlTest
 
             //Services.EntityManager.Add(new Enemy(new Vector(230, 30)));
             //Services.EntityManager.Add(new Enemy(new Vector(100, 30)));
-            Services.EntityManager.Add(new Enemy(new Vector(500, 300)));
+            Services.EntityManager.Add(EnemyFactory.CreateEnemy(EnemyType.PistolGrunt, new Vector(500, 300), Direction.Left));
+            Services.EntityManager.Add(EnemyFactory.CreateEnemy(EnemyType.ShotgunGrunt, new Vector(700, 300), Direction.Right));
 
             Services.EntityManager.Add(new Crate(new Vector(600, 330)));
 
@@ -92,7 +94,7 @@ namespace SdlTest
             SDL.SDL_DestroyWindow(win);
             SDL.SDL_Quit();
         }
-
+        
         private static void LoadTextures()
         {
             Services.Textures.LoadTexture(ren, "res/test.png", "player");
@@ -111,6 +113,9 @@ namespace SdlTest
             LoadTextureAndSprite("res/Weapons/shotgun.png", "shotgun");
             LoadTextureAndSprite("res/Weapons/submachinegun.png", "submachinegun");
             LoadTextureAndSprite("res/Weapons/sniperrifle.png", "sniperrifle");
+
+            LoadTextureAndSprite("res/Weapons/bulletcasing.png", "bulletcasing");
+            LoadTextureAndSprite("res/Weapons/shotgunshell.png", "shotgunshell");
 
             Services.Sprites.Add(new Sprites.Sprite(Services.Textures["player"]), "player");
             Services.Sprites.Add(new Sprites.Sprite(Services.Textures["block"]), "block");
