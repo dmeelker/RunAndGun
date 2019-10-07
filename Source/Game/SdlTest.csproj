@@ -98,4 +98,8 @@
     </None>
   </ItemGroup>
 
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File Dependencies\Copy.ps1 $(OutDir)" />
+  </Target>
+
 </Project>
