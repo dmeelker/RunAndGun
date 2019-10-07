@@ -41,25 +41,6 @@ namespace SdlTest.Entities
         {
             Physics.Update(ticksPassed, Services.Session.Level);
 
-            var boundingBox = GetBoundingBox();
-            var entityCollisions = Services.EntityManager.FindEntities(boundingBox).ToArray();
-
-            foreach(var entity in entityCollisions)
-            {
-                if (entity == source || entity == this)
-                    continue;
-
-                if(entity is IProjectileCollider)
-                {
-                    var intersection = boundingBox.Intersect(entity.GetBoundingBox());
-                    var hitLocation = new Vector(intersection.X + (intersection.Width / 2), intersection.Y + (intersection.Height / 2)) - entity.Location;
-
-                    ((IProjectileCollider)entity).HitByProjectile(this, Physics.OldVelocity, hitLocation, source);
-                    Dispose();
-                    return;
-                }
-            }
-
             if (Physics.HorizontalCollision.Collision || Physics.VerticalCollision.Collision)
             {
                 Dispose();
@@ -71,8 +52,44 @@ namespace SdlTest.Entities
                 Dispose();
                 return;
             }
+
+            HandleEntityCollisions();
+
         }
 
+        private void HandleEntityCollisions()
+        {
+            var boundingBox = GetMovedAreaRect(); // Rect.CreateFromPoints(OldLocation, new P); //GetBoundingBox();
+            var entityCollisions = Services.EntityManager.FindEntities(boundingBox).ToArray();
+
+            foreach (var entity in entityCollisions)
+            {
+                if (entity == source || entity == this)
+                    continue;
+
+                if (entity is IProjectileCollider)
+                {
+                    var intersection = boundingBox.Intersect(entity.GetBoundingBox());
+                    var hitLocation = new Vector(intersection.X + (intersection.Width / 2), intersection.Y + (intersection.Height / 2)) - entity.Location;
+
+                    ((IProjectileCollider)entity).HitByProjectile(this, Physics.OldVelocity, hitLocation, source);
+                    Dispose();
+                    return;
+                }
+            }
+        }
+
+        private Rect GetMovedAreaRect()
+        {
+            var halfSize = HalfSize;
+            var rect = Rect.CreateFromPoints(OldLocation.ToPoint() + halfSize, Location.ToPoint() + halfSize);
+
+            rect.X -= halfSize.X;
+            rect.Y -= halfSize.Y;
+            rect.Width += Size.X;
+            rect.Height += Size.Y;
+            return rect;
+        }
         public override void Render(IntPtr rendererId, Point viewOffset)
         {
             sprite.Draw(rendererId, Location.ToPoint() - viewOffset);

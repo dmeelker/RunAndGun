@@ -82,6 +82,7 @@ namespace SdlTest
             while (!quit)
             {
                 var time = SDL.SDL_GetTicks();
+                Services.Time = time;
                 var timePassed = (int)(time - lastUpdateTime);
                 lastUpdateTime = time;
 

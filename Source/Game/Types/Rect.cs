@@ -46,5 +46,15 @@ namespace SdlTest.Types
 
             return new Rect(leftX, topY, rightX - leftX, bottomY - topY);
         }
+
+        public static Rect CreateFromPoints(Point p1, Point p2)
+        {
+            var rect = new Rect();
+            rect.X = Math.Min(p1.X, p2.X);
+            rect.Y = Math.Min(p1.Y, p2.Y);
+            rect.Width = Math.Max(p1.X, p2.X) - rect.X;
+            rect.Height = Math.Max(p1.Y, p2.Y) - rect.Y;
+            return rect;
+        }
     }
 }

@@ -11,10 +11,12 @@ namespace SdlTest.Entities.Collectables
         public readonly PhysicsComponent physicsComponent;
         public readonly Sprite sprite;
         private int yOffset = 0;
+        private uint creationTime = 0;
 
         public Collectable(Vector location, Sprite sprite)
         {
             this.sprite = sprite;
+            creationTime = Services.Time;
 
             physicsComponent = new PhysicsComponent(this);
             Location = location;
@@ -29,7 +31,7 @@ namespace SdlTest.Entities.Collectables
         public override void Update(uint time, int ticksPassed)
         {
             physicsComponent.Update(ticksPassed, Services.Session.Level);
-            yOffset = (int)-Math.Abs(Math.Sin((time / 200)) * 8.0);
+            yOffset = (int)-Math.Abs(Math.Sin(((time - creationTime) / 200)) * 8.0);
 
             var boundingBox = GetBoundingBox();
             var entityCollisions = Services.EntityManager.FindEntities(boundingBox).ToArray();

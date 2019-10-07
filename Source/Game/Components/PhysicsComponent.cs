@@ -55,9 +55,9 @@ namespace SdlTest.Components
         public void Update(int ticksPassed, Level level)
         {
             var effectiveVelocity = (Velocity + Impulse) * (ticksPassed * tickMultiplier);
-            var oldLocation = entity.Location;
+            entity.OldLocation = entity.Location;
             OldVelocity = Velocity;
-            HandleMovement(level, effectiveVelocity, oldLocation);
+            HandleMovement(level, effectiveVelocity, entity.OldLocation);
 
             if(drag.HasValue && onGround && Velocity.X != 0)
             {

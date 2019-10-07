@@ -13,5 +13,6 @@ namespace SdlTest
         public static readonly FontManager Fonts = new FontManager();
         public static GameSession Session;
         public static readonly Random Random = new Random();
+        public static uint Time;
     }
 }

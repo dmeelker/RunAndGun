@@ -8,8 +8,10 @@ namespace SdlTest.Entities
     public abstract class Entity
     {
         public Vector Location;
+        public Vector OldLocation;
         public Vector Size;
         public Rect GetBoundingBox() => new Rect(Location.X, Location.Y, Size.X, Size.Y);
+        public Point HalfSize => (Size * 0.5).ToPoint();
 
         public bool Disposable = false;
         public bool Disposed = false;
