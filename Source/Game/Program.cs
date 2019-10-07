@@ -57,7 +57,7 @@ namespace SdlTest
             LoadTextures();
 
             Services.Session = new GameSession() {
-                Level = Loader.Load(@"D:\Projects\SdlTest\Editor\bin\Debug\level1.json") //new Level(40, 20)
+                Level = Loader.Load(@"D:\Projects\SdlTest\Source\Editor\bin\Debug\level1.json") //new Level(40, 20)
             };
 
             player = new PlayerEntity(new Vector(30, 30));
