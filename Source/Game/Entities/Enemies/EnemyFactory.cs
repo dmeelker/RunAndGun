@@ -1,17 +1,12 @@
 ﻿using SdlTest.Types;
 using SdlTest.Weapons;
+using SharedTypes;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace SdlTest.Entities.Enemies
 {
-    public enum EnemyType
-    {
-        PistolGrunt,
-        ShotgunGrunt
-    }
-
     public static class EnemyFactory
     {
         public static Enemy CreateEnemy(EnemyType type, Vector location, Direction initialDirection)

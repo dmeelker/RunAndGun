@@ -27,7 +27,7 @@ namespace SdlTest.Weapons
                 var sourceLocation = location + vector.ToUnit() * sprite.Width;
 
                 var projectile = new Projectile(source, sourceLocation, projectileVector, 1, Range);
-                Services.EntityManager.Add(projectile);
+                Services.Game.Entities.Add(projectile);
             }
 
             CreateCasing(location, vector, Services.Sprites["shotgunshell"]);

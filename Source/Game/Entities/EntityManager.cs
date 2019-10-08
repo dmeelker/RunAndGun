@@ -16,6 +16,13 @@ namespace SdlTest.Entities
             newEntities.Add(entity);
         }
 
+        public void Clear()
+        {
+            entities.Clear();
+            disposableEntities.Clear();
+            newEntities.Clear();
+        }
+
         public void UpdateEntities(uint time, int ticksPassed)
         {
             foreach(var entity in entities)

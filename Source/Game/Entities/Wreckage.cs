@@ -30,7 +30,7 @@ namespace SdlTest.Entities
 
         public override void Update(uint time, int ticksPassed)
         {
-            physics.Update(ticksPassed, Services.Session.Level);
+            physics.Update(ticksPassed, Services.Game.Level);
             age += ticksPassed;
             //velocity.Y += 1 * (ticksPassed * PhysicsComponent.tickMultiplier);
             //velocity.Y = Math.Min(velocity.Y, 15);

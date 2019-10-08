@@ -39,7 +39,7 @@ namespace SdlTest.Entities
 
         public override void Update(uint time, int ticksPassed)
         {
-            Physics.Update(ticksPassed, Services.Session.Level);
+            Physics.Update(ticksPassed, Services.Game.Level);
 
             if (Physics.HorizontalCollision.Collision || Physics.VerticalCollision.Collision)
             {
@@ -60,7 +60,7 @@ namespace SdlTest.Entities
         private void HandleEntityCollisions()
         {
             var boundingBox = GetMovedAreaRect(); // Rect.CreateFromPoints(OldLocation, new P); //GetBoundingBox();
-            var entityCollisions = Services.EntityManager.FindEntities(boundingBox).ToArray();
+            var entityCollisions = Services.Game.Entities.FindEntities(boundingBox).ToArray();
 
             foreach (var entity in entityCollisions)
             {

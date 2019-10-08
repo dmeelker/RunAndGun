@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SdlTest.Types
+namespace SharedTypes
 {
     public enum Direction
     {

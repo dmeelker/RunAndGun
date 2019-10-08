@@ -33,7 +33,7 @@ namespace SdlTest.Entities
             if (firing)
                 Character.Fire(time);
 
-            Physics.Update(ticksPassed, Services.Session.Level);
+            Physics.Update(ticksPassed, Services.Game.Level);
             Character.Update(time, ticksPassed);
         }
 

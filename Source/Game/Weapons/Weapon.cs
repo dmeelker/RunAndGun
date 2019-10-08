@@ -135,7 +135,7 @@ namespace SdlTest.Weapons
             var vector = directionOfFire.AddDegrees(angle).ToUnit() * (5 + Services.Random.Next(0, 100) / 50.0);
 
             var casing = new BulletCasing(location, vector, sprite);
-            Services.EntityManager.Add(casing);
+            Services.Game.Entities.Add(casing);
         }
 
         protected void WriteAmmoUpdate()

@@ -7,6 +7,7 @@ using SdlTest.Levels;
 using SdlTest.Text;
 using SdlTest.Types;
 using SdlTest.Weapons;
+using SharedTypes;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,7 +25,7 @@ namespace SdlTest
         static IntPtr win;
         static IntPtr ren;
 
-        static PlayerEntity player;
+        //static PlayerEntity player;
 
         static bool quit = false;
         static Point viewOffset;
@@ -57,26 +58,8 @@ namespace SdlTest
 
             LoadTextures();
 
-            Services.Session = new GameSession() {
-                Level = Loader.Load(@"res\Levels\level1.json") //new Level(40, 20)
-            };
+            Services.Game.LoadLevel(FileFormats.Levels.Loader.Load(@"res\Levels\level1.json"));
 
-            player = new PlayerEntity(new Vector(30, 30));
-            player.AddWeapon(new Pistol());
-            player.AddWeapon(new SubmachineGun());
-            player.AddWeapon(new SniperRifle());
-            Services.EntityManager.Add(player);
-
-            //Services.EntityManager.Add(new Enemy(new Vector(230, 30)));
-            //Services.EntityManager.Add(new Enemy(new Vector(100, 30)));
-            Services.EntityManager.Add(EnemyFactory.CreateEnemy(EnemyType.PistolGrunt, new Vector(500, 300), Direction.Left));
-            Services.EntityManager.Add(EnemyFactory.CreateEnemy(EnemyType.ShotgunGrunt, new Vector(700, 300), Direction.Right));
-
-            Services.EntityManager.Add(new Crate(new Vector(600, 330)));
-
-            Services.EntityManager.Add(new WeaponCollectable(WeaponType.Shotgun, new Vector(300, 330)));
-
-            
             uint lastUpdateTime = SDL.SDL_GetTicks();
 
             while (!quit)
@@ -149,53 +132,53 @@ namespace SdlTest
                 if (e.type == SDL.SDL_EventType.SDL_KEYDOWN)
                 {
                     if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_a)
-                        player.Physics.Impulse.X = -10;
+                        Services.Game.Player.Physics.Impulse.X = -10;
                     else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_d)
-                        player.Physics.Impulse.X = 10;
+                        Services.Game.Player.Physics.Impulse.X = 10;
                     else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_w)
-                        player.Physics.Velocity.Y = -13;
+                        Services.Game.Player.Physics.Velocity.Y = -13;
 
                 }
                 else if (e.type == SDL.SDL_EventType.SDL_KEYUP)
                 {
                     if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_a)
-                        player.Physics.Impulse.X = 0;
+                        Services.Game.Player.Physics.Impulse.X = 0;
                     else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_d)
-                        player.Physics.Impulse.X = 0;
+                        Services.Game.Player.Physics.Impulse.X = 0;
                     else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_r)
-                        player.Character.Reload(time);
+                        Services.Game.Player.Character.Reload(time);
 
                     else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_1)
-                        player.ChangeWeapon(player.WeaponOrder[0]);
+                        Services.Game.Player.ChangeWeapon(Services.Game.Player.WeaponOrder[0]);
                     else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_2)
-                        player.ChangeWeapon(player.WeaponOrder[1]);
+                        Services.Game.Player.ChangeWeapon(Services.Game.Player.WeaponOrder[1]);
                     else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_3)
-                        player.ChangeWeapon(player.WeaponOrder[2]);
+                        Services.Game.Player.ChangeWeapon(Services.Game.Player.WeaponOrder[2]);
                     else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_4)
-                        player.ChangeWeapon(player.WeaponOrder[3]);
+                        Services.Game.Player.ChangeWeapon(Services.Game.Player.WeaponOrder[3]);
                 }
                 else if(e.type == SDL.SDL_EventType.SDL_MOUSEBUTTONDOWN)
                 {
-                    player.BeginFiring(time);
+                    Services.Game.Player.BeginFiring(time);
                 }
                 else if (e.type == SDL.SDL_EventType.SDL_MOUSEBUTTONUP)
                 {
-                    player.StopFiring();
+                    Services.Game.Player.StopFiring();
                 }
             }
 
             SDL.SDL_GetMouseState(out var x, out var y);
-            player.AimAt(new Point(x, y) + viewOffset);
+            Services.Game.Player.AimAt(new Point(x, y) + viewOffset);
 
-            Services.EntityManager.UpdateEntities(time, timePassed);
+            Services.Game.Entities.UpdateEntities(time, timePassed);
 
             CenterViewOnPlayer();
         }
 
         private static void CenterViewOnPlayer()
         {
-            viewOffset = player.Location.ToPoint() - viewSizeHalf;
-            viewOffset.Y = Math.Min(viewOffset.Y, Services.Session.Level.HeightInPixels - WindowHeight);
+            viewOffset = Services.Game.Player.Location.ToPoint() - viewSizeHalf;
+            viewOffset.Y = Math.Min(viewOffset.Y, Services.Game.Level.HeightInPixels - WindowHeight);
         }
 
         private static void Render(uint time)
@@ -206,18 +189,18 @@ namespace SdlTest
             Services.Sprites["backdrop"].Draw(ren, viewOffset * -1);
 
             //RenderLevel(ren, Services.Session.Level);
-            Services.EntityManager.RenderEntities(ren, viewOffset);
+            Services.Game.Entities.RenderEntities(ren, viewOffset);
 
             //CastRay(player.Location + player.Character.WeaponOffset, player.Character.AimVector);
 
             var font = Services.Fonts["default"];
-            var weapon = player.Character.Weapon;
+            var weapon = Services.Game.Player.Character.Weapon;
 
             font.Render(ren, weapon.Name, 700, 500);
             font.Render(ren, $"{weapon.ClipContent} / {weapon.AmmoReserve}", 700, 520);
 
-            font.Render(ren, $"HP: {player.Character.Hitpoints}/{CharacterComponent.MaxHitpoints}", 0, 500);
-            font.Render(ren, $"Armor: {player.Character.Armor}/{CharacterComponent.MaxArmor}", 0, 520);
+            font.Render(ren, $"HP: {Services.Game.Player.Character.Hitpoints}/{CharacterComponent.MaxHitpoints}", 0, 500);
+            font.Render(ren, $"Armor: {Services.Game.Player.Character.Armor}/{CharacterComponent.MaxArmor}", 0, 520);
 
             SDL.SDL_RenderPresent(ren);
             fpsCounter++;
@@ -246,7 +229,7 @@ namespace SdlTest
                 var mapX = (int)(currentLocation.X / Level.BlockSize);
                 var mapY = (int)(currentLocation.Y / Level.BlockSize);
 
-                if(Services.Session.Level.IsPixelPassable((int)currentLocation.X, (int)currentLocation.Y) == BlockType.Block)
+                if(Services.Game.Level.IsPixelPassable((int)currentLocation.X, (int)currentLocation.Y) == BlockType.Block)
                 {
                     SDL.SDL_RenderDrawLine(ren, (int)location.X, (int)location.Y, (int)(currentLocation.X), (int)(currentLocation.Y));
                     break;

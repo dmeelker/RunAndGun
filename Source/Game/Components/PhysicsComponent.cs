@@ -113,7 +113,7 @@ namespace SdlTest.Components
             var endX = (int)entity.Location.X - 1;
             var startY = (int) entity.Location.Y;
             var endY = (int) (entity.Location.Y + entity.Size.Y - 1);
-            var entities = Services.EntityManager.FindEntities(new Rect(endX, startY, endX - startX, endY - startY)).OfType<IPhysicsCollider>().Cast<Entity>().ToArray();
+            var entities = Services.Game.Entities.FindEntities(new Rect(endX, startY, endX - startX, endY - startY)).OfType<IPhysicsCollider>().Cast<Entity>().ToArray();
 
             for (var x = startX;; x -= Level.BlockSize) {
                 x = Math.Max(x, endX);
@@ -147,7 +147,7 @@ namespace SdlTest.Components
             var endX = (int)(entity.Location.X + entity.Size.X);
             var startY = (int) entity.Location.Y;
             var endY = (int)(entity.Location.Y + entity.Size.Y - 1);
-            var entities = Services.EntityManager.FindEntities(new Rect(startX, startY, endX - startX, endY - startY)).OfType<IPhysicsCollider>().Cast<Entity>().ToArray();
+            var entities = Services.Game.Entities.FindEntities(new Rect(startX, startY, endX - startX, endY - startY)).OfType<IPhysicsCollider>().Cast<Entity>().ToArray();
 
             for (var x = startX;; x += Level.BlockSize) {
                 x = Math.Min(x, endX);
@@ -280,7 +280,7 @@ namespace SdlTest.Components
             var endY = (int)(entity.Location.Y + entity.Size.Y);
             var startX = (int)entity.Location.X;
             var endX = (int)(entity.Location.X + entity.Size.X - 1);
-            var entities = Services.EntityManager.FindEntities(new Rect(startX, startY, endX - startX, endY - startY)).OfType<IPhysicsCollider>().Cast<Entity>().ToArray();
+            var entities = Services.Game.Entities.FindEntities(new Rect(startX, startY, endX - startX, endY - startY)).OfType<IPhysicsCollider>().Cast<Entity>().ToArray();
 
             for (var y = startY; ; y += Level.BlockSize)
             {

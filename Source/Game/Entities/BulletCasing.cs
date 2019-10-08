@@ -31,7 +31,7 @@ namespace SdlTest.Entities
 
         public override void Update(uint time, int ticksPassed)
         {
-            Physics.Update(ticksPassed, Services.Session.Level);
+            Physics.Update(ticksPassed, Services.Game.Level);
 
             age += ticksPassed;
             if (age > 10000)

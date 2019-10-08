@@ -4,6 +4,7 @@ using SdlTest.Entities.Collectables;
 using SdlTest.Sprites;
 using SdlTest.Types;
 using SdlTest.Weapons;
+using SharedTypes;
 using System;
 
 namespace SdlTest.Components
@@ -138,7 +139,7 @@ namespace SdlTest.Components
             for (var i = 0; i < count; i++)
             {
                 vector = vector.ToUnit() * Services.Random.Next(2, 5);
-                Services.EntityManager.Add(new Gib(entity.Location + location, vector));
+                Services.Game.Entities.Add(new Gib(entity.Location + location, vector));
             }
         }
 
@@ -150,10 +151,10 @@ namespace SdlTest.Components
                 var vector = new Vector(Math.Sin(angle), Math.Cos(angle));
                 var power = Services.Random.Next(5, 10);
 
-                Services.EntityManager.Add(new Gib(entity.Location + (entity.Size * 0.5), vector * power));
+                Services.Game.Entities.Add(new Gib(entity.Location + (entity.Size * 0.5), vector * power));
             }
 
-            Services.EntityManager.Add(new WeaponCollectable(Weapon.WeaponType, entity.Location + (entity.Size * 0.5)));
+            Services.Game.Entities.Add(new WeaponCollectable(Weapon.WeaponType, entity.Location + (entity.Size * 0.5)));
 
             entity.Dispose();
         }

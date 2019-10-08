@@ -30,11 +30,11 @@ namespace SdlTest.Entities.Collectables
 
         public override void Update(uint time, int ticksPassed)
         {
-            physicsComponent.Update(ticksPassed, Services.Session.Level);
+            physicsComponent.Update(ticksPassed, Services.Game.Level);
             yOffset = (int)-Math.Abs(Math.Sin(((time - creationTime) / 200)) * 8.0);
 
             var boundingBox = GetBoundingBox();
-            var entityCollisions = Services.EntityManager.FindEntities(boundingBox).ToArray();
+            var entityCollisions = Services.Game.Entities.FindEntities(boundingBox).ToArray();
 
             foreach (var entity in entityCollisions)
             {

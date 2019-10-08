@@ -17,7 +17,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\FileFormats\FileFormats.csproj" />
+    <ProjectReference Include="..\SharedTypes\SharedTypes.csproj" />
   </ItemGroup>
 
   <ItemGroup>

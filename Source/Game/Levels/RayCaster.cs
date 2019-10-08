@@ -30,7 +30,7 @@ namespace SdlTest.Levels
                 step++;
                 currentLocation += vector;
 
-                if (Services.Session.Level.IsPixelPassable((int)currentLocation.X, (int)currentLocation.Y) == BlockType.Block)
+                if (Services.Game.Level.IsPixelPassable((int)currentLocation.X, (int)currentLocation.Y) == BlockType.Block)
                     return new RayResult(true, currentLocation);
             }
 

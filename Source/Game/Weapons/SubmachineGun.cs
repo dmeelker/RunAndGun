@@ -34,7 +34,7 @@ namespace SdlTest.Weapons
             var projectileVector = Vector.FromAngleInDegrees(angle);
             var sourceLocation = location + vector.ToUnit() * sprite.Width;
             var projectile = new Projectile(source, sourceLocation, projectileVector * 40, 1, Range);
-            Services.EntityManager.Add(projectile);
+            Services.Game.Entities.Add(projectile);
         }
 
         public override void Render(IntPtr rendererId, Point location, Vector vector)

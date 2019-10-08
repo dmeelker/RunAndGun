@@ -28,12 +28,12 @@ namespace SdlTest.Entities
 
         public override void Update(uint time, int ticksPassed)
         {
-            Physics.Update(ticksPassed, Services.Session.Level);
+            Physics.Update(ticksPassed, Services.Game.Level);
 
             if(Physics.VerticalCollision.Collision)
             {
                 var bloodDecal = new Decal(new Vector(Physics.VerticalCollision.X - (Size.X / 2), Physics.VerticalCollision.Y));
-                Services.EntityManager.Add(bloodDecal);
+                Services.Game.Entities.Add(bloodDecal);
                 Dispose();
             }
         }

@@ -30,7 +30,7 @@ namespace SdlTest.Entities
             vector = (vector.ToUnit() * -1) * Services.Random.Next(2, 5);
             
             var wreckage = new Wreckage(Location + location + offset, vector);
-            Services.EntityManager.Add(wreckage);
+            Services.Game.Entities.Add(wreckage);
 
             hitpoint -= projectile.Power;
             if (hitpoint <= 0)

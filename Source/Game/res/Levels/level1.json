@@ -7567,5 +7567,19 @@
         false
       ]
     ]
-  }
+  },
+  "Enemies": [
+    {
+      "Type": "PistolGrunt",
+      "X": 500,
+      "Y": 300,
+      "Direction": "Left"
+    },
+    {
+      "Type": "ShotgunGrunt",
+      "X": 700,
+      "Y": 300,
+      "Direction": "Right"
+    }
+  ]
 }

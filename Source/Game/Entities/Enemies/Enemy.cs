@@ -4,6 +4,7 @@ using SdlTest.Levels;
 using SdlTest.Types;
 using SdlTest.Utilities;
 using SdlTest.Weapons;
+using SharedTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,7 +73,7 @@ namespace SdlTest.Entities.Enemies
                 }
             }
 
-            Physics.Update(ticksPassed, Services.Session.Level);
+            Physics.Update(ticksPassed, Services.Game.Level);
             Physics.Impulse = Vector.Zero;
 
             Character.Update(time, ticksPassed);
@@ -80,7 +81,7 @@ namespace SdlTest.Entities.Enemies
 
         private void UpdateTarget(uint time)
         {
-            var newTarget = Services.EntityManager.FindEntities(new Rect(Location.X - SenseRange, Location.Y - SenseRange, SenseRange * 2, SenseRange * 2)).Where(entity => entity is PlayerEntity).FirstOrDefault();
+            var newTarget = Services.Game.Entities.FindEntities(new Rect(Location.X - SenseRange, Location.Y - SenseRange, SenseRange * 2, SenseRange * 2)).Where(entity => entity is PlayerEntity).FirstOrDefault();
 
             if (Target == null && newTarget != null && FacingTowardsTarget(newTarget) && CanSeeTarget(newTarget))
             {
@@ -113,7 +114,7 @@ namespace SdlTest.Entities.Enemies
             var vector = target.Location - Location;
             var maxDistance = (int)Math.Min(vector.Length, 500);
 
-            var result = RayCaster.CastRay(Services.Session.Level, Location, vector, maxDistance);
+            var result = RayCaster.CastRay(Services.Game.Level, Location, vector, maxDistance);
             return !result.Hit;
         }
 
