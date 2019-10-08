@@ -33,17 +33,17 @@ namespace Editor
 
         private void LoadLevel()
         {
-            var fileData = FileFormats.Levels.Loader.Load("level1.json");
+            var fileData = FileFormats.Levels.Loader.Load(@"..\..\..\Game\res\Levels\level1.json");
 
             level = FileFormatConverter.ConvertFromFileFormat(fileData);
             //level = new Level(5000, 600);
-            level.Image = Image.FromFile(@"D:\Projects\SdlTest\Source\Game\res\backdrop.png");
+            level.Image = Image.FromFile(@"..\..\..\Game\res\backdrop.png");
         }
 
         private void saveMenuItem_Click(object sender, EventArgs e)
         {
             var fileFormat = FileFormatConverter.ConvertToFileFormat(level);
-            FileFormats.Levels.Saver.Save(fileFormat, "level1.json");
+            FileFormats.Levels.Saver.Save(fileFormat, @"..\..\..\Game\res\Levels\level1.json");
         }
     }
 }
