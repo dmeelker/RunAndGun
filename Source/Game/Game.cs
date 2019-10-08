@@ -16,6 +16,14 @@ namespace SdlTest
         public EntityManager Entities { get; private set; } = new EntityManager();
         public Level Level { get; private set; }
         public PlayerEntity Player { get; private set; }
+        private Renderer renderer;
+        private InputHandler inputHandler;
+
+        public Game()
+        {
+            renderer = new Renderer(this);
+            inputHandler = new InputHandler(this, renderer);
+        }
 
         public void LoadLevel(FileFormats.Levels.LevelFile levelData)
         {
@@ -27,6 +35,14 @@ namespace SdlTest
             LoadCollisionData(levelData);
             LoadEnemies(levelData.Enemies);
             InitializePlayer();
+        }
+
+        public void Update(uint time, int timePassed)
+        {
+            inputHandler.HandleInput(time);
+            Entities.UpdateEntities(time, timePassed);
+
+            renderer.CenterViewOnEntity(Player);
         }
 
         private void LoadCollisionData(FileFormats.Levels.LevelFile levelData)
@@ -60,6 +76,16 @@ namespace SdlTest
             Player.AddWeapon(new SubmachineGun());
             Player.AddWeapon(new SniperRifle());
             Entities.Add(Player);
+        }
+
+        public void Render(IntPtr ren, uint time)
+        {
+            renderer.Render(ren, time);
+        }
+
+        public void Close()
+        {
+            Program.quit = true;
         }
     }
 }

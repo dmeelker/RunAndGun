@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SdlTest
+namespace SdlTest.Utilities
 {
     public static class Angles
     {
