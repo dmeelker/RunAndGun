@@ -65,7 +65,7 @@ namespace SdlTest
             Services.Textures.LoadTexture(ren, "res/block.png", "block");
             Services.Textures.LoadTexture(ren, "res/projectile.png", "projectile");
             Services.Textures.LoadTexture(ren, "res/crate.png", "crate");
-            Services.Textures.LoadTexture(ren, "res/Font/DTM-Sans_0.png", "DTM-Sans_0");
+            
             Services.Textures.LoadTexture(ren, "res/backdrop.png", "backdrop");
 
             LoadTextureAndSprite("res/Gibs/gib.png", "gib");
@@ -85,15 +85,32 @@ namespace SdlTest
             Services.Sprites.Add(new Sprites.Sprite(Services.Textures["crate"]), "crate");
             Services.Sprites.Add(new Sprites.Sprite(Services.Textures["backdrop"]), "backdrop");
 
-            using var fontFile = File.OpenRead(Path.Combine("res", "font", "DTM-Sans.fnt"));
-            var font = new Font(fontFile, Services.Textures["DTM-Sans_0"]);
-            Services.Fonts.Add(font, "default");
+            LoadFont("res/Font/DTM-Sans_0.png", "DTM-Sans.fnt", "default");
+            LoadFont("res/Font/Sabo-Filled_0.png", "Sabo-Filled.fnt", "big");
+
+            //var texture = Services.Textures.LoadTexture(ren, "res/Font/DTM-Sans_0.png", "DTM-Sans_0");
+            //using var fontFile = File.OpenRead(Path.Combine("res", "font", "DTM-Sans.fnt"));
+            //var font = new Font(fontFile, texture);
+            //Services.Fonts.Add(font, "default");
+
+            //Services.Textures.LoadTexture(ren, "res/Font/Sabo-Filled_0.png", "Sabo-Filled_0");
+            //using var fontFile = File.OpenRead(Path.Combine("res", "font", "Sabo-Filled.fnt"));
+            //var font = new Font(fontFile, Services.Textures["Sabo-Filled_0"]);
+            //Services.Fonts.Add(font, "big");
         }
 
         private static void LoadTextureAndSprite(string fileName, string name)
         {
             Services.Textures.LoadTexture(ren, fileName, name);
             Services.Sprites.Add(new Sprites.Sprite(Services.Textures[name]), name);
+        }
+
+        private static void LoadFont(string imageFile, string fontDescriptorFile, string name)
+        {
+            var texture = Services.Textures.LoadTexture(ren, imageFile, "Font-" + name);
+            using var fontFile = File.OpenRead(Path.Combine("res", "font", fontDescriptorFile));
+            var font = new Font(fontFile, texture);
+            Services.Fonts.Add(font, name);
         }
 
         public static void SetWindowTitle(string title)

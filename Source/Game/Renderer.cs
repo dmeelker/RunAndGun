@@ -35,7 +35,7 @@ namespace SdlTest
             //RenderLevel(ren, Services.Session.Level);
             Services.Game.Entities.RenderEntities(ren, ViewOffset);
 
-            var font = Services.Fonts["default"];
+            var font = Services.Fonts["big"];
             var weapon = Services.Game.Player.Character.Weapon;
 
             font.Render(ren, weapon.Name, 700, 500);

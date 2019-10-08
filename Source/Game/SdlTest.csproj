@@ -56,6 +56,12 @@
     <None Update="res\Font\DTM-Sans_0.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="res\Font\Sabo-Filled.fnt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="res\Font\Sabo-Filled_0.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="res\gib.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
