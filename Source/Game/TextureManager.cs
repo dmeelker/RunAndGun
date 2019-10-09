@@ -13,7 +13,7 @@ namespace SdlTest
         {
             var texture = SDL_image.IMG_LoadTexture(renderer, filename);
             textures.Add(key, texture);
-
+            
             return texture;
         }
 

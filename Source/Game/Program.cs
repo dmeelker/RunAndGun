@@ -15,6 +15,9 @@ namespace SdlTest
         public const int WindowWidth = 800;
         public const int WindowHeight = 600;
 
+        static IntPtr cursorSurface;
+        static IntPtr cursor;
+
         static void Main(string[] args)
         {
             SDL.SDL_Init(SDL.SDL_INIT_VIDEO);
@@ -36,6 +39,10 @@ namespace SdlTest
                 return;
             }
 
+            cursorSurface = SDL_image.IMG_Load("res/Cursors/crosshair.png");
+            cursor = SDL.SDL_CreateColorCursor(cursorSurface, 18, 18);
+            SDL.SDL_SetCursor(cursor);
+
             LoadTextures();
 
             Services.Game.LoadLevel(FileFormats.Levels.Loader.Load(@"res\Levels\level1.json"));
@@ -54,6 +61,8 @@ namespace SdlTest
             }
 
             Services.Textures.Cleanup();
+            SDL.SDL_FreeCursor(cursor);
+            SDL.SDL_FreeSurface(cursorSurface);
             SDL.SDL_DestroyRenderer(ren);
             SDL.SDL_DestroyWindow(win);
             SDL.SDL_Quit();

@@ -1,4 +1,4 @@
-$aseprite="D:\Documents\GoogleDrive\tools\Aseprite-v1.2.9\Aseprite.exe"
+$aseprite="Aseprite.exe"
 $gfxDir="..\Source\Game\res"
 
 function ResizeImage {
