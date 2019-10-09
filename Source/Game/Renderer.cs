@@ -15,6 +15,7 @@ namespace SdlTest
         public Point ViewOffset;
         private Point viewSize = new Point(Program.WindowWidth, Program.WindowHeight);
         private Point viewSizeHalf = new Point(Program.WindowWidth / 2, Program.WindowHeight / 2);
+        private double horizontalOffset = 0;
 
         private int fps;
         private int fpsCounter;
@@ -94,30 +95,18 @@ namespace SdlTest
             }
         }
 
-        private int horizontalOffset = 0;
-        
-
         public void FollowPlayer(PlayerEntity player, int timePassed)
         {
+            var rate = player.Moving ? 4.0 : 10.0;
+            var change = timePassed / rate;
 
-            if (player.Moving)
-            {
-                if (player.Character.Direction == SharedTypes.Direction.Left)
-                {
-                    horizontalOffset -= timePassed / 4;// / 100;
-                    if (horizontalOffset < -200)
-                        horizontalOffset = -200;
-                }
-                else
-                {
-                    horizontalOffset += timePassed / 4;// / 100;
-                    if (horizontalOffset > 200)
-                        horizontalOffset = 200;
-                }
-            }
+            if (player.Character.Direction == SharedTypes.Direction.Left)
+                horizontalOffset = Math.Max(horizontalOffset - change, -200);
+            else
+                horizontalOffset = Math.Min(horizontalOffset + change, 200);
 
             ViewOffset = player.Location.ToPoint() - viewSizeHalf;
-            ViewOffset.X += horizontalOffset;
+            ViewOffset.X += (int) horizontalOffset;
             ViewOffset.Y = Math.Min(ViewOffset.Y, Services.Game.Level.HeightInPixels - Program.WindowHeight);
         }
     }
