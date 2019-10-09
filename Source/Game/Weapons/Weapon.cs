@@ -35,7 +35,7 @@ namespace SdlTest.Weapons
         private uint stateEntranceTime = 0;
         private readonly int fireDuration;
         private readonly int reloadDuration;
-
+        protected bool renderRecoil = false;
 
         public Weapon(int clipSize, int fireDuration, int reloadDuration)
         {
@@ -80,6 +80,8 @@ namespace SdlTest.Weapons
 
         public void Update(uint time)
         {
+            renderRecoil = state == State.Firing && time - stateEntranceTime < 50;
+
             switch (state)
             {
                 case State.ReadyToFire:

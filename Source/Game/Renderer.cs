@@ -65,7 +65,7 @@ namespace SdlTest
             {
                 var reloadMessage = weapon.ReloadPossible ? "RELOAD!" : "OUT OF AMMO!";
                 var stringWidth = font.GetStringWidth(reloadMessage);
-                font.Render(ren, reloadMessage, viewSizeHalf.X - (stringWidth / 2), 20);
+                font.Render(ren, reloadMessage, viewSizeHalf.X - (stringWidth / 2), 100);
             }
         }
 

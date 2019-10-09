@@ -36,6 +36,9 @@ namespace SdlTest.Weapons
 
             location -= vector.ToUnit() * 8;
 
+            if (renderRecoil)
+                location -= vector.ToUnit() * 4;
+
             sprite.DrawEx(rendererId, location, vector.AngleInDegrees, center, flip);
         }
     }
