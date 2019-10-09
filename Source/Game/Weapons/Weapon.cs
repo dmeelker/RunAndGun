@@ -118,6 +118,7 @@ namespace SdlTest.Weapons
         public abstract void Render(IntPtr rendererId, Point location, Vector vector);
 
         public bool ReloadNeeded => ClipContent == 0;
+        public bool ReloadPossible => InfiniteAmmo || AmmoReserve > 0;
         protected void ReduceAmmo()
         {
             ClipContent--;

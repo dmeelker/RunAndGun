@@ -43,6 +43,8 @@ namespace SdlTest
 
             font.Render(ren, $"HP: {Services.Game.Player.Character.Hitpoints}/{CharacterComponent.MaxHitpoints}", 0, 500);
             font.Render(ren, $"Armor: {Services.Game.Player.Character.Armor}/{CharacterComponent.MaxArmor}", 0, 520);
+            
+            RenderReloadAndAmmoIndicator(ren, time, font, weapon);
 
             SDL.SDL_RenderPresent(ren);
             fpsCounter++;
@@ -54,6 +56,16 @@ namespace SdlTest
                 lastFpsUpdateTime = time;
 
                 Program.SetWindowTitle("FPS: " + fps);
+            }
+        }
+
+        private void RenderReloadAndAmmoIndicator(IntPtr ren, uint time, Text.Font font, Weapons.Weapon weapon)
+        {
+            if (weapon.ReloadNeeded && time % 1000 > 500)
+            {
+                var reloadMessage = weapon.ReloadPossible ? "RELOAD!" : "OUT OF AMMO!";
+                var stringWidth = font.GetStringWidth(reloadMessage);
+                font.Render(ren, reloadMessage, viewSizeHalf.X - (stringWidth / 2), 20);
             }
         }
 
