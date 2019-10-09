@@ -17,6 +17,7 @@ namespace SdlTest.Weapons
         {
             sprite = Services.Sprites["sniperrifle"];
             Range = 2000;
+            EffectiveRange = 1000;
         }
 
         protected override void FireInternal(uint time, Entity source, Vector location, Vector vector)

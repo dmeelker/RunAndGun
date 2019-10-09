@@ -1,5 +1,6 @@
 ﻿using SDL2;
 using SdlTest.Components;
+using SdlTest.Entities.Enemies;
 using SdlTest.Levels;
 using SdlTest.Sprites;
 using SdlTest.Types;
@@ -69,6 +70,9 @@ namespace SdlTest.Entities
 
                 if (entity is IProjectileCollider)
                 {
+                    if (source is Enemy && entity is Enemy)
+                        continue;
+
                     var intersection = boundingBox.Intersect(entity.GetBoundingBox());
                     var hitLocation = new Vector(intersection.X + (intersection.Width / 2), intersection.Y + (intersection.Height / 2)) - entity.Location;
 

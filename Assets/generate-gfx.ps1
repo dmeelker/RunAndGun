@@ -1,9 +1,16 @@
 $aseprite="Aseprite.exe"
-$gfxDir="..\Source\Game\res"
+$gfxDir="..\Source\Game\Resources"
 
 function ResizeImage {
 	param($file)
+	$scale = 3
     $directory = [System.IO.Path]::GetDirectoryName($file)
+Write-Output $directory
+    if($directory -eq ".\Backdrops")
+    {
+    	$scale = 2
+    }
+
     $directory = Join-Path $gfxDir $directory
     $fileName = [io.path]::GetFileNameWithoutExtension($file)
     $fileName = "$fileName.png"
@@ -16,7 +23,7 @@ function ResizeImage {
     }
 
     Write-Output " Processing $file"
-	Invoke-Expression "$aseprite -b $file --scale 3 --save-as $targetFile"
+	Invoke-Expression "$aseprite -b $file --scale $scale --save-as $targetFile"
 }
 
 $files = Get-ChildItem $PSScriptRoot -Filter *.aseprite -Recurse

@@ -22,7 +22,7 @@ namespace SdlTest.Entities.Enemies
         {
             var enemy = new Enemy(location, initialDirection) { 
                 Accuracy = 0,
-                SenseRange = 400
+                SenseRange = 500
             };
 
             enemy.SetWeapon(new Pistol());
@@ -34,7 +34,7 @@ namespace SdlTest.Entities.Enemies
             var enemy = new Enemy(location, initialDirection)
             {
                 Accuracy = 0,
-                SenseRange = 400
+                SenseRange = 500
             };
 
             enemy.SetWeapon(new Shotgun());

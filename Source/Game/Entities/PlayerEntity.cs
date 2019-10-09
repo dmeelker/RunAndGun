@@ -18,6 +18,7 @@ namespace SdlTest.Entities
         public readonly WeaponType[] WeaponOrder = new WeaponType[] { WeaponType.Pistol, WeaponType.Shotgun, WeaponType.SubmachineGun, WeaponType.SniperRifle };
         private readonly Dictionary<WeaponType, Weapon> weapons = new Dictionary<WeaponType, Weapon>();
         private bool firing = false;
+        public bool Moving { get; private set; } = false;
 
         public PlayerEntity(Vector location)
         {
@@ -50,6 +51,29 @@ namespace SdlTest.Entities
         public void StopFiring()
         {
             Character.StopFiring();
+        }
+
+        public void MoveLeft()
+        {
+            Physics.Impulse.X = -10;
+            Moving = true;
+        }
+
+        public void MoveRight()
+        {
+            Physics.Impulse.X = 10;
+            Moving = true;
+        }
+
+        public void StopMoving()
+        {
+            Physics.Impulse.X = 0;
+            Moving = false;
+        }
+
+        public void Jump()
+        {
+            Physics.Velocity.Y = -13;
         }
 
         public override void Render(IntPtr rendererId, Point viewOffset)

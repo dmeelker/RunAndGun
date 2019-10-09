@@ -23,7 +23,7 @@ namespace SdlTest.Entities.Enemies
         public int Accuracy = 0;
 
         private TickTimer updateTimer = new TickTimer(100);
-        private TickTimer fireTimer = new TickTimer(1000);
+        private TickTimer fireTimer = new TickTimer(2000);
 
         public Enemy(Vector location, Direction initialDirection)
         {
@@ -57,7 +57,7 @@ namespace SdlTest.Entities.Enemies
                 }
                 else
                 {
-                    Character.AimAt(Target.Location.ToPoint(), Accuracy);
+                    Character.AimAt(Target.Location.ToPoint());
                     if (Character.Weapon.ReloadNeeded)
                     {
                         MoveToCover();
@@ -67,7 +67,7 @@ namespace SdlTest.Entities.Enemies
                     {
                         if (fireTimer.Update(time))
                         {
-                            Character.Fire(time);
+                            Character.Fire(time, Accuracy);
                         }
                     }
                 }
@@ -121,7 +121,7 @@ namespace SdlTest.Entities.Enemies
         private bool InFiringRange(Entity target)
         {
             var distance = DistanceTo(target);
-            return distance <= Character.Weapon.Range && distance <= SenseRange;
+            return distance <= Character.Weapon.EffectiveRange && distance <= SenseRange;
         }
 
         private bool FacingTowardsTarget(Entity target)

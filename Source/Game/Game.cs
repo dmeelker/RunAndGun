@@ -42,7 +42,7 @@ namespace SdlTest
             inputHandler.HandleInput(time);
             Entities.UpdateEntities(time, timePassed);
 
-            renderer.CenterViewOnEntity(Player);
+            renderer.FollowPlayer(Player, timePassed);
         }
 
         private void LoadCollisionData(FileFormats.Levels.LevelFile levelData)

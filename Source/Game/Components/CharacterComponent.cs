@@ -43,18 +43,10 @@ namespace SdlTest.Components
             Weapon.Update(time);
         }
 
-        public void AimAt(Point point, int accuracy = MaxAccuracy)
+        public void AimAt(Point point)
         {
             var vector = (new Vector(point.X - 4, point.Y - 4) - entity.Location - WeaponLocation).ToUnit();
             var angle = vector.AngleInDegrees;
-
-            if (accuracy < MaxAccuracy)
-            {
-                var rangeInDegrees = MaxAccuracy - accuracy;
-                var deviation = Services.Random.Next(0, rangeInDegrees) - (rangeInDegrees / 2);
-                angle += deviation;
-                vector = Vector.FromAngleInDegrees(angle);
-            }
 
             Direction = angle > -90 && angle < 90 ? Direction.Right : Direction.Left;
             WeaponLocation = Direction == Direction.Right ? new Vector(18, 12) : new Vector(entity.Size.X - 18, 12);
@@ -74,9 +66,20 @@ namespace SdlTest.Components
             firing = false;
         }
 
-        public void Fire(uint time)
+        public void Fire(uint time, int accuracy = MaxAccuracy)
         {
-            Weapon.Fire(time, entity, entity.Location + WeaponLocation, AimVector);
+            var vector = AimVector;
+
+            if (accuracy < MaxAccuracy)
+            {
+                var angle = vector.AngleInDegrees;
+                var rangeInDegrees = MaxAccuracy - accuracy;
+                var deviation = Services.Random.Next(0, rangeInDegrees) - (rangeInDegrees / 2);
+                angle += deviation;
+                vector = Vector.FromAngleInDegrees(angle);
+            }
+
+            Weapon.Fire(time, entity, entity.Location + WeaponLocation, vector);
         }
 
         public void Reload(uint time)

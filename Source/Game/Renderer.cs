@@ -94,9 +94,30 @@ namespace SdlTest
             }
         }
 
-        public void CenterViewOnEntity(Entity entity)
+        private int horizontalOffset = 0;
+        
+
+        public void FollowPlayer(PlayerEntity player, int timePassed)
         {
-            ViewOffset = entity.Location.ToPoint() - viewSizeHalf;
+
+            if (player.Moving)
+            {
+                if (player.Character.Direction == SharedTypes.Direction.Left)
+                {
+                    horizontalOffset -= timePassed / 4;// / 100;
+                    if (horizontalOffset < -200)
+                        horizontalOffset = -200;
+                }
+                else
+                {
+                    horizontalOffset += timePassed / 4;// / 100;
+                    if (horizontalOffset > 200)
+                        horizontalOffset = 200;
+                }
+            }
+
+            ViewOffset = player.Location.ToPoint() - viewSizeHalf;
+            ViewOffset.X += horizontalOffset;
             ViewOffset.Y = Math.Min(ViewOffset.Y, Services.Game.Level.HeightInPixels - Program.WindowHeight);
         }
     }

@@ -30,6 +30,7 @@ namespace SdlTest.Weapons
         public bool InfiniteAmmo { get; set; } = false;
         public bool AutomaticFire { get; protected set; } = false;
         public int Range { get; set; } = 400;
+        public int EffectiveRange { get; set; } = 400;
 
         private State state = State.ReadyToFire;
         private uint stateEntranceTime = 0;

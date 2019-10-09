@@ -28,19 +28,17 @@ namespace SdlTest
                 else if (e.type == SDL.SDL_EventType.SDL_KEYDOWN)
                 {
                     if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_a)
-                        game.Player.Physics.Impulse.X = -10;
+                        game.Player.MoveLeft();
                     else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_d)
-                        game.Player.Physics.Impulse.X = 10;
+                        game.Player.MoveRight();
                     else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_w)
-                        game.Player.Physics.Velocity.Y = -13;
+                        game.Player.Jump();
 
                 }
                 else if (e.type == SDL.SDL_EventType.SDL_KEYUP)
                 {
-                    if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_a)
-                        game.Player.Physics.Impulse.X = 0;
-                    else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_d)
-                        game.Player.Physics.Impulse.X = 0;
+                    if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_a || e.key.keysym.sym == SDL.SDL_Keycode.SDLK_d)
+                        game.Player.StopMoving();
                     else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_r)
                         game.Player.Character.Reload(time);
 

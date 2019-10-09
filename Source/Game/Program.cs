@@ -75,7 +75,7 @@ namespace SdlTest
             Services.Textures.LoadTexture(ren, "Resources/projectile.png", "projectile");
             Services.Textures.LoadTexture(ren, "Resources/crate.png", "crate");
             
-            Services.Textures.LoadTexture(ren, "Resources/backdrop.png", "backdrop");
+            Services.Textures.LoadTexture(ren, "Resources/Backdrops/city.png", "backdrop");
 
             LoadTextureAndSprite("Resources/Gibs/gib.png", "gib");
             LoadTextureAndSprite("Resources/Gibs/floor-blood.png", "floor-blood");
