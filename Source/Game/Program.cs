@@ -88,6 +88,9 @@ namespace SdlTest
             LoadTextureAndSprite("Resources/Weapons/bulletcasing.png", "bulletcasing");
             LoadTextureAndSprite("Resources/Weapons/shotgunshell.png", "shotgunshell");
 
+            LoadTextureAndSprite("Resources/Collectables/medpack.png", "medpack");
+            LoadTextureAndSprite("Resources/Collectables/armor.png", "armor");
+
             Services.Sprites.Add(new Sprites.Sprite(Services.Textures["player"]), "player");
             Services.Sprites.Add(new Sprites.Sprite(Services.Textures["block"]), "block");
             Services.Sprites.Add(new Sprites.Sprite(Services.Textures["projectile"]), "projectile");

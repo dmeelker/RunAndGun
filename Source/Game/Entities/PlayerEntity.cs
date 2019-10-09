@@ -123,6 +123,17 @@ namespace SdlTest.Entities
             }
         }
 
+        public bool CanCollect(Collectable collectable)
+        {
+            return collectable switch
+            {
+                WeaponCollectable _ => true,
+                ArmorCollectable _ => !Character.ArmorFull,
+                MedpackCollectable _ => !Character.HitpointsFull,
+                _ => throw new Exception($"Unknown collectable {collectable.GetType().Name}")
+            };
+        }
+
         public void HitByProjectile(Projectile projectile, Vector vector, Vector location, Entity source)
         {
             Character.HitByProjectile(projectile, vector, location);

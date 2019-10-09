@@ -5,7 +5,7 @@ function ResizeImage {
 	param($file)
 	$scale = 3
     $directory = [System.IO.Path]::GetDirectoryName($file)
-Write-Output $directory
+
     if($directory -eq ".\Backdrops")
     {
     	$scale = 2

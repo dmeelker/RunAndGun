@@ -31,6 +31,8 @@ namespace SdlTest
 
             Entities.Add(new Crate(new Vector(600, 330)));
             Entities.Add(new WeaponCollectable(WeaponType.Shotgun, new Vector(300, 330)));
+            Entities.Add(new ArmorCollectable(new Vector(200, 330)));
+            Entities.Add(new MedpackCollectable(new Vector(240, 330)));
 
             LoadCollisionData(levelData);
             LoadEnemies(levelData.Enemies);

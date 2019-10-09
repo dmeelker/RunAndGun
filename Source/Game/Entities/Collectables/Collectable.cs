@@ -41,7 +41,11 @@ namespace SdlTest.Entities.Collectables
                 if (!(entity is PlayerEntity))
                     continue;
 
-                ((PlayerEntity)entity).Collect(this);
+                var player = (PlayerEntity)entity;
+                if (!player.CanCollect(this))
+                    continue;
+
+                player.Collect(this);
                 Dispose();
                 return;
             }

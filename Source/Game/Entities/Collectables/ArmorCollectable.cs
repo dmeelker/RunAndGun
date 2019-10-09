@@ -6,9 +6,9 @@ using System.Text;
 
 namespace SdlTest.Entities.Collectables
 {
-    class ArmorCollectable : Collectable
+    public class ArmorCollectable : Collectable
     {
-        public ArmorCollectable(Vector location) : base(location, Services.Sprites["shotgun"])
+        public ArmorCollectable(Vector location) : base(location, Services.Sprites["armor"])
         {
         }
     }
