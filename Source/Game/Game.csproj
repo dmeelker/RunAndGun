@@ -38,70 +38,70 @@
     <None Update="libwebp-7.dll">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="res\backdrop.png">
+    <None Update="Resources\backdrop.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="res\block.png">
+    <None Update="Resources\block.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="res\crate.png">
+    <None Update="Resources\crate.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="res\Cursors\Crosshair.png">
+    <None Update="Resources\Cursors\crosshair.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="res\floor-blood.png">
+    <None Update="Resources\floor-blood.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="res\Font\DTM-Sans.fnt">
+    <None Update="Resources\Font\DTM-Sans.fnt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="res\Font\DTM-Sans_0.png">
+    <None Update="Resources\Font\DTM-Sans_0.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="res\Font\Sabo-Filled.fnt">
+    <None Update="Resources\Font\Sabo-Filled.fnt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="res\Font\Sabo-Filled_0.png">
+    <None Update="Resources\Font\Sabo-Filled_0.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="res\gib.png">
+    <None Update="Resources\gib.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="res\Gibs\floor-blood.png">
+    <None Update="Resources\Gibs\floor-blood.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="res\Gibs\gib.png">
+    <None Update="Resources\Gibs\gib.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="res\Levels\level1.json">
+    <None Update="Resources\Levels\level1.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="res\projectile.png">
+    <None Update="Resources\projectile.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="res\shotgun.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="res\test.png">
+    <None Update="Resources\test.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="res\Weapons\bulletcasing.png">
+    <None Update="Resources\Weapons\bulletcasing.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="res\Weapons\pistol.png">
+    <None Update="Resources\Weapons\pistol.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="res\Weapons\shotgun.png">
+    <None Update="Resources\Weapons\shotgun.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="res\Weapons\shotgunshell.png">
+    <None Update="Resources\Weapons\shotgunshell.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="res\Weapons\sniperrifle.png">
+    <None Update="Resources\Weapons\sniperrifle.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="res\Weapons\submachinegun.png">
+    <None Update="Resources\Weapons\submachinegun.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="SDL2.dll">

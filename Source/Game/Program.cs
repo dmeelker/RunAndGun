@@ -39,13 +39,13 @@ namespace SdlTest
                 return;
             }
 
-            cursorSurface = SDL_image.IMG_Load("res/Cursors/crosshair.png");
+            cursorSurface = SDL_image.IMG_Load("Resources/Cursors/crosshair.png");
             cursor = SDL.SDL_CreateColorCursor(cursorSurface, 18, 18);
             SDL.SDL_SetCursor(cursor);
 
             LoadTextures();
 
-            Services.Game.LoadLevel(FileFormats.Levels.Loader.Load(@"res\Levels\level1.json"));
+            Services.Game.LoadLevel(FileFormats.Levels.Loader.Load(@"Resources\Levels\level1.json"));
 
             uint lastUpdateTime = SDL.SDL_GetTicks();
 
@@ -70,23 +70,23 @@ namespace SdlTest
         
         private static void LoadTextures()
         {
-            Services.Textures.LoadTexture(ren, "res/test.png", "player");
-            Services.Textures.LoadTexture(ren, "res/block.png", "block");
-            Services.Textures.LoadTexture(ren, "res/projectile.png", "projectile");
-            Services.Textures.LoadTexture(ren, "res/crate.png", "crate");
+            Services.Textures.LoadTexture(ren, "Resources/test.png", "player");
+            Services.Textures.LoadTexture(ren, "Resources/block.png", "block");
+            Services.Textures.LoadTexture(ren, "Resources/projectile.png", "projectile");
+            Services.Textures.LoadTexture(ren, "Resources/crate.png", "crate");
             
-            Services.Textures.LoadTexture(ren, "res/backdrop.png", "backdrop");
+            Services.Textures.LoadTexture(ren, "Resources/backdrop.png", "backdrop");
 
-            LoadTextureAndSprite("res/Gibs/gib.png", "gib");
-            LoadTextureAndSprite("res/Gibs/floor-blood.png", "floor-blood");
+            LoadTextureAndSprite("Resources/Gibs/gib.png", "gib");
+            LoadTextureAndSprite("Resources/Gibs/floor-blood.png", "floor-blood");
 
-            LoadTextureAndSprite("res/Weapons/pistol.png", "pistol");
-            LoadTextureAndSprite("res/Weapons/shotgun.png", "shotgun");
-            LoadTextureAndSprite("res/Weapons/submachinegun.png", "submachinegun");
-            LoadTextureAndSprite("res/Weapons/sniperrifle.png", "sniperrifle");
+            LoadTextureAndSprite("Resources/Weapons/pistol.png", "pistol");
+            LoadTextureAndSprite("Resources/Weapons/shotgun.png", "shotgun");
+            LoadTextureAndSprite("Resources/Weapons/submachinegun.png", "submachinegun");
+            LoadTextureAndSprite("Resources/Weapons/sniperrifle.png", "sniperrifle");
 
-            LoadTextureAndSprite("res/Weapons/bulletcasing.png", "bulletcasing");
-            LoadTextureAndSprite("res/Weapons/shotgunshell.png", "shotgunshell");
+            LoadTextureAndSprite("Resources/Weapons/bulletcasing.png", "bulletcasing");
+            LoadTextureAndSprite("Resources/Weapons/shotgunshell.png", "shotgunshell");
 
             Services.Sprites.Add(new Sprites.Sprite(Services.Textures["player"]), "player");
             Services.Sprites.Add(new Sprites.Sprite(Services.Textures["block"]), "block");
@@ -94,18 +94,8 @@ namespace SdlTest
             Services.Sprites.Add(new Sprites.Sprite(Services.Textures["crate"]), "crate");
             Services.Sprites.Add(new Sprites.Sprite(Services.Textures["backdrop"]), "backdrop");
 
-            LoadFont("res/Font/DTM-Sans_0.png", "DTM-Sans.fnt", "default");
-            LoadFont("res/Font/Sabo-Filled_0.png", "Sabo-Filled.fnt", "big");
-
-            //var texture = Services.Textures.LoadTexture(ren, "res/Font/DTM-Sans_0.png", "DTM-Sans_0");
-            //using var fontFile = File.OpenRead(Path.Combine("res", "font", "DTM-Sans.fnt"));
-            //var font = new Font(fontFile, texture);
-            //Services.Fonts.Add(font, "default");
-
-            //Services.Textures.LoadTexture(ren, "res/Font/Sabo-Filled_0.png", "Sabo-Filled_0");
-            //using var fontFile = File.OpenRead(Path.Combine("res", "font", "Sabo-Filled.fnt"));
-            //var font = new Font(fontFile, Services.Textures["Sabo-Filled_0"]);
-            //Services.Fonts.Add(font, "big");
+            LoadFont("Resources/Font/DTM-Sans_0.png", "DTM-Sans.fnt", "default");
+            LoadFont("Resources/Font/Sabo-Filled_0.png", "Sabo-Filled.fnt", "big");
         }
 
         private static void LoadTextureAndSprite(string fileName, string name)
@@ -117,7 +107,7 @@ namespace SdlTest
         private static void LoadFont(string imageFile, string fontDescriptorFile, string name)
         {
             var texture = Services.Textures.LoadTexture(ren, imageFile, "Font-" + name);
-            using var fontFile = File.OpenRead(Path.Combine("res", "font", fontDescriptorFile));
+            using var fontFile = File.OpenRead(Path.Combine("Resources", "font", fontDescriptorFile));
             var font = new Font(fontFile, texture);
             Services.Fonts.Add(font, name);
         }
