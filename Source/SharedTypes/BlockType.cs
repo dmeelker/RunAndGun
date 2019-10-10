@@ -2,8 +2,8 @@
 {
     public enum BlockType
     {
-        Open,
-        Solid,
-        ProjectilePassingSolid
+        Open = 0,
+        Solid = 1,
+        ProjectilePassingSolid = 2
     }
 }

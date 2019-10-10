@@ -16,6 +16,7 @@ namespace Editor.Components
         private Level level;
         private Point viewOffset;
         private Point lastMouseLocation;
+        public BlockType SelectedBlockType = BlockType.Solid;
 
         public Level Level {
             get => level;
@@ -64,6 +65,8 @@ namespace Editor.Components
                     var blockType = level.CollisionMap[x, y];
                     if (blockType == SharedTypes.BlockType.Solid)
                         g.FillRectangle(Brushes.LightGray, drawLocation.X, drawLocation.Y, Level.BlockSize, Level.BlockSize);
+                    if (blockType == SharedTypes.BlockType.ProjectilePassingSolid)
+                        g.FillRectangle(Brushes.LightBlue, drawLocation.X, drawLocation.Y, Level.BlockSize, Level.BlockSize);
 
                     drawLocation.Y += Level.BlockSize;
                 }
@@ -78,9 +81,9 @@ namespace Editor.Components
             if (e.Button == MouseButtons.Middle)
                 lastMouseLocation = e.Location;
             else if (e.Button == MouseButtons.Left)
-                DrawCollisionMap(e.Location.Add(viewOffset), true);
+                DrawCollisionMap(e.Location.Add(viewOffset), SelectedBlockType);
             else if (e.Button == MouseButtons.Right)
-                DrawCollisionMap(e.Location.Add(viewOffset), false);
+                DrawCollisionMap(e.Location.Add(viewOffset), BlockType.Open);
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
@@ -98,15 +101,15 @@ namespace Editor.Components
                 Redraw();
             }
             else if (e.Button == MouseButtons.Left)
-                DrawCollisionMap(e.Location.Add(viewOffset), true);
+                DrawCollisionMap(e.Location.Add(viewOffset), SelectedBlockType);
             else if (e.Button == MouseButtons.Right)
-                DrawCollisionMap(e.Location.Add(viewOffset), false);
+                DrawCollisionMap(e.Location.Add(viewOffset), BlockType.Open);
         }
 
-        private void DrawCollisionMap(Point point, bool blocks)
+        private void DrawCollisionMap(Point point, BlockType blockType)
         {
             var clickedCell = point.Divide(Level.BlockSize);
-            Level.CollisionMap[clickedCell.X, clickedCell.Y] = blocks ? BlockType.Solid : BlockType.Open;
+            Level.CollisionMap[clickedCell.X, clickedCell.Y] = blockType;
             Redraw();
         }
 

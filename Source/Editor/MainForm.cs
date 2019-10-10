@@ -36,7 +36,7 @@ namespace Editor
             var fileData = FileFormats.Levels.Loader.Load(@"..\..\..\Game\Resources\Levels\level1.json");
 
             level = FileFormatConverter.ConvertFromFileFormat(fileData);
-            level = new Level(5000, 600);
+            //level = new Level(5000, 600);
             level.Image = Image.FromFile(@"..\..\..\Game\Resources\Backdrops\city.png");
         }
 
@@ -44,6 +44,14 @@ namespace Editor
         {
             var fileFormat = FileFormatConverter.ConvertToFileFormat(level);
             FileFormats.Levels.Saver.Save(fileFormat, @"..\..\..\Game\Resources\Levels\level1.json");
+        }
+
+        private void MainForm_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.D1)
+                viewport.SelectedBlockType = SharedTypes.BlockType.Solid;
+            else if(e.KeyCode == Keys.D2)
+                viewport.SelectedBlockType = SharedTypes.BlockType.ProjectilePassingSolid;
         }
     }
 }
