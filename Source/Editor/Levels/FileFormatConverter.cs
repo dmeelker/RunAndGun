@@ -1,4 +1,5 @@
 ﻿using FileFormats.Levels;
+using SharedTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,13 +45,13 @@ namespace Editor.Levels
             };
         }
 
-        private static bool[][] ConvertCollisionMapData(CollisionMap collisionMap)
+        private static BlockType[][] ConvertCollisionMapData(CollisionMap collisionMap)
         {
-            var data = new bool[collisionMap.Height][];
+            var data = new BlockType[collisionMap.Height][];
 
             for(int y=0; y<collisionMap.Height; y++)
             {
-                data[y] = new bool[collisionMap.Width];
+                data[y] = new BlockType[collisionMap.Width];
 
                 for(int x=0; x<collisionMap.Width; x++)
                 {

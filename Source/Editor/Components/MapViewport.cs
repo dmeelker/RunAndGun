@@ -1,5 +1,6 @@
 ﻿using Editor.Levels;
 using Editor.Types;
+using SharedTypes;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -60,8 +61,8 @@ namespace Editor.Components
                 drawLocation.Y = drawStart.Y;
                 for (int y = tileStart.Y; y < tileEnd.Y; y++)
                 {
-                    var blocked = level.CollisionMap[x, y];
-                    if (blocked)
+                    var blockType = level.CollisionMap[x, y];
+                    if (blockType == SharedTypes.BlockType.Solid)
                         g.FillRectangle(Brushes.LightGray, drawLocation.X, drawLocation.Y, Level.BlockSize, Level.BlockSize);
 
                     drawLocation.Y += Level.BlockSize;
@@ -105,7 +106,7 @@ namespace Editor.Components
         private void DrawCollisionMap(Point point, bool blocks)
         {
             var clickedCell = point.Divide(Level.BlockSize);
-            Level.CollisionMap[clickedCell.X, clickedCell.Y] = blocks;
+            Level.CollisionMap[clickedCell.X, clickedCell.Y] = blocks ? BlockType.Solid : BlockType.Open;
             Redraw();
         }
 

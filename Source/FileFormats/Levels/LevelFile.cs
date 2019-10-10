@@ -17,7 +17,7 @@ namespace FileFormats.Levels
         {
             public int Width { get; set; }
             public int Height { get; set; }
-            public bool[][] Data { get; set; }
+            public BlockType[][] Data { get; set; }
         }
 
         public class Enemy

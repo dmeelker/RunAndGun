@@ -119,7 +119,7 @@ namespace Game.Components
             if (checkType == CollisionCheckType.All)
                 return blockType == BlockType.Solid || blockType == BlockType.ProjectilePassingSolid;
             else if (checkType == CollisionCheckType.BlocksProjectiles)
-                return blockType == BlockType.ProjectilePassingSolid;
+                return blockType == BlockType.Solid;
             else
                 throw new Exception($"Unknown check type {checkType}");
         }

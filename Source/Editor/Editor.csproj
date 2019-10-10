@@ -95,6 +95,10 @@
       <Project>{a22f21dd-e31a-4345-b921-7eade706d20f}</Project>
       <Name>FileFormats</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SharedTypes\SharedTypes.csproj">
+      <Project>{DEA57967-15DB-4AD5-BD61-511784FC74CB}</Project>
+      <Name>SharedTypes</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

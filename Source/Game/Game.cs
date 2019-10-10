@@ -55,7 +55,7 @@ namespace Game
             {
                 for (int x = 0; x < levelData.CollisionMap.Width; x++)
                 {
-                    Level.Cells[x, y] = levelData.CollisionMap.Data[y][x] ? BlockType.Solid : BlockType.Open;
+                    Level.Cells[x, y] = levelData.CollisionMap.Data[y][x];
                 }
             }
         }

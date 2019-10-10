@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SharedTypes;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -29,22 +30,22 @@ namespace Editor.Levels
     {
         public int Width { get; private set; }
         public int Height { get; private set; }
-        private readonly bool[,] data;
-        public bool[,] Data => data;
+        private readonly BlockType[,] data;
+        public BlockType[,] Data => data;
 
         public CollisionMap(int width, int height)
         {
             Width = width;
             Height = height;
-            data = new bool[width, height];
+            data = new BlockType[width, height];
         }
 
-        public bool this[int x, int y]
+        public BlockType this[int x, int y]
         {
             get 
             {
                 if (!ContainsPoint(x, y))
-                    return true;
+                    return BlockType.Solid;
 
                 return data[x, y]; 
             }
