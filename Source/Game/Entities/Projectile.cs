@@ -30,7 +30,8 @@ namespace Game.Entities
             this.creationLocation = location;
 
             Physics = new PhysicsComponent(this) { 
-                applyGravity = false
+                applyGravity = false,
+                checkType = CollisionCheckType.BlocksProjectiles
             };
 
             Location = location;

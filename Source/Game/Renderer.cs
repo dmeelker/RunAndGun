@@ -6,6 +6,7 @@ using Game.Types;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using SharedTypes;
 
 namespace Game
 {
@@ -86,7 +87,7 @@ namespace Game
                 for (int y = tileStart.Y; y < tileEnd.Y; y++)
                 {
                     var blockType = level.GetBlock(x, y);
-                    if (blockType == BlockType.Block)
+                    if (blockType == BlockType.Solid)
                         blockSprite.Draw(ren, drawLocation);
 
                     drawLocation.Y += Level.BlockSize;

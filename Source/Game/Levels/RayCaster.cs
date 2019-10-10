@@ -1,4 +1,5 @@
-﻿using Game.Types;
+﻿using Game.Components;
+using Game.Types;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,7 +20,7 @@ namespace Game.Levels
 
     public static class RayCaster
     {
-        public static RayResult CastRay(Level level, Vector location, Vector vector, int maxDistance = 1000)
+        public static RayResult CastRay(Level level, Vector location, Vector vector, CollisionCheckType collisionCheckType, int maxDistance = 1000)
         {
             vector = vector.ToUnit() * 10;
 
@@ -30,7 +31,9 @@ namespace Game.Levels
                 step++;
                 currentLocation += vector;
 
-                if (Services.Game.Level.IsPixelPassable((int)currentLocation.X, (int)currentLocation.Y) == BlockType.Block)
+                var block = Services.Game.Level.GetBlockByPixelLocation((int)currentLocation.X, (int)currentLocation.Y);
+
+                if (PhysicsComponent.IsBlocking(block, collisionCheckType))
                     return new RayResult(true, currentLocation);
             }
 

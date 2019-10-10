@@ -5,6 +5,7 @@ using Game.Entities.Enemies;
 using Game.Levels;
 using Game.Types;
 using Game.Weapons;
+using SharedTypes;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -54,7 +55,7 @@ namespace Game
             {
                 for (int x = 0; x < levelData.CollisionMap.Width; x++)
                 {
-                    Level.Cells[x, y] = levelData.CollisionMap.Data[y][x] ? BlockType.Block : BlockType.Open;
+                    Level.Cells[x, y] = levelData.CollisionMap.Data[y][x] ? BlockType.Solid : BlockType.Open;
                 }
             }
         }

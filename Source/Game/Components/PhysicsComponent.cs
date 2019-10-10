@@ -1,6 +1,7 @@
 ﻿using Game.Entities;
 using Game.Levels;
 using Game.Types;
+using SharedTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,12 @@ using System.Text;
 
 namespace Game.Components
 {
+    public enum CollisionCheckType
+    {
+        All,
+        BlocksProjectiles
+    }
+
     public readonly struct LevelCollision
     {
         public readonly bool Collision;
@@ -41,6 +48,7 @@ namespace Game.Components
 
         public bool applyGravity = true;
         public double? drag = null;
+        public CollisionCheckType checkType = CollisionCheckType.All;
 
         public bool onGround = false;
 
@@ -106,6 +114,15 @@ namespace Game.Components
             }
         }
 
+        public static bool IsBlocking(BlockType blockType, CollisionCheckType checkType)
+        {
+            if (checkType == CollisionCheckType.All)
+                return blockType == BlockType.Solid || blockType == BlockType.ProjectilePassingSolid;
+            else if (checkType == CollisionCheckType.BlocksProjectiles)
+                return blockType == BlockType.ProjectilePassingSolid;
+            else
+                throw new Exception($"Unknown check type {checkType}");
+        }
 
         private LevelCollision CheckLevelCollisionLeft(Vector oldLocation, Level level)
         {
@@ -120,8 +137,8 @@ namespace Game.Components
                 
                 for (var y = startY;; y += Level.BlockSize) {
                     y = Math.Min(y, endY);
-                    var block = level.IsPixelPassable(x, y);
-                    if (block == BlockType.Block || block == BlockType.StairRight)
+                    var block = level.GetBlockByPixelLocation(x, y);
+                    if (IsBlocking(block, checkType))
                         return new LevelCollision(((x / Level.BlockSize) + 1) * Level.BlockSize, y);
 
                     foreach (var entity in entities)
@@ -154,8 +171,8 @@ namespace Game.Components
 
                 for (var y = startY;; y += Level.BlockSize) {
                     y = Math.Min(y, endY);
-                    var block = level.IsPixelPassable(x, y);
-                    if (block == BlockType.Block || block == BlockType.StairLeft)
+                    var block = level.GetBlockByPixelLocation(x, y);
+                    if (IsBlocking(block, checkType))
                         return new LevelCollision((x / Level.BlockSize) * Level.BlockSize, y);
 
                     foreach (var entity in entities)
@@ -182,24 +199,14 @@ namespace Game.Components
             if (effectiveVelocity.Y >= 0)
             {
                 onGround = false;
-                //VerticalCollision = CheckRampCollisionsBottom(level, oldLocation);
-                //if (VerticalCollision.Collision)
-                //{
-                //    entity.Location.Y = VerticalCollision.Y - entity.Size.Y;
-                //    Velocity.Y = 0;
-                //    onGround = true;
-                //}
-                //else
-                //{
-                    VerticalCollision = CheckLevelCollisionBottom(level, oldLocation);
+                VerticalCollision = CheckLevelCollisionBottom(level, oldLocation);
 
-                    if (VerticalCollision.Collision)
-                    {
-                        entity.Location.Y = VerticalCollision.Y - entity.Size.Y;
-                        Velocity.Y = 0;
-                        onGround = true;
-                    }
-                //}
+                if (VerticalCollision.Collision)
+                {
+                    entity.Location.Y = VerticalCollision.Y - entity.Size.Y;
+                    Velocity.Y = 0;
+                    onGround = true;
+                }
             }
             else if (effectiveVelocity.Y < 0)
             {
@@ -228,7 +235,7 @@ namespace Game.Components
                 {
                     x = Math.Min(x, endX);
 
-                    if (level.IsPixelPassable(x, y) != BlockType.Open)
+                    if (IsBlocking(level.GetBlockByPixelLocation(x, y), checkType))
                         return new LevelCollision(x, ((y / Level.BlockSize) + 1) * Level.BlockSize);
 
                     if (x >= endX)
@@ -236,38 +243,6 @@ namespace Game.Components
                 }
 
                 if (y <= endY)
-                    break;
-            }
-
-            return new LevelCollision(false);
-        }
-
-        private LevelCollision CheckRampCollisionsBottom(Level level, Vector oldLocation)
-        {
-            var startY = (int)(oldLocation.Y + entity.Size.Y - 1);
-            var endY = (int)(entity.Location.Y + entity.Size.Y);
-            var x = (int)(entity.Location.X + (entity.Size.X / 2));
-
-            for (var y = startY; ; y += Level.BlockSize)
-            {
-                y = Math.Min(y, endY);
-
-                var block = level.IsPixelPassable(x, y);
-                var collisionY = (y / Level.BlockSize) * Level.BlockSize;
-
-                if (block == BlockType.StairRight)
-                {
-                    var yOffset = Level.BlockSize - (x % Level.BlockSize);
-
-                    return new LevelCollision(x, collisionY + yOffset - 2);
-                }
-                else if (block == BlockType.StairLeft)
-                {
-                    var yOffset = x % Level.BlockSize;
-                    return new LevelCollision(x, collisionY + yOffset - 2);
-                }
-
-                if (y >= endY)
                     break;
             }
 
@@ -289,10 +264,10 @@ namespace Game.Components
                 for (var x = startX; ; x += Level.BlockSize)
                 {
                     x = Math.Min(x, endX);
-                    var block = level.IsPixelPassable(x, y);
+                    var block = level.GetBlockByPixelLocation(x, y);
                     var collisionY = (y / Level.BlockSize) * Level.BlockSize;
 
-                    if (block == BlockType.Block)
+                    if (IsBlocking(block, checkType))
                         return new LevelCollision(x, collisionY);
 
                     foreach (var entity in entities)

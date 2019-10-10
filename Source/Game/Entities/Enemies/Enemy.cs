@@ -114,7 +114,7 @@ namespace Game.Entities.Enemies
             var vector = target.Location - Location;
             var maxDistance = (int)Math.Min(vector.Length, 500);
 
-            var result = RayCaster.CastRay(Services.Game.Level, Location, vector, maxDistance);
+            var result = RayCaster.CastRay(Services.Game.Level, Location, vector, CollisionCheckType.BlocksProjectiles, maxDistance);
             return !result.Hit;
         }
 
