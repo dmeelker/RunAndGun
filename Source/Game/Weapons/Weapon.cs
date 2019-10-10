@@ -49,7 +49,6 @@ namespace Game.Weapons
 
         private void ChangeState(State state, uint time)
         {
-            Console.WriteLine($"new state: {state}");
             this.state = state;
             stateEntranceTime = time;
         }
@@ -60,10 +59,7 @@ namespace Game.Weapons
                 return;
 
             if (!InfiniteAmmo && AmmoReserve == 0)
-            {
-                Console.WriteLine("Out of ammo!");
                 return;
-            }
 
             var ammoToLoad = ClipSize - ClipContent;
 
@@ -74,7 +70,6 @@ namespace Game.Weapons
             }
 
             ClipContent += ammoToLoad;
-            WriteAmmoUpdate();
 
             ChangeState(State.Reloading, time);
         }
@@ -104,10 +99,7 @@ namespace Game.Weapons
                 return;
 
             if (ReloadNeeded)
-            {
-                Console.WriteLine("Reload!");
                 return; // Reload needed
-            }
 
             FireInternal(time, source, location, vector);
             ReduceAmmo();
@@ -122,16 +114,8 @@ namespace Game.Weapons
 
         public bool ReloadNeeded => ClipContent == 0;
         public bool ReloadPossible => InfiniteAmmo || AmmoReserve > 0;
-        protected void ReduceAmmo()
-        {
-            ClipContent--;
-            WriteAmmoUpdate();
-        }
-
-        public void AddAmmo(int amount)
-        {
-            AmmoReserve += amount;
-        }
+        protected void ReduceAmmo() => ClipContent--;
+        public void AddAmmo(int amount) => AmmoReserve += amount;
 
         protected static void CreateCasing(Vector location, Vector directionOfFire, Sprite sprite)
         {
@@ -140,11 +124,6 @@ namespace Game.Weapons
 
             var casing = new BulletCasing(location, vector, sprite);
             Services.Game.Entities.Add(casing);
-        }
-
-        protected void WriteAmmoUpdate()
-        {
-            Console.WriteLine($"Loaded ammo: {ClipContent} Total ammo: {AmmoReserve}");
         }
     }
 }
