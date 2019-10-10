@@ -53,5 +53,22 @@ namespace Editor
             else if(e.KeyCode == Keys.D2)
                 viewport.SelectedBlockType = SharedTypes.BlockType.ProjectilePassingSolid;
         }
+
+        private void collisionModeButton_Click(object sender, EventArgs e)
+        {
+            ChangeMode(MapViewport.EditMode.CollisionMap);
+        }
+
+        private void enemyModeButton_Click(object sender, EventArgs e)
+        {
+            ChangeMode(MapViewport.EditMode.Enemies);
+        }
+
+        private void ChangeMode(MapViewport.EditMode editMode)
+        {
+            collisionModeButton.Checked = editMode == MapViewport.EditMode.CollisionMap;
+            enemyModeButton.Checked = editMode == MapViewport.EditMode.Enemies;
+            viewport.SetEditMode(editMode);
+        }
     }
 }

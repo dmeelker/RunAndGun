@@ -13,12 +13,29 @@ namespace Editor.Components
 {
     public class MapViewport : Control
     {
+        public enum EditMode
+        {
+            CollisionMap,
+            Enemies
+        }
+
         private Level level;
         private Point viewOffset;
         private Point lastMouseLocation;
         public BlockType SelectedBlockType = BlockType.Solid;
 
-        private Dictionary<EnemyType, Image> enemyImages = new Dictionary<EnemyType, Image>();
+        private EditMode editMode = EditMode.CollisionMap;
+
+        private Dictionary<EnemyType, DirectionalImages> enemyImages = new Dictionary<EnemyType, DirectionalImages>();
+
+        private Enemy selectedEnemy;
+        private Point enemyClickOffset;
+
+        private class DirectionalImages
+        {
+            public Image Left;
+            public Image Right;
+        }
 
         public Level Level {
             get => level;
@@ -36,10 +53,23 @@ namespace Editor.Components
                 ControlStyles.AllPaintingInWmPaint |
                 ControlStyles.OptimizedDoubleBuffer, true);
 
-            enemyImages.Add(EnemyType.PistolGrunt, Image.FromFile("Resources/Enemies/PistolGrunt.png"));
-            enemyImages.Add(EnemyType.ShotgunGrunt, Image.FromFile("Resources/Enemies/ShotgunGrunt.png"));
+
+            enemyImages.Add(EnemyType.PistolGrunt, LoadDirectionalImages("Resources/Enemies/PistolGrunt.png"));
+            enemyImages.Add(EnemyType.ShotgunGrunt, LoadDirectionalImages("Resources/Enemies/ShotgunGrunt.png"));
         }
 
+
+        private DirectionalImages LoadDirectionalImages(string file)
+        {
+            var image = new DirectionalImages
+            {
+                Left = Image.FromFile(file),
+                Right = Image.FromFile(file),
+            };
+
+            image.Left.RotateFlip(RotateFlipType.RotateNoneFlipX);
+            return image;
+        }
         protected override void OnPaint(PaintEventArgs e)
         {
             e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
@@ -84,8 +114,13 @@ namespace Editor.Components
         {
             foreach(var enemy in Level.Enemies)
             {
-                var image = enemyImages[enemy.Type];
+                var image = enemy.Direction == Direction.Left ? enemyImages[enemy.Type].Left : enemyImages[enemy.Type].Right;
                 graphics.DrawImage(image, enemy.X - viewOffset.X, enemy.Y - viewOffset.Y);
+
+                if(enemy == selectedEnemy)
+                {
+                    graphics.DrawRectangle(Pens.Blue, enemy.X - viewOffset.X, enemy.Y - viewOffset.Y, image.Width + 2, image.Height + 2);
+                }
             }
         }
 
@@ -95,10 +130,22 @@ namespace Editor.Components
 
             if (e.Button == MouseButtons.Middle)
                 lastMouseLocation = e.Location;
-            else if (e.Button == MouseButtons.Left)
-                DrawCollisionMap(e.Location.Add(viewOffset), SelectedBlockType);
-            else if (e.Button == MouseButtons.Right)
-                DrawCollisionMap(e.Location.Add(viewOffset), BlockType.Open);
+            else
+            {
+                if (editMode == EditMode.CollisionMap)
+                {
+                    if (e.Button == MouseButtons.Left)
+                        DrawCollisionMap(e.Location.Add(viewOffset), SelectedBlockType);
+                    else if (e.Button == MouseButtons.Right)
+                        DrawCollisionMap(e.Location.Add(viewOffset), BlockType.Open);
+                }
+                else if(editMode == EditMode.Enemies)
+                {
+                    selectedEnemy = GetEnemyFromPosition(viewOffset.X + e.X, viewOffset.Y + e.Y);
+                    enemyClickOffset = new Point(viewOffset.X + e.X - selectedEnemy.X, viewOffset.Y + e.Y - selectedEnemy.Y);
+                    Redraw();
+                }
+            }
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
@@ -115,10 +162,36 @@ namespace Editor.Components
 
                 Redraw();
             }
-            else if (e.Button == MouseButtons.Left)
-                DrawCollisionMap(e.Location.Add(viewOffset), SelectedBlockType);
-            else if (e.Button == MouseButtons.Right)
-                DrawCollisionMap(e.Location.Add(viewOffset), BlockType.Open);
+            else
+            {
+                if (editMode == EditMode.CollisionMap)
+                {
+                    if (e.Button == MouseButtons.Left)
+                        DrawCollisionMap(e.Location.Add(viewOffset), SelectedBlockType);
+                    else if (e.Button == MouseButtons.Right)
+                        DrawCollisionMap(e.Location.Add(viewOffset), BlockType.Open);
+                }
+                else if (editMode == EditMode.Enemies)
+                {
+                    if(e.Button == MouseButtons.Left && selectedEnemy != null)
+                    {
+                        selectedEnemy.X = viewOffset.X + e.X - enemyClickOffset.X;
+                        selectedEnemy.Y = viewOffset.Y + e.Y - enemyClickOffset.Y;
+                        Redraw();
+                    }
+                }
+            }
+        }
+
+        private Enemy GetEnemyFromPosition(int x, int y)
+        {
+            foreach(var enemy in level.Enemies)
+            {
+                if (x >= enemy.X && x < enemy.X + 30 && y >= enemy.Y && y < enemy.Y + Height)
+                    return enemy;
+            }
+
+            return null;
         }
 
         private void DrawCollisionMap(Point point, BlockType blockType)
@@ -131,6 +204,11 @@ namespace Editor.Components
         private void Redraw()
         {
             Invalidate();
+        }
+
+        public void SetEditMode(EditMode mode)
+        {
+            editMode = mode;
         }
     }
 }

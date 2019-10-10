@@ -61,7 +61,7 @@
             // saveMenuItem
             // 
             this.saveMenuItem.Name = "saveMenuItem";
-            this.saveMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveMenuItem.Size = new System.Drawing.Size(98, 22);
             this.saveMenuItem.Text = "Save";
             this.saveMenuItem.Click += new System.EventHandler(this.saveMenuItem_Click);
             // 
@@ -73,7 +73,7 @@
             this.enemyModeButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(457, 14);
+            this.toolStrip1.Size = new System.Drawing.Size(800, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip";
             // 
@@ -82,8 +82,9 @@
             this.collisionModeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.collisionModeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.collisionModeButton.Name = "collisionModeButton";
-            this.collisionModeButton.Size = new System.Drawing.Size(84, 11);
+            this.collisionModeButton.Size = new System.Drawing.Size(84, 22);
             this.collisionModeButton.Text = "Collision map";
+            this.collisionModeButton.Click += new System.EventHandler(this.collisionModeButton_Click);
             // 
             // enemyModeButton
             // 
@@ -91,8 +92,9 @@
             this.enemyModeButton.Image = ((System.Drawing.Image)(resources.GetObject("enemyModeButton.Image")));
             this.enemyModeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.enemyModeButton.Name = "enemyModeButton";
-            this.enemyModeButton.Size = new System.Drawing.Size(55, 11);
+            this.enemyModeButton.Size = new System.Drawing.Size(55, 22);
             this.enemyModeButton.Text = "Enemies";
+            this.enemyModeButton.Click += new System.EventHandler(this.enemyModeButton_Click);
             // 
             // MainForm
             // 
