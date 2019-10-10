@@ -16,13 +16,25 @@ namespace Editor.Levels
                 Width = level.Width,
                 Height = level.Height,
                 ImageName = "backdrop.png",
-                CollisionMap = ConvertCollisionMap(level.CollisionMap)
+                CollisionMap = ConvertCollisionMap(level.CollisionMap),
+                Enemies = level.Enemies.Select(enemy => new LevelFile.Enemy {
+                    X = enemy.X,
+                    Y = enemy.Y,
+                    Type = enemy.Type,
+                    Direction = enemy.Direction
+                }).ToArray()
             };
         }
 
         public static Level ConvertFromFileFormat(LevelFile levelData)
         {
             var level = new Level(levelData.Width, levelData.Height);
+            level.Enemies.AddRange(levelData.Enemies.Select(enemy => new Enemy {
+                X = enemy.X,
+                Y = enemy.Y,
+                Type = enemy.Type,
+                Direction = enemy.Direction
+            }));
 
             for (int y = 0; y < levelData.CollisionMap.Height; y++)
             {

@@ -17,6 +17,7 @@ namespace Editor.Levels
         public Image Image { get; set; }
 
         public CollisionMap CollisionMap { get; private set; }
+        public List<Enemy> Enemies { get; private set; } = new List<Enemy>();
 
         public Level(int width, int height)
         {

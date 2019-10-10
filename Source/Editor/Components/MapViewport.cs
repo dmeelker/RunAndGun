@@ -18,6 +18,8 @@ namespace Editor.Components
         private Point lastMouseLocation;
         public BlockType SelectedBlockType = BlockType.Solid;
 
+        private Dictionary<EnemyType, Image> enemyImages = new Dictionary<EnemyType, Image>();
+
         public Level Level {
             get => level;
             set 
@@ -33,6 +35,9 @@ namespace Editor.Components
                 ControlStyles.UserPaint |
                 ControlStyles.AllPaintingInWmPaint |
                 ControlStyles.OptimizedDoubleBuffer, true);
+
+            enemyImages.Add(EnemyType.PistolGrunt, Image.FromFile("Resources/Enemies/PistolGrunt.png"));
+            enemyImages.Add(EnemyType.ShotgunGrunt, Image.FromFile("Resources/Enemies/ShotgunGrunt.png"));
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -46,6 +51,7 @@ namespace Editor.Components
                 e.Graphics.DrawImage(level.Image, -viewOffset.X, -viewOffset.Y);
 
                 DrawCollisionMap(e.Graphics);
+                DrawEnemies(e.Graphics);
             }
         }
 
@@ -71,6 +77,15 @@ namespace Editor.Components
                     drawLocation.Y += Level.BlockSize;
                 }
                 drawLocation.X += Level.BlockSize;
+            }
+        }
+
+        private void DrawEnemies(Graphics graphics)
+        {
+            foreach(var enemy in Level.Enemies)
+            {
+                var image = enemyImages[enemy.Type];
+                graphics.DrawImage(image, enemy.X - viewOffset.X, enemy.Y - viewOffset.Y);
             }
         }
 

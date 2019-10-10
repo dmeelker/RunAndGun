@@ -53,6 +53,7 @@
     <Compile Include="Components\MapViewport.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Levels\Enemy.cs" />
     <Compile Include="Levels\FileFormatConverter.cs" />
     <Compile Include="Levels\Level.cs" />
     <Compile Include="MainForm.cs">
@@ -99,6 +100,17 @@
       <Project>{DEA57967-15DB-4AD5-BD61-511784FC74CB}</Project>
       <Name>SharedTypes</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Enemies\PistolGrunt.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Enemies\player.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Enemies\ShotgunGrunt.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
