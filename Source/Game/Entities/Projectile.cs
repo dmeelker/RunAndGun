@@ -1,15 +1,15 @@
 ﻿using SDL2;
-using SdlTest.Components;
-using SdlTest.Entities.Enemies;
-using SdlTest.Levels;
-using SdlTest.Sprites;
-using SdlTest.Types;
+using Game.Components;
+using Game.Entities.Enemies;
+using Game.Levels;
+using Game.Sprites;
+using Game.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SdlTest.Entities
+namespace Game.Entities
 {
     public class Projectile : Entity
     {

@@ -1,10 +1,10 @@
-﻿using SdlTest.Utilities;
+﻿using Game.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 
-namespace SdlTest.Types
+namespace Game.Types
 {
     [DebuggerDisplay("{X},{Y}")]
     public struct Vector

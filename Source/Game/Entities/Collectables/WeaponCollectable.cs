@@ -1,13 +1,13 @@
-﻿using SdlTest.Components;
-using SdlTest.Sprites;
-using SdlTest.Types;
-using SdlTest.Weapons;
+﻿using Game.Components;
+using Game.Sprites;
+using Game.Types;
+using Game.Weapons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SdlTest.Entities.Collectables
+namespace Game.Entities.Collectables
 {
     public class WeaponCollectable : Collectable
     {

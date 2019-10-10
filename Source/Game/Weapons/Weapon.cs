@@ -1,11 +1,11 @@
-﻿using SdlTest.Entities;
-using SdlTest.Sprites;
-using SdlTest.Types;
+﻿using Game.Entities;
+using Game.Sprites;
+using Game.Types;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SdlTest.Weapons
+namespace Game.Weapons
 {
     public enum WeaponType
     {

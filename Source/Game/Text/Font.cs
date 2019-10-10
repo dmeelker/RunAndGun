@@ -1,5 +1,5 @@
 ﻿using SDL2;
-using SdlTest.Sprites;
+using Game.Sprites;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace SdlTest.Text
+namespace Game.Text
 {
     public class Font
     {

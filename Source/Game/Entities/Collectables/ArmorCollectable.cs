@@ -1,10 +1,10 @@
-﻿using SdlTest.Components;
-using SdlTest.Types;
+﻿using Game.Components;
+using Game.Types;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SdlTest.Entities.Collectables
+namespace Game.Entities.Collectables
 {
     public class ArmorCollectable : Collectable
     {

@@ -1,12 +1,12 @@
 ﻿using SDL2;
-using SdlTest.Components;
-using SdlTest.Sprites;
-using SdlTest.Types;
+using Game.Components;
+using Game.Sprites;
+using Game.Types;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SdlTest.Entities
+namespace Game.Entities
 {
     public class Wreckage : Entity
     {

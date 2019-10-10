@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace SdlTest.Types
+namespace Game.Types
 {
     public struct Rect
     {

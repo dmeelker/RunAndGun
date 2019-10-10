@@ -1,9 +1,9 @@
-﻿using SdlTest.Entities;
+﻿using Game.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SdlTest
+namespace Game
 {
     public static class Services
     {

@@ -1,9 +1,9 @@
 ﻿using SDL2;
-using SdlTest.Text;
+using Game.Text;
 using System;
 using System.IO;
 
-namespace SdlTest
+namespace Game
 {
     class Program
     {

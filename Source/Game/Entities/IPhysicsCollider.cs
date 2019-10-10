@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SdlTest.Entities
+namespace Game.Entities
 {
     public interface IPhysicsCollider
     {

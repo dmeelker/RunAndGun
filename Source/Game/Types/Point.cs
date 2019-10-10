@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 
-namespace SdlTest.Types
+namespace Game.Types
 {
     [DebuggerDisplay("{X},{Y}")]
     public struct Point

@@ -1,11 +1,11 @@
 ﻿using SDL2;
-using SdlTest.Sprites;
-using SdlTest.Types;
+using Game.Sprites;
+using Game.Types;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SdlTest.Entities
+namespace Game.Entities
 {
     public class Decal : Entity
     {

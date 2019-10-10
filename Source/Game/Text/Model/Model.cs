@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace SdlTest.Text.Model
+namespace Game.Text.Model
 {
     [Serializable()]
     [XmlRoot("font")]

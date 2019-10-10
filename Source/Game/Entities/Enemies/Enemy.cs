@@ -1,16 +1,16 @@
-﻿using SdlTest.Components;
-using SdlTest.Entities.Collectables;
-using SdlTest.Levels;
-using SdlTest.Types;
-using SdlTest.Utilities;
-using SdlTest.Weapons;
+﻿using Game.Components;
+using Game.Entities.Collectables;
+using Game.Levels;
+using Game.Types;
+using Game.Utilities;
+using Game.Weapons;
 using SharedTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SdlTest.Entities.Enemies
+namespace Game.Entities.Enemies
 {
     public class Enemy : Entity, IProjectileCollider
     {

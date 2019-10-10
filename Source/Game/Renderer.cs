@@ -1,13 +1,13 @@
 ﻿using SDL2;
-using SdlTest.Components;
-using SdlTest.Entities;
-using SdlTest.Levels;
-using SdlTest.Types;
+using Game.Components;
+using Game.Entities;
+using Game.Levels;
+using Game.Types;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SdlTest
+namespace Game
 {
     public class Renderer
     {

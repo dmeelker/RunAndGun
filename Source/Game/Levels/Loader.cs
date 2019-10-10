@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace SdlTest.Levels
+namespace Game.Levels
 {
     public static class Loader
     {

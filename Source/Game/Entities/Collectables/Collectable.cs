@@ -1,10 +1,10 @@
-﻿using SdlTest.Components;
-using SdlTest.Sprites;
-using SdlTest.Types;
+﻿using Game.Components;
+using Game.Sprites;
+using Game.Types;
 using System;
 using System.Linq;
 
-namespace SdlTest.Entities.Collectables
+namespace Game.Entities.Collectables
 {
     public abstract class Collectable : Entity
     {

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 using SDL2;
-using SdlTest.Sprites;
-using SdlTest.Types;
+using Game.Sprites;
+using Game.Types;
 
-namespace SdlTest.Entities
+namespace Game.Entities
 {
     public class Crate : Entity, IProjectileCollider, IPhysicsCollider
     {

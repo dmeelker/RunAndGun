@@ -1,12 +1,12 @@
-﻿using SdlTest.Entities;
-using SdlTest.Levels;
-using SdlTest.Types;
+﻿using Game.Entities;
+using Game.Levels;
+using Game.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SdlTest.Components
+namespace Game.Components
 {
     public readonly struct LevelCollision
     {

@@ -1,15 +1,15 @@
 ﻿using FileFormats.Levels;
-using SdlTest.Entities;
-using SdlTest.Entities.Collectables;
-using SdlTest.Entities.Enemies;
-using SdlTest.Levels;
-using SdlTest.Types;
-using SdlTest.Weapons;
+using Game.Entities;
+using Game.Entities.Collectables;
+using Game.Entities.Enemies;
+using Game.Levels;
+using Game.Types;
+using Game.Weapons;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SdlTest
+namespace Game
 {
     public class Game
     {

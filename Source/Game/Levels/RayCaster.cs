@@ -1,9 +1,9 @@
-﻿using SdlTest.Types;
+﻿using Game.Types;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SdlTest.Levels
+namespace Game.Levels
 {
     public readonly struct RayResult
     {

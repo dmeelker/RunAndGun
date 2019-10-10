@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SdlTest.Utilities
+namespace Game.Utilities
 {
     public static class Angles
     {

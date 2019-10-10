@@ -1,13 +1,13 @@
 ﻿using SDL2;
-using SdlTest.Entities;
-using SdlTest.Entities.Collectables;
-using SdlTest.Sprites;
-using SdlTest.Types;
-using SdlTest.Weapons;
+using Game.Entities;
+using Game.Entities.Collectables;
+using Game.Sprites;
+using Game.Types;
+using Game.Weapons;
 using SharedTypes;
 using System;
 
-namespace SdlTest.Components
+namespace Game.Components
 {
     public class CharacterComponent
     {

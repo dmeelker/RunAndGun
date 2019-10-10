@@ -1,14 +1,14 @@
 ﻿using SDL2;
-using SdlTest.Components;
-using SdlTest.Entities.Collectables;
-using SdlTest.Levels;
-using SdlTest.Types;
-using SdlTest.Weapons;
+using Game.Components;
+using Game.Entities.Collectables;
+using Game.Levels;
+using Game.Types;
+using Game.Weapons;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SdlTest.Entities
+namespace Game.Entities
 {
     public class PlayerEntity : Entity, IProjectileCollider
     {

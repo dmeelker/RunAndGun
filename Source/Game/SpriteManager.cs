@@ -1,10 +1,10 @@
 ﻿using SDL2;
-using SdlTest.Sprites;
+using Game.Sprites;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SdlTest
+namespace Game
 {
     public class SpriteManager
     {

@@ -1,11 +1,11 @@
-﻿using SdlTest.Types;
-using SdlTest.Weapons;
+﻿using Game.Types;
+using Game.Weapons;
 using SharedTypes;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SdlTest.Entities.Enemies
+namespace Game.Entities.Enemies
 {
     public static class EnemyFactory
     {
