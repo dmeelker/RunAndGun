@@ -80,10 +80,12 @@ namespace Game
             LoadTextureAndSprite("Resources/Gibs/gib.png", "gib");
             LoadTextureAndSprite("Resources/Gibs/floor-blood.png", "floor-blood");
 
+            // Weapons
             LoadTextureAndSprite("Resources/Weapons/pistol.png", "pistol");
             LoadTextureAndSprite("Resources/Weapons/shotgun.png", "shotgun");
             LoadTextureAndSprite("Resources/Weapons/submachinegun.png", "submachinegun");
             LoadTextureAndSprite("Resources/Weapons/sniperrifle.png", "sniperrifle");
+            LoadTextureAndSprite("Resources/Weapons/grenade.png", "grenade");
 
             LoadTextureAndSprite("Resources/Weapons/bulletcasing.png", "bulletcasing");
             LoadTextureAndSprite("Resources/Weapons/shotgunshell.png", "shotgunshell");

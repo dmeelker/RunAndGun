@@ -50,6 +50,9 @@ namespace Game
                         game.Player.ChangeWeapon(game.Player.WeaponOrder[2]);
                     else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_4)
                         game.Player.ChangeWeapon(game.Player.WeaponOrder[3]);
+
+                    else if (e.key.keysym.sym == SDL.SDL_Keycode.SDLK_q)
+                        game.Player.Character.ThrowGrenade();
                 }
                 else if (e.type == SDL.SDL_EventType.SDL_MOUSEBUTTONDOWN)
                 {

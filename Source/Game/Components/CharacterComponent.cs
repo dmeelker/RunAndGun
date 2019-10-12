@@ -175,5 +175,11 @@ namespace Game.Components
                     break;
             }
         }
+
+        public void ThrowGrenade()
+        {
+            var grenade = new Grenade(entity, entity.Location, AimVector * 15);
+            Services.Game.Entities.Add(grenade);
+        }
     }
 }
