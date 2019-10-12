@@ -22,14 +22,15 @@ namespace Game.Entities
 
         public PlayerEntity(Vector location)
         {
+            var sprite = Services.Sprites["player"];
             Physics = new PhysicsComponent(this) { applyGravity = true };
-            Character = new CharacterComponent(this, Services.Sprites["player"], new Pistol()) {
+            Character = new CharacterComponent(this, sprite, new Pistol()) {
                 MaxHitpoints = 20,
                 Hitpoints = 20
             };
 
             Location = location;
-            Size = new Vector(30, 30);
+            Size = new Vector(sprite.Width, sprite.Height);
         }
 
         public override void Update(uint time, int ticksPassed)
@@ -40,7 +41,7 @@ namespace Game.Entities
             Physics.Update(ticksPassed, Services.Game.Level);
             Character.Update(time, ticksPassed);
         }
-
+        
         public void AimAt(Point point)
         {
             Character.AimAt(point);

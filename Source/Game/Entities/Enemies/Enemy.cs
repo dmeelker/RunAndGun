@@ -27,11 +27,13 @@ namespace Game.Entities.Enemies
 
         public Enemy(Vector location, Direction initialDirection)
         {
+            var sprite = Services.Sprites["player"];
+
             Physics = new PhysicsComponent(this);
-            Character = new CharacterComponent(this, Services.Sprites["player"], new Pistol() { InfiniteAmmo = true });
+            Character = new CharacterComponent(this, sprite, new Pistol() { InfiniteAmmo = true });
 
             Location = location;
-            Size = new Vector(30, 30);
+            Size = new Vector(sprite.Width, sprite.Height);
 
             Character.FaceDirection(initialDirection);
         }

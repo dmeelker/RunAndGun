@@ -70,7 +70,7 @@ namespace Game
         
         private static void LoadTextures()
         {
-            Services.Textures.LoadTexture(ren, "Resources/test.png", "player");
+            //Services.Textures.LoadTexture(ren, "Resources/test.png", "player");
             Services.Textures.LoadTexture(ren, "Resources/block.png", "block");
             Services.Textures.LoadTexture(ren, "Resources/projectile.png", "projectile");
             Services.Textures.LoadTexture(ren, "Resources/crate.png", "crate");
@@ -95,7 +95,9 @@ namespace Game
             LoadTextureAndSprite("Resources/UI/armorBar.png", "armorBar");
             LoadTextureAndSprite("Resources/UI/healthBar.png", "healthBar");
 
-            Services.Sprites.Add(new Sprites.Sprite(Services.Textures["player"]), "player");
+            LoadTextureAndSprite("Resources/Characters/player.png", "player");
+
+            //Services.Sprites.Add(new Sprites.Sprite(Services.Textures["player"]), "player");
             Services.Sprites.Add(new Sprites.Sprite(Services.Textures["block"]), "block");
             Services.Sprites.Add(new Sprites.Sprite(Services.Textures["projectile"]), "projectile");
             Services.Sprites.Add(new Sprites.Sprite(Services.Textures["crate"]), "crate");

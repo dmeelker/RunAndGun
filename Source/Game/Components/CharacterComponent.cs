@@ -50,7 +50,7 @@ namespace Game.Components
             var angle = vector.AngleInDegrees;
 
             Direction = angle > -90 && angle < 90 ? Direction.Right : Direction.Left;
-            WeaponLocation = Direction == Direction.Right ? new Vector(18, 12) : new Vector(entity.Size.X - 18, 12);
+            WeaponLocation = Direction == Direction.Right ? new Vector(18, 25) : new Vector(entity.Size.X - 18, 25);
             AimVector = vector;
         }
 

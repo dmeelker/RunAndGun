@@ -1,5 +1,6 @@
 ﻿using Editor.Components;
 using Editor.Levels;
+using SharedTypes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -29,6 +30,8 @@ namespace Editor
                 Level = level
             };
             Controls.Add(viewport);
+
+            ChangeMode(MapViewport.EditMode.CollisionMap);
         }
 
         private void LoadLevel()
@@ -69,6 +72,34 @@ namespace Editor
             collisionModeButton.Checked = editMode == MapViewport.EditMode.CollisionMap;
             enemyModeButton.Checked = editMode == MapViewport.EditMode.Enemies;
             viewport.SetEditMode(editMode);
+        }
+
+        private void addPistonGruntItem_Click(object sender, EventArgs e)
+        {
+            AddEnemy(EnemyType.PistolGrunt);
+        }
+
+        private void AddEnemy(EnemyType type)
+        {
+            var location = viewport.CenterPoint;
+
+            var enemy = new Enemy()
+            {
+                X = location.X,
+                Y = location.Y,
+                Direction = SharedTypes.Direction.Left,
+                Type = type
+            };
+
+            level.Enemies.Add(enemy);
+            viewport.Redraw();
+
+            ChangeMode(MapViewport.EditMode.Enemies);
+        }
+
+        private void addShotgunGruntItem_Click(object sender, EventArgs e)
+        {
+            AddEnemy(EnemyType.ShotgunGrunt);
         }
     }
 }

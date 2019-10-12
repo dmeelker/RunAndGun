@@ -74,7 +74,6 @@ namespace Game.Text
                     continue;
 
                 character.Image.Draw(rendererId, x + character.Xoffset, y + character.Yoffset);
-                //context.DrawImage(character.Image, x + character.Xoffset, y + character.Yoffset, false);
                 x += character.Xadvance;
 
                 if (i < text.Length - 1)

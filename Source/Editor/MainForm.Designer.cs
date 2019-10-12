@@ -35,6 +35,9 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.collisionModeButton = new System.Windows.Forms.ToolStripButton();
             this.enemyModeButton = new System.Windows.Forms.ToolStripButton();
+            this.addEnemiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addPistonGruntItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addShotgunGruntItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -43,10 +46,11 @@
             // 
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(28, 28);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
+            this.fileToolStripMenuItem,
+            this.addEnemiesToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(800, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1009, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -73,7 +77,7 @@
             this.enemyModeButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(800, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(1009, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip";
             // 
@@ -96,11 +100,34 @@
             this.enemyModeButton.Text = "Enemies";
             this.enemyModeButton.Click += new System.EventHandler(this.enemyModeButton_Click);
             // 
+            // addEnemiesToolStripMenuItem
+            // 
+            this.addEnemiesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addPistonGruntItem,
+            this.addShotgunGruntItem});
+            this.addEnemiesToolStripMenuItem.Name = "addEnemiesToolStripMenuItem";
+            this.addEnemiesToolStripMenuItem.Size = new System.Drawing.Size(88, 20);
+            this.addEnemiesToolStripMenuItem.Text = "Add Enemies";
+            // 
+            // addPistonGruntItem
+            // 
+            this.addPistonGruntItem.Name = "addPistonGruntItem";
+            this.addPistonGruntItem.Size = new System.Drawing.Size(180, 22);
+            this.addPistonGruntItem.Text = "Pistol Grunt";
+            this.addPistonGruntItem.Click += new System.EventHandler(this.addPistonGruntItem_Click);
+            // 
+            // addShotgunGruntItem
+            // 
+            this.addShotgunGruntItem.Name = "addShotgunGruntItem";
+            this.addShotgunGruntItem.Size = new System.Drawing.Size(180, 22);
+            this.addShotgunGruntItem.Text = "Shotgun Grunt";
+            this.addShotgunGruntItem.Click += new System.EventHandler(this.addShotgunGruntItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1009, 630);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip1);
             this.KeyPreview = true;
@@ -125,6 +152,9 @@
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton collisionModeButton;
         private System.Windows.Forms.ToolStripButton enemyModeButton;
+        private System.Windows.Forms.ToolStripMenuItem addEnemiesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addPistonGruntItem;
+        private System.Windows.Forms.ToolStripMenuItem addShotgunGruntItem;
     }
 }
 

@@ -19,6 +19,9 @@ namespace Editor.Components
             Enemies
         }
 
+        public Point ViewOffset => viewOffset;
+        public Point CenterPoint => viewOffset.Add(new Point(Width / 2, Height / 2));
+
         private Level level;
         private Point viewOffset;
         private Point lastMouseLocation;
@@ -52,7 +55,6 @@ namespace Editor.Components
                 ControlStyles.UserPaint |
                 ControlStyles.AllPaintingInWmPaint |
                 ControlStyles.OptimizedDoubleBuffer, true);
-
 
             enemyImages.Add(EnemyType.PistolGrunt, LoadDirectionalImages("Resources/Enemies/PistolGrunt.png"));
             enemyImages.Add(EnemyType.ShotgunGrunt, LoadDirectionalImages("Resources/Enemies/ShotgunGrunt.png"));
@@ -183,6 +185,41 @@ namespace Editor.Components
             }
         }
 
+        protected override void OnKeyUp(KeyEventArgs e)
+        {
+            base.OnKeyUp(e);
+
+            switch(editMode)
+            {
+                case EditMode.Enemies:
+                    if (selectedEnemy == null)
+                        return;
+
+                    if(e.KeyCode == Keys.Delete)
+                    {
+                        DeleteSelectedEnemy();
+                    }
+                    else if(e.KeyCode == Keys.Space)
+                    {
+                        RotateSelectedEnemy();
+                    }
+                    break;
+            }
+        }
+
+        private void RotateSelectedEnemy()
+        {
+            selectedEnemy.Direction = selectedEnemy.Direction == Direction.Left ? Direction.Right : Direction.Left;
+            Redraw();
+        }
+
+        private void DeleteSelectedEnemy()
+        {
+            level.Enemies.Remove(selectedEnemy);
+            selectedEnemy = null;
+            Redraw();
+        }
+
         private Enemy GetEnemyFromPosition(int x, int y)
         {
             foreach(var enemy in level.Enemies)
@@ -201,7 +238,7 @@ namespace Editor.Components
             Redraw();
         }
 
-        private void Redraw()
+        public void Redraw()
         {
             Invalidate();
         }

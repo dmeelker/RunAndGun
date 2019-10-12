@@ -4900,15 +4900,15 @@
         0,
         0,
         0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
         1,
         0,
         0,
@@ -6920,7 +6920,7 @@
         0,
         0,
         0,
-        0,
+        1,
         0,
         0,
         0,
@@ -7570,28 +7570,52 @@
   },
   "Enemies": [
     {
-      "Type": "PistolGrunt",
       "X": 500,
       "Y": 540,
-      "Direction": "Right"
+      "Type": 0,
+      "Direction": 1
     },
     {
-      "Type": "PistolGrunt",
-      "X": 890,
-      "Y": 210,
-      "Direction": "Left"
+      "X": 897,
+      "Y": 208,
+      "Type": 0,
+      "Direction": 0
     },
     {
-      "Type": "PistolGrunt",
       "X": 1100,
       "Y": 540,
-      "Direction": "Left"
+      "Type": 0,
+      "Direction": 0
     },
     {
-      "Type": "ShotgunGrunt",
       "X": 1150,
       "Y": 540,
-      "Direction": "Left"
+      "Type": 1,
+      "Direction": 0
+    },
+    {
+      "X": 1310,
+      "Y": 382,
+      "Type": 0,
+      "Direction": 0
+    },
+    {
+      "X": 2205,
+      "Y": 522,
+      "Type": 0,
+      "Direction": 0
+    },
+    {
+      "X": 1858,
+      "Y": 525,
+      "Type": 1,
+      "Direction": 0
+    },
+    {
+      "X": 2104,
+      "Y": 346,
+      "Type": 0,
+      "Direction": 0
     }
   ]
 }
