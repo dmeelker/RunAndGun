@@ -20,11 +20,12 @@ namespace Game.Components
         public Weapon Weapon;
 
         public Direction Direction = Direction.Right;
-        public const int MaxArmor = 10;
-        public const int MaxHitpoints = 10;
-        public const int MaxAccuracy = 15;
-        public int Hitpoints = MaxHitpoints;
+        public int MaxArmor = 10;
+        public int MaxHitpoints = 10;
+        public int Hitpoints = 10;
         public int Armor = 0;
+
+        public const int MaxAccuracy = 15;
 
         private bool firing = false;
 

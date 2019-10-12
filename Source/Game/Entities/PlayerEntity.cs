@@ -23,7 +23,10 @@ namespace Game.Entities
         public PlayerEntity(Vector location)
         {
             Physics = new PhysicsComponent(this) { applyGravity = true };
-            Character = new CharacterComponent(this, Services.Sprites["player"], new Pistol());
+            Character = new CharacterComponent(this, Services.Sprites["player"], new Pistol()) {
+                MaxHitpoints = 20,
+                Hitpoints = 20
+            };
 
             Location = location;
             Size = new Vector(30, 30);

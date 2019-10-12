@@ -91,6 +91,10 @@ namespace Game
             LoadTextureAndSprite("Resources/Collectables/medpack.png", "medpack");
             LoadTextureAndSprite("Resources/Collectables/armor.png", "armor");
 
+            LoadTextureAndSprite("Resources/UI/HealthAndArmorFrame.png", "healthAndArmorFrame");
+            LoadTextureAndSprite("Resources/UI/armorBar.png", "armorBar");
+            LoadTextureAndSprite("Resources/UI/healthBar.png", "healthBar");
+
             Services.Sprites.Add(new Sprites.Sprite(Services.Textures["player"]), "player");
             Services.Sprites.Add(new Sprites.Sprite(Services.Textures["block"]), "block");
             Services.Sprites.Add(new Sprites.Sprite(Services.Textures["projectile"]), "projectile");

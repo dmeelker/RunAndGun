@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using SharedTypes;
+using Game.Sprites;
 
 namespace Game
 {
@@ -38,14 +39,17 @@ namespace Game
             Services.Game.Entities.RenderEntities(ren, ViewOffset);
 
             var font = Services.Fonts["big"];
-            var weapon = Services.Game.Player.Character.Weapon;
+            var character = Services.Game.Player.Character;
+            var weapon = character.Weapon;
 
             font.Render(ren, weapon.Name, 700, 500);
             font.Render(ren, $"{weapon.ClipContent} / {weapon.AmmoReserve}", 700, 520);
 
-            font.Render(ren, $"HP: {Services.Game.Player.Character.Hitpoints}/{CharacterComponent.MaxHitpoints}", 0, 500);
-            font.Render(ren, $"Armor: {Services.Game.Player.Character.Armor}/{CharacterComponent.MaxArmor}", 0, 520);
-            
+            font.Render(ren, $"HP: {character.Hitpoints}/{character.MaxHitpoints}", 0, 500);
+            font.Render(ren, $"Armor: {character.Armor}/{character.MaxArmor}", 0, 520);
+
+            RenderBars(ren);
+
             RenderReloadAndAmmoIndicator(ren, time, font, weapon);
 
             SDL.SDL_RenderPresent(ren);
@@ -59,6 +63,24 @@ namespace Game
 
                 Program.SetWindowTitle("FPS: " + fps);
             }
+        }
+
+        private void RenderBars(IntPtr ren)
+        {
+            var frameSprite = Services.Sprites["healthAndArmorFrame"];
+            var healtSprite = Services.Sprites["healthBar"];
+            var armorSprite = Services.Sprites["armorBar"];
+
+            var location = new Point(400 - (frameSprite.Width / 2), 540);
+            var character = Services.Game.Player.Character;
+
+            frameSprite.Draw(ren, location);
+
+            var armorPercentage = character.Armor / (double)character.MaxArmor;
+            var hpPercentage = character.Hitpoints / (double)character.MaxHitpoints;
+
+            armorSprite.Draw(ren, location.Add(3, 3), new Rect(0, 0, armorSprite.Width * armorPercentage, armorSprite.Height));
+            healtSprite.Draw(ren, location.Add(3, 18), new Rect(0, 0, healtSprite.Width * hpPercentage, healtSprite.Height));
         }
 
         private void RenderReloadAndAmmoIndicator(IntPtr ren, uint time, Text.Font font, Weapons.Weapon weapon)
