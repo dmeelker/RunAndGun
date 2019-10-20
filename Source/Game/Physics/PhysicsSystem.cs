@@ -21,5 +21,14 @@ namespace Game.Physics
         {
             components.Remove(component);
         }
+
+        public IEnumerable<PhysicsComponent> FindComponents(Rect area)
+        {
+            foreach (var component in components)
+            {
+                if (component.GetBoundingBox().Intersects(area))
+                    yield return component;
+            }
+        }
     }
 }

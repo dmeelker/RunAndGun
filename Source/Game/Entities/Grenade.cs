@@ -41,6 +41,7 @@ namespace Game.Entities
 
         private void Explode()
         {
+            Explosion.Create(Location, 50, 20);
             Dispose();
         }
 

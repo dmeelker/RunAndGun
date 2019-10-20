@@ -11,6 +11,7 @@ namespace Game.Entities
         public Vector OldLocation;
         public Vector Size;
         public Rect GetBoundingBox() => new Rect(Location.X, Location.Y, Size.X, Size.Y);
+        public Vector CenterLocation => Location + (Size / 2);
         public Point HalfSize => (Size * 0.5).ToPoint();
 
         public bool Disposable = false;

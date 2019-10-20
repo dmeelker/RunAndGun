@@ -13,7 +13,7 @@ using System.Text;
 
 namespace Game.Entities.Enemies
 {
-    public class Enemy : Entity, IProjectileCollider
+    public class Enemy : Entity, IProjectileCollider, IExplosionDamageReceiver
     {
         public readonly PhysicsComponent Physics;
         public readonly CharacterComponent Character;
@@ -155,6 +155,11 @@ namespace Game.Entities.Enemies
                 else if (source.Location.X < Location.X)
                     Character.FaceDirection(Direction.Left);
             }
+        }
+
+        public void Damage(Vector explosionOrigin, int damage)
+        {
+            Character.Damage(damage);
         }
 
         public override void OnDisposed()

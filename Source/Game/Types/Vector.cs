@@ -57,6 +57,15 @@ namespace Game.Types
             };
         }
 
+        public static Vector operator /(Vector a, double scalar)
+        {
+            return new Vector
+            {
+                X = a.X / scalar,
+                Y = a.Y / scalar
+            };
+        }
+
         public double Length => Math.Sqrt(X * X + Y * Y);
 
         public Vector ToUnit()

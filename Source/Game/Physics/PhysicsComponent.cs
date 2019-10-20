@@ -55,6 +55,10 @@ namespace Game.Physics
         public LevelCollision HorizontalCollision;
         public LevelCollision VerticalCollision;
 
+        public Rect GetBoundingBox() => entity.GetBoundingBox();
+        public Vector Location => entity.Location;
+        public Vector CenterLocation => entity.CenterLocation;
+
         public PhysicsComponent(Entity entity)
         {
             this.entity = entity;
