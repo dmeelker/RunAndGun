@@ -1,6 +1,7 @@
 ﻿using Game.Components;
 using Game.Entities.Collectables;
 using Game.Levels;
+using Game.Physics;
 using Game.Types;
 using Game.Utilities;
 using Game.Weapons;
@@ -29,7 +30,7 @@ namespace Game.Entities.Enemies
         {
             var sprite = Services.Sprites["player"];
 
-            Physics = new PhysicsComponent(this);
+            Physics = Services.Game.Physics.CreateComponent(this);
             Character = new CharacterComponent(this, sprite, new Pistol() { InfiniteAmmo = true });
 
             Location = location;
@@ -154,6 +155,11 @@ namespace Game.Entities.Enemies
                 else if (source.Location.X < Location.X)
                     Character.FaceDirection(Direction.Left);
             }
+        }
+
+        public override void OnDisposed()
+        {
+            Services.Game.Physics.DisposeComponent(Physics);
         }
     }
 }

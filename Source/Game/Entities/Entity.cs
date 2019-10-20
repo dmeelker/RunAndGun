@@ -22,6 +22,9 @@ namespace Game.Entities
         public virtual void Render(IntPtr rendererId, Point viewOffset)
         { }
 
+        public virtual void OnDisposed()
+        { }
+
         public void Dispose()
         {
             Disposable = true;

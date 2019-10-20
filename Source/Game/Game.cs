@@ -3,6 +3,7 @@ using Game.Entities;
 using Game.Entities.Collectables;
 using Game.Entities.Enemies;
 using Game.Levels;
+using Game.Physics;
 using Game.Types;
 using Game.Weapons;
 using SharedTypes;
@@ -15,6 +16,7 @@ namespace Game
     public class Game
     {
         public EntityManager Entities { get; private set; } = new EntityManager();
+        public PhysicsSystem Physics { get; private set; } = new PhysicsSystem();
         public Level Level { get; private set; }
         public PlayerEntity Player { get; private set; }
         private Renderer renderer;

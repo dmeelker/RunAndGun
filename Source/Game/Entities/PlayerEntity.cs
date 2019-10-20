@@ -7,6 +7,7 @@ using Game.Weapons;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Game.Physics;
 
 namespace Game.Entities
 {
@@ -23,7 +24,7 @@ namespace Game.Entities
         public PlayerEntity(Vector location)
         {
             var sprite = Services.Sprites["player"];
-            Physics = new PhysicsComponent(this) { applyGravity = true };
+            Physics = Services.Game.Physics.CreateComponent(this);
             Character = new CharacterComponent(this, sprite, new Pistol()) {
                 MaxHitpoints = 20,
                 Hitpoints = 20
@@ -141,6 +142,11 @@ namespace Game.Entities
         public void HitByProjectile(Projectile projectile, Vector vector, Vector location, Entity source)
         {
             Character.HitByProjectile(projectile, vector, location);
+        }
+
+        public override void OnDisposed()
+        {
+            Services.Game.Physics.DisposeComponent(Physics);
         }
     }
 }

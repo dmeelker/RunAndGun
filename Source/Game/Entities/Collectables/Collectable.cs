@@ -1,4 +1,4 @@
-﻿using Game.Components;
+﻿using Game.Physics;
 using Game.Sprites;
 using Game.Types;
 using System;

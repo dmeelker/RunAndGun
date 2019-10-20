@@ -1,5 +1,4 @@
 ﻿using SDL2;
-using Game.Components;
 using Game.Entities.Enemies;
 using Game.Levels;
 using Game.Sprites;
@@ -8,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Game.Physics;
 
 namespace Game.Entities
 {
@@ -29,14 +29,13 @@ namespace Game.Entities
             this.maxDistance = maxDistance;
             this.creationLocation = location;
 
-            Physics = new PhysicsComponent(this) { 
-                applyGravity = false,
-                checkType = CollisionCheckType.BlocksProjectiles
-            };
+            Physics = Services.Game.Physics.CreateComponent(this);
+            Physics.Velocity = velocity;
+            Physics.applyGravity = false;
+            Physics.checkType = CollisionCheckType.BlocksProjectiles;
 
             Location = location;
             Size = new Vector(8, 8);
-            Physics.Velocity = velocity;
         }
 
         public override void Update(uint time, int ticksPassed)
@@ -98,6 +97,11 @@ namespace Game.Entities
         public override void Render(IntPtr rendererId, Point viewOffset)
         {
             sprite.Draw(rendererId, Location.ToPoint() - viewOffset);
+        }
+
+        public override void OnDisposed()
+        {
+            Services.Game.Physics.DisposeComponent(Physics);
         }
     }
 }

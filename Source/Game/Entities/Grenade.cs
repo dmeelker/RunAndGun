@@ -1,4 +1,4 @@
-﻿using Game.Components;
+﻿using Game.Physics;
 using Game.Sprites;
 using Game.Types;
 using System;
@@ -9,20 +9,20 @@ namespace Game.Entities
 {
     public class Grenade : Entity
     {
-        public PhysicsComponent physics;
+        public PhysicsComponent Physics;
         private Entity source;
         private Sprite sprite;
         private uint creationTime = 0;
 
         public Grenade(Entity source, Vector location, Vector velocity)
         {
-            physics = new PhysicsComponent(this) { 
-                drag = 1
-            };
+            Physics = Services.Game.Physics.CreateComponent(this);
+            Physics.Velocity = velocity;
+            Physics.drag = 1;
+
             this.source = source;
             sprite = Services.Sprites["grenade"];
 
-            physics.Velocity = velocity;
             Location = location;
             Size = new Vector(sprite.Width, sprite.Height);
             creationTime = Services.Time;
@@ -30,7 +30,7 @@ namespace Game.Entities
 
         public override void Update(uint time, int ticksPassed)
         {
-            physics.Update(ticksPassed, Services.Game.Level);
+            Physics.Update(ticksPassed, Services.Game.Level);
 
             var age = time - creationTime;
             if(age > 3000)
@@ -47,6 +47,11 @@ namespace Game.Entities
         public override void Render(IntPtr rendererId, Point viewOffset)
         {
             sprite.Draw(rendererId, Location.ToPoint() - viewOffset);
+        }
+
+        public override void OnDisposed()
+        {
+            Services.Game.Physics.DisposeComponent(Physics);
         }
     }
 }

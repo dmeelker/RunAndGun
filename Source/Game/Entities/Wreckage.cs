@@ -1,10 +1,10 @@
 ﻿using SDL2;
-using Game.Components;
 using Game.Sprites;
 using Game.Types;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Game.Physics;
 
 namespace Game.Entities
 {
@@ -14,12 +14,12 @@ namespace Game.Entities
         private Vector creationLocation;
         private Vector velocity;
         private int age = 0;
-        private PhysicsComponent physics;
+        private PhysicsComponent Physics;
         public Wreckage(Vector location, Vector vector)
         {
-            physics = new PhysicsComponent(this);
-            physics.Velocity = vector;
-            physics.drag = .5;
+            Physics = Services.Game.Physics.CreateComponent(this);
+            Physics.Velocity = vector;
+            Physics.drag = .5;
 
             creationLocation = location;
             Location = location;
@@ -30,7 +30,7 @@ namespace Game.Entities
 
         public override void Update(uint time, int ticksPassed)
         {
-            physics.Update(ticksPassed, Services.Game.Level);
+            Physics.Update(ticksPassed, Services.Game.Level);
             age += ticksPassed;
             //velocity.Y += 1 * (ticksPassed * PhysicsComponent.tickMultiplier);
             //velocity.Y = Math.Min(velocity.Y, 15);
@@ -45,6 +45,11 @@ namespace Game.Entities
         {
             var angle = (Location.X - creationLocation.X) * 2.8;
             sprite.DrawEx(rendererId, Location.ToPoint() - viewOffset, angle, null, SDL.SDL_RendererFlip.SDL_FLIP_NONE);
+        }
+
+        public override void OnDisposed()
+        {
+            Services.Game.Physics.DisposeComponent(Physics);
         }
     }
 }

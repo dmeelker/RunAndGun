@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Game.Components
+namespace Game.Physics
 {
     public enum CollisionCheckType
     {
@@ -67,12 +67,12 @@ namespace Game.Components
             OldVelocity = Velocity;
             HandleMovement(level, effectiveVelocity, entity.OldLocation);
 
-            if(drag.HasValue && onGround && Velocity.X != 0)
+            if (drag.HasValue && onGround && Velocity.X != 0)
             {
                 if (Velocity.X > 0)
-                    Velocity.X = Math.Max(Velocity.X - (drag.Value * (ticksPassed * tickMultiplier)), 0.0);
+                    Velocity.X = Math.Max(Velocity.X - drag.Value * (ticksPassed * tickMultiplier), 0.0);
                 else if (Velocity.X < 0)
-                    Velocity.X = Math.Min(Velocity.X + (drag.Value * (ticksPassed * tickMultiplier)), 0.0);
+                    Velocity.X = Math.Min(Velocity.X + drag.Value * (ticksPassed * tickMultiplier), 0.0);
             }
 
             if (applyGravity && !onGround)
@@ -128,18 +128,20 @@ namespace Game.Components
         {
             var startX = (int)oldLocation.X - 1;
             var endX = (int)entity.Location.X - 1;
-            var startY = (int) entity.Location.Y;
-            var endY = (int) (entity.Location.Y + entity.Size.Y - 1);
+            var startY = (int)entity.Location.Y;
+            var endY = (int)(entity.Location.Y + entity.Size.Y - 1);
             var entities = Services.Game.Entities.FindEntities(new Rect(endX, startY, endX - startX, endY - startY)).OfType<IPhysicsCollider>().Cast<Entity>().ToArray();
 
-            for (var x = startX;; x -= Level.BlockSize) {
+            for (var x = startX; ; x -= Level.BlockSize)
+            {
                 x = Math.Max(x, endX);
-                
-                for (var y = startY;; y += Level.BlockSize) {
+
+                for (var y = startY; ; y += Level.BlockSize)
+                {
                     y = Math.Min(y, endY);
                     var block = level.GetBlockByPixelLocation(x, y);
                     if (IsBlocking(block, checkType))
-                        return new LevelCollision(((x / Level.BlockSize) + 1) * Level.BlockSize, y);
+                        return new LevelCollision((x / Level.BlockSize + 1) * Level.BlockSize, y);
 
                     foreach (var entity in entities)
                     {
@@ -162,18 +164,20 @@ namespace Game.Components
         {
             var startX = (int)(oldLocation.X + entity.Size.X - 1);
             var endX = (int)(entity.Location.X + entity.Size.X);
-            var startY = (int) entity.Location.Y;
+            var startY = (int)entity.Location.Y;
             var endY = (int)(entity.Location.Y + entity.Size.Y - 1);
             var entities = Services.Game.Entities.FindEntities(new Rect(startX, startY, endX - startX, endY - startY)).OfType<IPhysicsCollider>().Cast<Entity>().ToArray();
 
-            for (var x = startX;; x += Level.BlockSize) {
+            for (var x = startX; ; x += Level.BlockSize)
+            {
                 x = Math.Min(x, endX);
 
-                for (var y = startY;; y += Level.BlockSize) {
+                for (var y = startY; ; y += Level.BlockSize)
+                {
                     y = Math.Min(y, endY);
                     var block = level.GetBlockByPixelLocation(x, y);
                     if (IsBlocking(block, checkType))
-                        return new LevelCollision((x / Level.BlockSize) * Level.BlockSize, y);
+                        return new LevelCollision(x / Level.BlockSize * Level.BlockSize, y);
 
                     foreach (var entity in entities)
                     {
@@ -224,7 +228,7 @@ namespace Game.Components
         {
             var startY = (int)oldLocation.Y - 1;
             var endY = (int)entity.Location.Y - 1;
-            var startX = (int) entity.Location.X;
+            var startX = (int)entity.Location.X;
             var endX = (int)(entity.Location.X + entity.Size.X - 1);
 
             for (var y = startY; ; y -= Level.BlockSize)
@@ -236,7 +240,7 @@ namespace Game.Components
                     x = Math.Min(x, endX);
 
                     if (IsBlocking(level.GetBlockByPixelLocation(x, y), checkType))
-                        return new LevelCollision(x, ((y / Level.BlockSize) + 1) * Level.BlockSize);
+                        return new LevelCollision(x, (y / Level.BlockSize + 1) * Level.BlockSize);
 
                     if (x >= endX)
                         break;
@@ -265,15 +269,15 @@ namespace Game.Components
                 {
                     x = Math.Min(x, endX);
                     var block = level.GetBlockByPixelLocation(x, y);
-                    var collisionY = (y / Level.BlockSize) * Level.BlockSize;
+                    var collisionY = y / Level.BlockSize * Level.BlockSize;
 
                     if (IsBlocking(block, checkType))
                         return new LevelCollision(x, collisionY);
 
                     foreach (var entity in entities)
                     {
-                        if(entity.GetBoundingBox().Contains(new Vector(x, y)))
-                            return new LevelCollision(x, (int) entity.Location.Y);
+                        if (entity.GetBoundingBox().Contains(new Vector(x, y)))
+                            return new LevelCollision(x, (int)entity.Location.Y);
                     }
 
                     if (x >= endX)
