@@ -44,8 +44,9 @@ namespace Game.Particle
                 Location = Location,
                 MaxAge = 1000,
                 Sprite = Services.Sprites["round-particle"],
-                ScaleFunction = (t) => 1 + (t * (2 - t)) * 3,
-                VelocityFunction = (t) => (t * (2 - t)) * 10
+                ScaleFunction = EasingFunctions.ScalarAnimation(1, 5, EasingFunctions.EaseInQuad),
+                VelocityFunction = EasingFunctions.ScalarAnimation(10, 3, EasingFunctions.EaseInQuad),
+                RotationFunction = EasingFunctions.ScalarAnimation(0, 360, EasingFunctions.Linear)
             };
         }
     }

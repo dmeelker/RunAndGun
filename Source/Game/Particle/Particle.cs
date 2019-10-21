@@ -22,6 +22,7 @@ namespace Game.Particle
 
         public Func<double, double> VelocityFunction { get; set; }
         public Func<double, double> ScaleFunction { get; set; }
+        public Func<double, double> RotationFunction { get; set; }
 
         public Particle(uint creationTime)
         {
@@ -39,9 +40,11 @@ namespace Game.Particle
 
             Location += Velocity * (time.TicksPassed * tickMultiplier);
 
-            var functionTime = age / (double)MaxAge;
-            if (ScaleFunction != null) Scale = ScaleFunction(functionTime);
-            if (VelocityFunction != null) Velocity = Velocity.ToUnit() * VelocityFunction(functionTime);
+            var animationTime = age / (double)MaxAge;
+
+            if (ScaleFunction != null) Scale = ScaleFunction(animationTime);
+            if (VelocityFunction != null) Velocity = Velocity.ToUnit() * VelocityFunction(animationTime);
+            if (RotationFunction != null) Rotation = RotationFunction(animationTime);
 
             if (AttachedEmitter != null)
             {
@@ -52,8 +55,11 @@ namespace Game.Particle
 
         public void Render(IntPtr renderer, Point viewOffset)
         {
-            if(Sprite != null)
+            if (Sprite != null)
+            {
+                Sprite.MakeRed();
                 Sprite.DrawEx(renderer, Location.ToPoint() - viewOffset, Rotation, null, Scale, SDL2.SDL.SDL_RendererFlip.SDL_FLIP_NONE);
+            }
         }
 
         private void Dispose()

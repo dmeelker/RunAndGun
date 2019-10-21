@@ -183,5 +183,11 @@ namespace Game.Sprites
                 SDL.SDL_RenderCopyEx(rendererId, TextureId, ref source, ref destination, angle, IntPtr.Zero, flipMode);
             }
         }
+
+        public void MakeRed()
+        {
+            SDL.SDL_SetTextureAlphaMod(TextureId, 128);
+            SDL.SDL_SetTextureColorMod(TextureId, 255, 0, 0);
+        }
     }
 }
