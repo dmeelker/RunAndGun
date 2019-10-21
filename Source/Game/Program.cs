@@ -99,6 +99,8 @@ namespace Game
 
             LoadTextureAndSprite("Resources/Characters/player.png", "player");
 
+            LoadTextureAndSprite("Resources/Particles/round-particle.png", "round-particle");
+
             //Services.Sprites.Add(new Sprites.Sprite(Services.Textures["player"]), "player");
             Services.Sprites.Add(new Sprites.Sprite(Services.Textures["block"]), "block");
             Services.Sprites.Add(new Sprites.Sprite(Services.Textures["projectile"]), "projectile");

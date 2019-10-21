@@ -154,5 +154,34 @@ namespace Game.Sprites
                 SDL.SDL_RenderCopyEx(rendererId, TextureId, ref source, ref destination, angle, IntPtr.Zero, flipMode);
             }
         }
+
+        public void DrawEx(IntPtr rendererId, Point location, double angle, Vector? center, double scale, SDL.SDL_RendererFlip flipMode)
+        {
+            var source = new SDL.SDL_Rect()
+            {
+                x = this.X,
+                y = this.Y,
+                w = Width,
+                h = Height
+            };
+
+            var destination = new SDL.SDL_Rect()
+            {
+                x = location.X,
+                y = location.Y,
+                w = Width * scale,
+                h = Height * scale
+            };
+
+            if (center.HasValue)
+            {
+                var centerPoint = new SDL.SDL_Point { x = (int)center.Value.X, y = (int)center.Value.Y };
+                SDL.SDL_RenderCopyEx(rendererId, TextureId, ref source, ref destination, angle, ref centerPoint, flipMode);
+            }
+            else
+            {
+                SDL.SDL_RenderCopyEx(rendererId, TextureId, ref source, ref destination, angle, IntPtr.Zero, flipMode);
+            }
+        }
     }
 }
