@@ -44,7 +44,7 @@ namespace Game
                 Location = new Vector(300, 330),
                 Vector = new Vector(0, -5),
                 SpreadInDegrees = 30,
-                ParticleInterval = 50
+                ParticleInterval = 1000
             });
 
             LoadCollisionData(levelData);

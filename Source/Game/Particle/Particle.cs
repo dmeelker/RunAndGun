@@ -20,6 +20,9 @@ namespace Game.Particle
         public bool IsDisposed { get; private set; } = false;
         public ParticleEmitter AttachedEmitter { get; set; }
 
+        public Func<double, double> VelocityFunction { get; set; }
+        public Func<double, double> ScaleFunction { get; set; }
+
         public Particle(uint creationTime)
         {
             this.creationTime = creationTime;
@@ -27,13 +30,18 @@ namespace Game.Particle
 
         public void Update(FrameTime time)
         {
-            if (time.Time - creationTime >= MaxAge)
+            var age = (int) (time.Time - creationTime);
+            if (age >= MaxAge)
             {
                 Dispose();
                 return;
             }
 
             Location += Velocity * (time.TicksPassed * tickMultiplier);
+
+            var functionTime = age / (double)MaxAge;
+            if (ScaleFunction != null) Scale = ScaleFunction(functionTime);
+            if (VelocityFunction != null) Velocity = Velocity.ToUnit() * VelocityFunction(functionTime);
 
             if (AttachedEmitter != null)
             {

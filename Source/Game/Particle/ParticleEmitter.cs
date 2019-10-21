@@ -38,11 +38,14 @@ namespace Game.Particle
             var angle = Vector.AngleInDegrees + (Services.Random.Next(SpreadInDegrees) - halfSpread);
             var vector = Vector.FromAngleInDegrees(angle) * 10;
 
-            return new Particle(time) { 
+            // https://gist.github.com/gre/1650294
+            return new Particle(time) {
                 Velocity = vector,
                 Location = Location,
                 MaxAge = 1000,
-                Sprite = Services.Sprites["round-particle"]
+                Sprite = Services.Sprites["round-particle"],
+                ScaleFunction = (t) => 1 + (t * (2 - t)) * 3,
+                VelocityFunction = (t) => (t * (2 - t)) * 10
             };
         }
     }
