@@ -1,4 +1,5 @@
 ﻿using Game.Entities;
+using Game.Particle;
 using Game.Physics;
 using Game.Types;
 using System;
@@ -13,7 +14,41 @@ namespace Game
         {
             Damage(location, range, power);
             GenerateImpulse(location, range, power);
-            
+            GenerateParticles(location, range);
+        }
+
+        private static void GenerateParticles(Vector location, int range)
+        {
+            Services.Game.Particles.AddEmitter(new CircleBurstEmitter(Services.Time)
+            {
+                Location = location,
+                ParticleCount = 100,
+                ParticleFactory = (time) => new Particle.Particle(time)
+                {
+                    MaxAge = range * Services.Random.Next(2, 4),
+                    Sprite = Services.Sprites["round-particle"],
+                    ScaleFunction = EasingFunctions.AnimateScalar(4, .2, EasingFunctions.EaseInQuad),
+                    VelocityFunction = EasingFunctions.AnimateScalar(15, Services.Random.Next(1, 2), EasingFunctions.EaseOutQuad),
+                    //RotationFunction = EasingFunctions.AnimateScalar(0, 360, EasingFunctions.Linear),
+                    ColorFunction = EasingFunctions.AnimateColor(new Color(255, 241, 181, 255), new Color(135, 51, 0, 255), EasingFunctions.EaseOutCubic)
+                }
+            });
+
+            Services.Game.Particles.AddEmitter(new CircleBurstEmitter(Services.Time)
+            {
+                Location = location,
+                ParticleCount = 100,
+                ParticleFactory = (time) => new Particle.Particle(time)
+                {
+                    MaxAge = range * 5,
+                    Sprite = Services.Sprites["round-particle"],
+                    Scale = 2,
+                    ScaleFunction = EasingFunctions.AnimateScalar(2, .2, EasingFunctions.EaseInQuad),
+                    VelocityFunction = EasingFunctions.AnimateScalar(20, Services.Random.Next(1, 5), EasingFunctions.EaseOutQuad),
+                    //RotationFunction = EasingFunctions.AnimateScalar(0, 360, EasingFunctions.Linear),
+                    ColorFunction = EasingFunctions.AnimateColor(new Color(100, 100, 100, 255), new Color(57, 57, 130, 255), EasingFunctions.EaseInQuad)
+                }
+            });
         }
 
         private static void Damage(Vector location, int range, int power)

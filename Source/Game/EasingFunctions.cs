@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Game.Types;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,9 +7,19 @@ namespace Game
 {
     public class EasingFunctions
     {
-        public static Func<double, double> ScalarAnimation(double initialValue, double endValue, Func<double, double> easingFunction)
+        public static Func<double, double> AnimateScalar(double initialValue, double endValue, Func<double, double> easingFunction)
         {
             return (t) => initialValue + (easingFunction(t) * (endValue - initialValue));
+        }
+
+        public static Func<double, Color> AnimateColor(Color initialValue, Color endValue, Func<double, double> easingFunction)
+        {
+            return (t) => new Color(
+                (byte) (initialValue.R + (easingFunction(t) * (endValue.R - initialValue.R))),
+                (byte) (initialValue.G + (easingFunction(t) * (endValue.G - initialValue.G))),
+                (byte) (initialValue.B + (easingFunction(t) * (endValue.B - initialValue.B))),
+                (byte) (initialValue.A + (easingFunction(t) * (endValue.A - initialValue.A)))
+            );
         }
 
         public static readonly Func<double, double> Linear = (t) => t;

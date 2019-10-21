@@ -40,11 +40,37 @@ namespace Game
             Entities.Add(new ArmorCollectable(new Vector(200, 330)));
             Entities.Add(new MedpackCollectable(new Vector(240, 330)));
 
-            Particles.AddEmitter(new SprayEmitter() { 
-                Location = new Vector(300, 330),
-                Vector = new Vector(0, -5),
-                SpreadInDegrees = 30,
-                ParticleInterval = 1000
+            //Particles.AddEmitter(new SprayEmitter(Services.Time) { 
+            //    Location = new Vector(300, 330),
+            //    Vector = new Vector(0, -5),
+            //    SpreadInDegrees = 30,
+            //    ParticleInterval = 1000,
+            //    ParticleFactory = (time) => new Particle.Particle(time)
+            //    {
+            //        MaxAge = 1000,
+            //        Sprite = Services.Sprites["round-particle"],
+            //        ScaleFunction = EasingFunctions.AnimateScalar(1, 5, EasingFunctions.EaseInQuad),
+            //        VelocityFunction = EasingFunctions.AnimateScalar(10, 3, EasingFunctions.EaseInQuad),
+            //        RotationFunction = EasingFunctions.AnimateScalar(0, 360, EasingFunctions.Linear),
+            //        ColorFunction = EasingFunctions.AnimateColor(new Color(255, 0, 0, 255), new Color(96, 96, 96, 50), EasingFunctions.Linear)
+            //    }
+            //});
+
+            Particles.AddEmitter(new CircleBurstEmitter(Services.Time)
+            {
+                Location = new Vector(200, 330),
+                ParticleCount = 100,
+                ParticleFactory = (time) => new Particle.Particle(time)
+                {
+                    MaxAge = 500,
+                    Sprite = Services.Sprites["round-particle"],
+                    Color = new Color(100, 100, 100, 100),
+                    Scale = 2,
+                    ScaleFunction = EasingFunctions.AnimateScalar(2, .2, EasingFunctions.EaseInQuad),
+                    VelocityFunction = EasingFunctions.AnimateScalar(20, Services.Random.Next(1,5), EasingFunctions.EaseOutQuad),
+                    //RotationFunction = EasingFunctions.AnimateScalar(0, 360, EasingFunctions.Linear),
+                    ColorFunction = EasingFunctions.AnimateColor(new Color(100, 100, 100, 255), new Color(57, 57, 130, 255), EasingFunctions.EaseInQuad)
+                }
             });
 
             LoadCollisionData(levelData);

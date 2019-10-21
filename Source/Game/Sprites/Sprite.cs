@@ -184,10 +184,10 @@ namespace Game.Sprites
             }
         }
 
-        public void MakeRed()
+        public void SetColor(Color color)
         {
-            SDL.SDL_SetTextureAlphaMod(TextureId, 128);
-            SDL.SDL_SetTextureColorMod(TextureId, 255, 0, 0);
+            SDL.SDL_SetTextureAlphaMod(TextureId, color.A);
+            SDL.SDL_SetTextureColorMod(TextureId, color.R, color.G, color.B);
         }
     }
 }

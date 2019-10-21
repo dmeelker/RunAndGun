@@ -33,7 +33,7 @@ namespace Game.Entities
             Physics.Update(ticksPassed, Services.Game.Level);
 
             var age = time - creationTime;
-            if(age > 3000)
+            if(age > 1000)
             {
                 Explode();
             }

@@ -14,6 +14,7 @@ namespace Game.Particle
         public Vector Location { get; set; }
         public Vector Velocity { get; set; }
         public Sprite Sprite { get; set; }
+        public Color Color { get; set; }
         public double Scale { get; set; } = 1;
         public double Rotation { get; set; }
         public int MaxAge { get; set; }
@@ -23,6 +24,7 @@ namespace Game.Particle
         public Func<double, double> VelocityFunction { get; set; }
         public Func<double, double> ScaleFunction { get; set; }
         public Func<double, double> RotationFunction { get; set; }
+        public Func<double, Color> ColorFunction{ get; set; }
 
         public Particle(uint creationTime)
         {
@@ -45,6 +47,7 @@ namespace Game.Particle
             if (ScaleFunction != null) Scale = ScaleFunction(animationTime);
             if (VelocityFunction != null) Velocity = Velocity.ToUnit() * VelocityFunction(animationTime);
             if (RotationFunction != null) Rotation = RotationFunction(animationTime);
+            if (ColorFunction != null) Color = ColorFunction(animationTime);
 
             if (AttachedEmitter != null)
             {
@@ -57,7 +60,7 @@ namespace Game.Particle
         {
             if (Sprite != null)
             {
-                Sprite.MakeRed();
+                Sprite.SetColor(Color);
                 Sprite.DrawEx(renderer, Location.ToPoint() - viewOffset, Rotation, null, Scale, SDL2.SDL.SDL_RendererFlip.SDL_FLIP_NONE);
             }
         }
