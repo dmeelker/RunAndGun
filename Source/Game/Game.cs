@@ -3,6 +3,7 @@ using Game.Entities;
 using Game.Entities.Collectables;
 using Game.Entities.Enemies;
 using Game.Levels;
+using Game.Particle;
 using Game.Physics;
 using Game.Types;
 using Game.Weapons;
@@ -17,6 +18,8 @@ namespace Game
     {
         public EntityManager Entities { get; private set; } = new EntityManager();
         public PhysicsSystem Physics { get; private set; } = new PhysicsSystem();
+        public ParticleSystem Particles { get; private set; } = new ParticleSystem();
+
         public Level Level { get; private set; }
         public PlayerEntity Player { get; private set; }
         private Renderer renderer;
@@ -37,6 +40,13 @@ namespace Game
             Entities.Add(new ArmorCollectable(new Vector(200, 330)));
             Entities.Add(new MedpackCollectable(new Vector(240, 330)));
 
+            Particles.AddEmitter(new SprayEmitter() { 
+                Location = new Vector(300, 330),
+                Vector = new Vector(0, -5),
+                SpreadInDegrees = 30,
+                ParticleInterval = 50
+            });
+
             LoadCollisionData(levelData);
             LoadEnemies(levelData.Enemies);
             InitializePlayer();
@@ -46,6 +56,7 @@ namespace Game
         {
             inputHandler.HandleInput(time);
             Entities.UpdateEntities(time, timePassed);
+            Particles.Update(new FrameTime() { Time = time, TicksPassed = timePassed });
 
             renderer.FollowPlayer(Player, timePassed);
         }

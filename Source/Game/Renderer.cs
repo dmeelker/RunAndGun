@@ -37,6 +37,7 @@ namespace Game
 
             //RenderLevel(ren, Services.Session.Level);
             Services.Game.Entities.RenderEntities(ren, ViewOffset);
+            Services.Game.Particles.Render(ren, ViewOffset);
 
             var font = Services.Fonts["big"];
             var character = Services.Game.Player.Character;

@@ -169,8 +169,8 @@ namespace Game.Sprites
             {
                 x = location.X,
                 y = location.Y,
-                w = Width * scale,
-                h = Height * scale
+                w = (int) (Width * scale),
+                h = (int) (Height * scale)
             };
 
             if (center.HasValue)

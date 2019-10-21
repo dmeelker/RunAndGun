@@ -42,10 +42,10 @@ namespace Game.Particle
             }
         }
 
-        public void Render(IntPtr renderer)
+        public void Render(IntPtr renderer, Point viewOffset)
         {
             if(Sprite != null)
-                Sprite.DrawEx(renderer, Location.ToPoint(), Rotation, null, Scale, SDL2.SDL.SDL_RendererFlip.SDL_FLIP_NONE);
+                Sprite.DrawEx(renderer, Location.ToPoint() - viewOffset, Rotation, null, Scale, SDL2.SDL.SDL_RendererFlip.SDL_FLIP_NONE);
         }
 
         private void Dispose()

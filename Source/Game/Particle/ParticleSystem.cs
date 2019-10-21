@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Game.Types;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -55,6 +56,12 @@ namespace Game.Particle
         public void AddEmitter(ParticleEmitter emitter)
         {
             emitters.AddLast(emitter);
+        }
+
+        public void Render(IntPtr rendererId, Point viewOffset)
+        {
+            foreach (var particle in particles)
+                particle.Render(rendererId, viewOffset);
         }
     }
 }
