@@ -2,6 +2,7 @@
 using Game.Text;
 using System;
 using System.IO;
+using System.Threading;
 
 namespace Game
 {
@@ -18,6 +19,9 @@ namespace Game
         static IntPtr cursorSurface;
         static IntPtr cursor;
 
+        private static int targetFrameRate = 60;
+        private static int timePerRender = 1000 / targetFrameRate;
+
         static void Main(string[] args)
         {
             SDL.SDL_Init(SDL.SDL_INIT_VIDEO);
@@ -30,7 +34,7 @@ namespace Game
                 SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN
             );
 
-            ren = SDL.SDL_CreateRenderer(win, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED | SDL.SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC);
+            ren = SDL.SDL_CreateRenderer(win, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
             if (ren == null)
             {
                 SDL.SDL_DestroyWindow(win);
@@ -48,7 +52,7 @@ namespace Game
             Services.Game.LoadLevel(FileFormats.Levels.Loader.Load(@"Resources\Levels\level1.json"));
 
             uint lastUpdateTime = SDL.SDL_GetTicks();
-
+            uint lastRenderTime = SDL.SDL_GetTicks();
             while (!quit)
             {
                 var time = SDL.SDL_GetTicks();
@@ -57,7 +61,14 @@ namespace Game
                 lastUpdateTime = time;
 
                 Services.Game.Update(time, timePassed);
-                Services.Game.Render(ren, time);
+
+                if (time - lastRenderTime > timePerRender)
+                {
+                    Services.Game.Render(ren, time);
+                    lastRenderTime = SDL.SDL_GetTicks();
+                }
+
+                Thread.Sleep(1);
             }
 
             Services.Textures.Cleanup();

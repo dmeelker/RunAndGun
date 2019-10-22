@@ -36,21 +36,7 @@ namespace Game.Entities
             Physics.applyGravity = false;
             Physics.checkType = CollisionCheckType.BlocksProjectiles;
 
-            var particleSprite = Services.Sprites["round-particle"];
-            particleEmitter = new ConstantEmitter(Services.Time) {
-                Location = location,
-                ParticleInterval = 1,
-                ParticleFactory = (time) => new Particle.Particle(time)
-                {
-                    MaxAge = 80,
-                    Sprite = particleSprite,
-                    Velocity = new Vector(0, 0),
-                    ScaleFunction = EasingFunctions.AnimateScalar(.5, .1, EasingFunctions.EaseInQuad),
-                    ColorFunction = EasingFunctions.AnimateColor(new Color(255, 241, 181, 255), new Color(135, 51, 0, 255), EasingFunctions.EaseOutCubic)
-                }
-            };
-
-            Services.Game.Particles.AddEmitter(particleEmitter);
+            CreateTrailEmitter();
 
             Location = location;
             Size = new Vector(8, 8);
@@ -101,9 +87,29 @@ namespace Game.Entities
             }
         }
 
+        private void CreateTrailEmitter()
+        {
+            var particleSprite = Services.Sprites["round-particle"];
+            particleEmitter = new ConstantEmitter(Services.Time)
+            {
+                ParticleInterval = 1,
+                ParticleFactory = (time) => new Particle.Particle(time)
+                {
+                    MaxAge = 80,
+                    Sprite = particleSprite,
+                    Velocity = new Vector(0, 0),
+                    ScaleFunction = EasingFunctions.AnimateScalar(.2, .05, EasingFunctions.EaseInQuad),
+                    ColorFunction = EasingFunctions.AnimateColor(new Color(255, 241, 181, 255), new Color(135, 51, 0, 255), EasingFunctions.EaseOutCubic)
+                }
+            };
+            UpdateParticleEmitterLocation();
+
+            Services.Game.Particles.AddEmitter(particleEmitter);
+        }
+
         private void UpdateParticleEmitterLocation()
         {
-            particleEmitter.Location = Location;
+            particleEmitter.Location = CenterLocation;
         }
 
         private Rect GetMovedAreaRect()

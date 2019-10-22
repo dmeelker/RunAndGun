@@ -60,8 +60,11 @@ namespace Game.Particle
         {
             if (Sprite != null)
             {
+                var width = Sprite.Width * Scale;
+                var height = Sprite.Height * Scale;
+                var locationOffset = new Vector((int)(width / 2.0), (int)(height / 2.0));
                 Sprite.SetColor(Color);
-                Sprite.DrawEx(renderer, Location.ToPoint() - viewOffset, Rotation, null, Scale, SDL2.SDL.SDL_RendererFlip.SDL_FLIP_NONE);
+                Sprite.DrawEx(renderer, Location.ToPoint() - locationOffset - viewOffset, Rotation, null, Scale, SDL2.SDL.SDL_RendererFlip.SDL_FLIP_NONE);
             }
         }
 
