@@ -90,11 +90,12 @@ namespace Game.Particle
             {
                 lastFireTime = time.Time;
 
-                var angle = 0;
+                var angle = 0.0;
+                var angleStep = 360 / (double) ParticleCount;
 
                 for (var i = 0; i < ParticleCount; i++)
                 {
-                    angle += Services.Random.Next(3, 10);
+                    angle = Services.Random.Next(360);
                     var vector = Vector.FromAngleInDegrees(angle) * Services.Random.Next(MinVelocity, MaxVelocity);
 
                     var particle = ParticleFactory(time.Time);

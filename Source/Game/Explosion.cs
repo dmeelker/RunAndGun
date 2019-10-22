@@ -19,21 +19,9 @@ namespace Game
 
         private static void GenerateParticles(Vector location, int range)
         {
-            Services.Game.Particles.AddEmitter(new CircleBurstEmitter(Services.Time)
-            {
-                Location = location,
-                ParticleCount = 100,
-                ParticleFactory = (time) => new Particle.Particle(time)
-                {
-                    MaxAge = range * Services.Random.Next(2, 4),
-                    Sprite = Services.Sprites["round-particle"],
-                    ScaleFunction = EasingFunctions.AnimateScalar(4, .2, EasingFunctions.EaseInQuad),
-                    VelocityFunction = EasingFunctions.AnimateScalar(15, Services.Random.Next(1, 2), EasingFunctions.EaseOutQuad),
-                    //RotationFunction = EasingFunctions.AnimateScalar(0, 360, EasingFunctions.Linear),
-                    ColorFunction = EasingFunctions.AnimateColor(new Color(255, 241, 181, 255), new Color(135, 51, 0, 255), EasingFunctions.EaseOutCubic)
-                }
-            });
+            var particleSprite = Services.Sprites["round-particle"];
 
+            // Smoke
             Services.Game.Particles.AddEmitter(new CircleBurstEmitter(Services.Time)
             {
                 Location = location,
@@ -41,12 +29,41 @@ namespace Game
                 ParticleFactory = (time) => new Particle.Particle(time)
                 {
                     MaxAge = range * 5,
-                    Sprite = Services.Sprites["round-particle"],
+                    Sprite = particleSprite,
                     Scale = 2,
                     ScaleFunction = EasingFunctions.AnimateScalar(2, .2, EasingFunctions.EaseInQuad),
                     VelocityFunction = EasingFunctions.AnimateScalar(20, Services.Random.Next(1, 5), EasingFunctions.EaseOutQuad),
-                    //RotationFunction = EasingFunctions.AnimateScalar(0, 360, EasingFunctions.Linear),
                     ColorFunction = EasingFunctions.AnimateColor(new Color(100, 100, 100, 255), new Color(57, 57, 130, 255), EasingFunctions.EaseInQuad)
+                }
+            });
+
+            // Fire
+            Services.Game.Particles.AddEmitter(new CircleBurstEmitter(Services.Time)
+            {
+                Location = location,
+                ParticleCount = 100,
+                ParticleFactory = (time) => new Particle.Particle(time)
+                {
+                    MaxAge = range * Services.Random.Next(2, 4),
+                    Sprite = particleSprite,
+                    ScaleFunction = EasingFunctions.AnimateScalar(4, .2, EasingFunctions.EaseInQuad),
+                    VelocityFunction = EasingFunctions.AnimateScalar(15, Services.Random.Next(1, 2), EasingFunctions.EaseOutQuad),
+                    ColorFunction = EasingFunctions.AnimateColor(new Color(255, 241, 181, 255), new Color(135, 51, 0, 255), EasingFunctions.EaseOutCubic)
+                }
+            });
+
+            // Sparks
+            Services.Game.Particles.AddEmitter(new CircleBurstEmitter(Services.Time)
+            {
+                Location = location,
+                ParticleCount = Services.Random.Next(5, 20),
+                ParticleFactory = (time) => new Particle.Particle(time)
+                {
+                    MaxAge = range * 10,
+                    Sprite = particleSprite,
+                    ScaleFunction = EasingFunctions.AnimateScalar(.5, .1, EasingFunctions.EaseInQuad),
+                    VelocityFunction = EasingFunctions.AnimateScalar(20, Services.Random.Next(1, 5), EasingFunctions.EaseOutQuad),
+                    ColorFunction = EasingFunctions.AnimateColor(new Color(255, 241, 181, 255), new Color(135, 51, 0, 255), EasingFunctions.EaseOutCubic)
                 }
             });
         }
