@@ -43,6 +43,8 @@ namespace Game
                 return;
             }
 
+            targetFrameRate = GetRefreshRate(win);
+
             cursorSurface = SDL_image.IMG_Load("Resources/Cursors/crosshair.png");
             cursor = SDL.SDL_CreateColorCursor(cursorSurface, 18, 18);
             SDL.SDL_SetCursor(cursor);
@@ -67,7 +69,6 @@ namespace Game
                     Services.Game.Render(ren, time);
                     lastRenderTime = SDL.SDL_GetTicks();
                 }
-
                 Thread.Sleep(1);
             }
 
@@ -78,7 +79,15 @@ namespace Game
             SDL.SDL_DestroyWindow(win);
             SDL.SDL_Quit();
         }
-        
+
+        private static int GetRefreshRate(IntPtr win)
+        {
+            var displayIndex = SDL.SDL_GetWindowDisplayIndex(win);
+            SDL.SDL_GetCurrentDisplayMode(displayIndex, out var displayMode);
+
+            return displayMode.refresh_rate;
+        }
+
         private static void LoadTextures()
         {
             //Services.Textures.LoadTexture(ren, "Resources/test.png", "player");
