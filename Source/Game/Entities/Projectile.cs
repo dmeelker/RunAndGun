@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Game.Physics;
+using Game.Particle;
 
 namespace Game.Entities
 {
@@ -20,6 +21,7 @@ namespace Game.Entities
         public PhysicsComponent Physics;
         
         public readonly int Power;
+        private ConstantEmitter particleEmitter;
 
         public Projectile(Entity source, Vector location, Vector velocity, int power, int maxDistance)
         {
@@ -33,6 +35,22 @@ namespace Game.Entities
             Physics.Velocity = velocity;
             Physics.applyGravity = false;
             Physics.checkType = CollisionCheckType.BlocksProjectiles;
+
+            var particleSprite = Services.Sprites["round-particle"];
+            particleEmitter = new ConstantEmitter(Services.Time) {
+                Location = location,
+                ParticleInterval = 1,
+                ParticleFactory = (time) => new Particle.Particle(time)
+                {
+                    MaxAge = 80,
+                    Sprite = particleSprite,
+                    Velocity = new Vector(0, 0),
+                    ScaleFunction = EasingFunctions.AnimateScalar(.5, .1, EasingFunctions.EaseInQuad),
+                    ColorFunction = EasingFunctions.AnimateColor(new Color(255, 241, 181, 255), new Color(135, 51, 0, 255), EasingFunctions.EaseOutCubic)
+                }
+            };
+
+            Services.Game.Particles.AddEmitter(particleEmitter);
 
             Location = location;
             Size = new Vector(8, 8);
@@ -55,7 +73,7 @@ namespace Game.Entities
             }
 
             HandleEntityCollisions();
-
+            UpdateParticleEmitterLocation();
         }
 
         private void HandleEntityCollisions()
@@ -83,6 +101,11 @@ namespace Game.Entities
             }
         }
 
+        private void UpdateParticleEmitterLocation()
+        {
+            particleEmitter.Location = Location;
+        }
+
         private Rect GetMovedAreaRect()
         {
             var halfSize = HalfSize;
@@ -102,6 +125,7 @@ namespace Game.Entities
         public override void OnDisposed()
         {
             Services.Game.Physics.DisposeComponent(Physics);
+            particleEmitter.Dispose();
         }
     }
 }

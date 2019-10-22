@@ -20,13 +20,13 @@ namespace Game.Particle
 
         public abstract void Update(FrameTime time);
 
-        protected void Dispose()
+        public void Dispose()
         {
             IsDisposed = true;
         }
     }
 
-    public abstract class ConstantEmitter : ParticleEmitter
+    public class ConstantEmitter : ParticleEmitter
     {
         private uint lastParticleTime;
         public int ParticleInterval { get; set; }
@@ -46,7 +46,12 @@ namespace Game.Particle
             }
         }
 
-        protected abstract Particle GenerateParticle(uint time);
+        protected Particle GenerateParticle(uint time)
+        {
+            var particle = ParticleFactory(time);
+            particle.Location = Location;
+            return particle;
+        }
     }
 
     public class SprayEmitter : ConstantEmitter
@@ -57,11 +62,11 @@ namespace Game.Particle
         public SprayEmitter(uint creationTime) : base(creationTime)
         { }
 
-        protected override Particle GenerateParticle(uint time)
+        protected new Particle GenerateParticle(uint time)
         {
             var halfSpread = SpreadInDegrees / 2;
             var angle = Vector.AngleInDegrees + (Services.Random.Next(SpreadInDegrees) - halfSpread);
-            var vector = Vector.FromAngleInDegrees(angle) * 10;
+            var vector = Vector.FromAngleInDegrees(angle);
 
             var particle = ParticleFactory(time);
             particle.Velocity = vector;

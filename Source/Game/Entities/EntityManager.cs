@@ -37,6 +37,7 @@ namespace Game.Entities
             {
                 entities.Remove(entity);
                 entity.Disposed = true;
+                entity.OnDisposed();
             }
 
             foreach(var newEntity in newEntities)

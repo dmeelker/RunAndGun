@@ -28,7 +28,7 @@ namespace Game
                 ParticleCount = 100,
                 ParticleFactory = (time) => new Particle.Particle(time)
                 {
-                    MaxAge = range * 5,
+                    MaxAge = range * 4,
                     Sprite = particleSprite,
                     Scale = 2,
                     ScaleFunction = EasingFunctions.AnimateScalar(2, .2, EasingFunctions.EaseInQuad),
@@ -44,7 +44,7 @@ namespace Game
                 ParticleCount = 100,
                 ParticleFactory = (time) => new Particle.Particle(time)
                 {
-                    MaxAge = range * Services.Random.Next(2, 4),
+                    MaxAge = range * Services.Random.Next(1, 3),
                     Sprite = particleSprite,
                     ScaleFunction = EasingFunctions.AnimateScalar(4, .2, EasingFunctions.EaseInQuad),
                     VelocityFunction = EasingFunctions.AnimateScalar(15, Services.Random.Next(1, 2), EasingFunctions.EaseOutQuad),
@@ -59,7 +59,7 @@ namespace Game
                 ParticleCount = Services.Random.Next(5, 20),
                 ParticleFactory = (time) => new Particle.Particle(time)
                 {
-                    MaxAge = range * 10,
+                    MaxAge = range * 7,
                     Sprite = particleSprite,
                     ScaleFunction = EasingFunctions.AnimateScalar(.5, .1, EasingFunctions.EaseInQuad),
                     VelocityFunction = EasingFunctions.AnimateScalar(20, Services.Random.Next(1, 5), EasingFunctions.EaseOutQuad),
